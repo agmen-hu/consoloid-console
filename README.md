@@ -1,0 +1,3 @@
+# Consoloid Console module
+
+FIXME

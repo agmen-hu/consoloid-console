@@ -1,0 +1,36 @@
+{
+  "name": "consoloid-console",
+  "version": "0.1.0",
+  "dependencies": {
+    "js-yaml": "*"
+  },
+  "description": "Module of Consoloid, for creating a modern console like interface in a browser.",
+  "homepage": "https://github.com/agmen-hu/consoloid-console",
+  "license": "MIT",
+  "author": {
+    "name": "dev.agmen.hu Ltd.",
+    "email": "support@agmen.hu",
+    "url": "https://agmen.hu"
+  },
+  "contributors": [
+    {
+      "name": "Szilard Novaki",
+      "email": "novaki@agmen.hu"
+    },
+    {
+      "name": "Attila Hendrich",
+      "email": "hendricha@agmen.hu"
+    },
+    {
+      "name": "Gabor Kiss",
+      "email": "nevi@agmen.hu"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/agmen-hu/consoloid-console/issues"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "git://github.com/agmen-hu/consoloid-console"
+  }
+}
