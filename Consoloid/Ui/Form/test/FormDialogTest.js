@@ -13,6 +13,7 @@ require("../../Expression");
 require("../../MultiStateDialog");
 require("../FormDialog");
 
+Consoloid.Ui.Form.FormDialog.index = [];
 describe('Consoloid.Ui.Form.FormDialog', function() {
   var
     env,
@@ -175,7 +176,7 @@ describe('Consoloid.Ui.Form.FormDialog', function() {
     describe('when the form is active', function() {
       it('should render the submit button below the form', function() {
         dialog.render();
-        dialog.node.find('.dialog .response div.active a.submit-button').length.should.equal(1);
+        dialog.node.find('.response div.active a.submit-button').length.should.equal(1);
       });
 
       it('should add an expression-reference to the submit button', function() {
@@ -185,12 +186,12 @@ describe('Consoloid.Ui.Form.FormDialog', function() {
         });
         dialog.expression = { render: function() {}, setReferenceText: function() {} };
         dialog.render();
-        dialog.node.find('.dialog .response div.active a.submit-button').hasClass('expression-reference').should.be.ok;
+        dialog.node.find('.response div.active a.submit-button').hasClass('expression-reference').should.be.ok;
       });
 
       it('should display configured text in submit button', function() {
         dialog.render();
-        dialog.node.find('.dialog .response div.active a.submit-button').text().should.equal('Submit this test form');
+        dialog.node.find('.response div.active a.submit-button').text().should.equal('Submit this test form');
       })
 
       it('should add form to context', function() {
@@ -202,12 +203,12 @@ describe('Consoloid.Ui.Form.FormDialog', function() {
     describe('when the form is submitted', function() {
       it('should render the default submitted template below the form', function() {
         dialog.switchState('submitted');
-        dialog.node.find('.dialog .response div.submitted span.status').length.should.equal(1);
+        dialog.node.find('.response div.submitted span.status').length.should.equal(1);
       });
 
       it('should not render the submit button below the form', function() {
         dialog.switchState('submitted');
-        dialog.node.find('.dialog .response div.active a.submit-button').length.should.equal(0);
+        dialog.node.find('.response div.active a.submit-button').length.should.equal(0);
       });
 
       it('should render the form with disabled fields', function() {

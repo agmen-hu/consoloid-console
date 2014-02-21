@@ -13,10 +13,12 @@ describeUnitTest('Consoloid.Ui.List.Factory.CollapsingElement', function() {
     jQuery.fx.off = true;
 
     eventDispatcher = {
-      bind: sinon.stub()
+      bind: sinon.stub(),
+      trigger: sinon.spy()
     };
 
     element = env.create(Consoloid.Ui.List.Factory.CollapsingElement, {
+      templateId: 'Consoloid-Ui-List-Factory-CollapsingElement',
       collapsedTemplateId: 'collapsed-test-template',
       extendedTemplateId: 'extended-test-template',
       eventDispatcher: eventDispatcher,

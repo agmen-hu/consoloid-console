@@ -29,7 +29,7 @@ describeUnitTest('Consoloid.Ui.List.Widget', function() {
       getPageCount: sinon.stub().returns(10),
       render: sinon.stub(),
       setFilterValues: sinon.stub(),
-      node: $('<div />')
+      setNode: sinon.spy()
     };
 
     scrollbar = {

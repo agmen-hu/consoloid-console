@@ -24,6 +24,7 @@ defineClass('Consoloid.Ui.List.DataSource.Array', 'Consoloid.Ui.List.DataSource.
         result = this.__getDataByRange(fromIndex, toIndex);
       } catch (e) {
         callback(e.message);
+        return;
       }
 
       callback(undefined, result);

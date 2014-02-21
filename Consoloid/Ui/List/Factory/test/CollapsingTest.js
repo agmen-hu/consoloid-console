@@ -15,14 +15,14 @@ describeUnitTest('Consoloid.Ui.List.Factory.Collapsing', function() {
       node: {}
     };
 
-    create = sinon.stub().returns(collapsingElement);
-
     factory = env.create(Consoloid.Ui.List.Factory.Collapsing, {
       collapsedTemplateId: 'collapsed-test-template',
       extendedTemplateId: 'extended-test-template',
       eventDispatcher: eventDispatcher,
-      create: create
     });
+
+    create = sinon.stub().returns(collapsingElement);
+    factory.create = create;
   });
 
   describe("__constructor(options)", function() {

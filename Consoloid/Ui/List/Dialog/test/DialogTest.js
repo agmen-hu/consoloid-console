@@ -5,6 +5,7 @@ require("../../../Dialog");
 require("../Dialog");
 require('consoloid-framework/Consoloid/Test/UnitTest');
 
+Consoloid.Ui.List.Dialog.Dialog.index = {};
 describeUnitTest('Consoloid.Ui.List.Dialog.Dialog', function() {
   var
     dialog,
@@ -40,7 +41,7 @@ describeUnitTest('Consoloid.Ui.List.Dialog.Dialog', function() {
       getEventDispatcher: function() {
         return eventDispatcher;
       },
-      node: $("<div class='list-wrapper' />")
+      setNode: sinon.spy()
     }
 
     template = env.create('Consoloid.Widget.JQoteTemplate', {

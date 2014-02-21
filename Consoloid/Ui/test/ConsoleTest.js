@@ -8,7 +8,7 @@ require("../Console");
 describe('Consoloid.Ui.Console', function(){
   var env = {};
   var prompt = { focus: function() {}, render: function() {}, node:$('<div />') };
-  var css_loader = { load: function() {} };
+  var css_loader = { load: function() { return css_loader; } };
 
   beforeEach(function() {
     env = new Consoloid.Test.Environment();
@@ -26,7 +26,7 @@ describe('Consoloid.Ui.Console', function(){
 
       console.start();
 
-      loader_spy.calledOnce.should.be.equal(true);
+      loader_spy.called.should.be.equal(true);
       prompt_spy.calledOnce.should.be.equal(true);
     });
   });
