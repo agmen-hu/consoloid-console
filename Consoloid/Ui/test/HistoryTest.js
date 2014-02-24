@@ -1,13 +1,11 @@
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require('../History');
-var should = require("should");
 
-describe('Consoloid.Ui.History', function() {
-  var env;
+describeUnitTest('Consoloid.Ui.History', function() {
   var current;
   var history;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     history = env.create(Consoloid.Ui.History, {});
   });
 

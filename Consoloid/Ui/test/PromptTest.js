@@ -1,6 +1,4 @@
-require('should');
-var sinon = require('sinon');
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
@@ -10,13 +8,12 @@ require("../Autocomplete");
 require("../Prompt");
 require("../../Speech/InputButton");
 require("../../Speech/PromptInputButton");
-describe('Consoloid.Ui.Prompt', function(){
+
+describeUnitTest('Consoloid.Ui.Prompt', function(){
   var
-    env,
     prompt;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     env.addServiceMock('speech_recognizer', { createButtonFrom: function() {} });
     env.container.addSharedObject('type_writer', {setInputfield: function(){}, stop: function(){}});
     env.container.addSharedObject('dom', { baseNode: document.body });

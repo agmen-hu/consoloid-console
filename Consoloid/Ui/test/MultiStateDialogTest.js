@@ -1,19 +1,16 @@
-require('should');
-var sinon = require('sinon');
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("../Dialog");
 require("../Expression");
 require("../MultiStateDialog");
-describe('Consoloid.Ui.MultiStateDialog', function() {
+
+describeUnitTest('Consoloid.Ui.MultiStateDialog', function() {
   var
-    env,
     dialog;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     dialog = env.create(Consoloid.Ui.MultiStateDialog, {
       states: {
         foo: 'Consoloid-Ui-DialogResponse-Foo',

@@ -1,17 +1,13 @@
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require('../TypeWriter');
-var
-  should = require("should"),
-  sinon = require("sinon");
 
 describe('Consoloid.Ui.TypeWriter', function() {
   var
-    env,
     clock,
     writer;
 
   beforeEach(function() {
     clock = sinon.useFakeTimers();
-    env = new Consoloid.Test.Environment();
     writer = env.create(Consoloid.Ui.TypeWriter, { });
 
     writer.setInputfield($('<input id="inputSelector"/>'));

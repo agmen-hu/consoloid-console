@@ -1,17 +1,14 @@
-require('should');
-var sinon = require('sinon');
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("../Console");
-describe('Consoloid.Ui.Console', function(){
-  var env = {};
+
+describeUnitTest('Consoloid.Ui.Console', function(){
   var prompt = { focus: function() {}, render: function() {}, node:$('<div />') };
   var css_loader = { load: function() { return css_loader; } };
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     env.addServiceMock('dom', { baseNode: $('<div />').appendTo($(document.body)) });
     env.addServiceMock('prompt', prompt);
     env.addServiceMock('css_loader', css_loader);

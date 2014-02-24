@@ -1,27 +1,23 @@
-require('should');
-var sinon = require('sinon');
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("consoloid-framework/Consoloid/Error/UserMessage");
 require("../Dialog");
 require("../Expression");
-describe('Consoloid.Ui.Dialog', function(){
+
+describeUnitTest('Consoloid.Ui.Dialog', function(){
   var
-    env,
-    console,
+    consoleService,
     dialog;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
-
-    console = {
+    consoleService = {
       createNewDialog: function() { return new $('<div />'); },
       animateMarginTopIfNecessary: sinon.spy(),
       getVisibleDialogsHeight: sinon.stub().returns(500)
     };
-    env.addServiceMock('console', console);
+    env.addServiceMock('console', consoleService);
 
     env.readTemplate(__dirname + '/../templates.jqote', 'utf8');
 
@@ -38,7 +34,7 @@ describe('Consoloid.Ui.Dialog', function(){
     it('should render the sentence that started the dialog', function() {
       var expressionModel = { getTextWithArguments: function() { return 'test sentence, foo bar' } };
 
-      var console_spy = sinon.spy(console, 'createNewDialog');
+      var console_spy = sinon.spy(consoleService, 'createNewDialog');
 
       dialog.start({ foo: 'bar' }, expressionModel);
 
@@ -50,11 +46,11 @@ describe('Consoloid.Ui.Dialog', function(){
 
       dialog.start({ foo: 'bar' }, expressionModel);
 
-      dialog.expression.node.should.not.be.eql(null);
-      dialog.response.should.not.be.eql(null);
-      // WTF: this test will pass but aftereach hook will throw an exception without any message
-      //dialog.node.find('.request')[0].should.be.eql(dialog.expression.node);
-      //dialog.node.find('.response')[0].should.be.eql(dialog.response);
+      (dialog.expression.node != undefined).should.be.true;
+      (dialog.response != undefined).should.be.true;
+
+      (dialog.node.find('.request')[0] == dialog.expression.node[0]).should.be.true;
+      (dialog.node.find('.response')[0] == dialog.response[0]).should.be.true;
     });
   });
 

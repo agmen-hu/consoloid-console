@@ -1,6 +1,4 @@
-require('should');
-var sinon = require('sinon');
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
@@ -10,20 +8,18 @@ require("../../../Interpreter/Tokenizable");
 require("../../../Context/Object");
 require("../../../Form/ContextObject");
 require("../../Dialog");
+require("../../MultiStateDialog");
 require("../../Volatile/Dialog");
 require("../SubmitDialog");
 
-describe('Consoloid.Ui.Form.SubmitDialog', function() {
+describeUnitTest('Consoloid.Ui.Form.SubmitDialog', function() {
   var
-    env,
     context,
     dialog,
     consoleMock,
     containerDialogMock;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
-
     containerDialogMock = {
       addVolatileDialog: sinon.stub().returns(new $('<div />')),
       removeVolatileDialog: sinon.stub(),
@@ -100,7 +96,7 @@ describe('Consoloid.Ui.Form.SubmitDialog', function() {
       dialog.setup();
 
       var callback = dialog.arguments.name.entity.dialog.submit.getCall(0).args[0];
-      callback.should.be.a('function');
+      callback.should.be.type('function');
 
       callback({ success: true, message: 'FooBar' });
 

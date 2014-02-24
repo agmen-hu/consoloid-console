@@ -1,6 +1,4 @@
-require('should');
-var sinon = require('sinon');
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
@@ -14,9 +12,8 @@ require("../../MultiStateDialog");
 require("../FormDialog");
 
 Consoloid.Ui.Form.FormDialog.index = [];
-describe('Consoloid.Ui.Form.FormDialog', function() {
+describeUnitTest('Consoloid.Ui.Form.FormDialog', function() {
   var
-    env,
     context,
     cssLoader,
     form,
@@ -26,7 +23,6 @@ describe('Consoloid.Ui.Form.FormDialog', function() {
 
   beforeEach(function() {
     callback = sinon.stub();
-    env = new Consoloid.Test.Environment();
     context = {
       add: sinon.spy(),
       remove: sinon.spy()

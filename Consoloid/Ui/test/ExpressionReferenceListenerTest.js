@@ -1,15 +1,12 @@
-require('should');
-var sinon = require('sinon');
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("../ExpressionReferenceListener");
-describe('Consoloid.Ui.ExpressionReferenceListener', function(){
+
+describeUnitTest('Consoloid.Ui.ExpressionReferenceListener', function(){
   var
-    env,
     consoleMock,
     typeWriter;
 
   beforeEach(function(){
-    env = new Consoloid.Test.Environment();
     typeWriter = {write: function(){}};
     consoleMock = { };
     consoleMock.prompt = { focus: function() {}, search: function(){} };

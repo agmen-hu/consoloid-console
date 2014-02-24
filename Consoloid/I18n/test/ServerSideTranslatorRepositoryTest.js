@@ -1,16 +1,13 @@
-var should = require("should");
-var sinon = require("sinon");
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require('../Translator');
 require('../ServerSideTranslator');
 require('../ServerSideTranslatorRepository');
+
 describe('Consoloid.I18n.ServerSideTranslatorRepository', function(){
   var
-    env,
     repository;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     repository = env.create('Consoloid.I18n.ServerSideTranslatorRepository', {});
   });
 

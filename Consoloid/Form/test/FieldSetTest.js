@@ -1,5 +1,4 @@
-require('should');
-var sinon = require('sinon');
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
@@ -8,13 +7,11 @@ require("../AutoValidatingField");
 require("../Text");
 require("../FieldSet");
 
-describe('Consoloid.Form.FieldSet', function() {
+describeUnitTest('Consoloid.Form.FieldSet', function() {
   var
-    env,
     fieldSet;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     fieldSet = env.create(Consoloid.Form.FieldSet, {
       name: 'foo',
       prefix: 'bar',

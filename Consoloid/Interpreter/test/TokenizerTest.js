@@ -1,13 +1,11 @@
-var should = require("should");
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require('../Tokenizer');
-describe('Consoloid.Interpreter.Tokenizer', function(){
+
+describeUnitTest('Consoloid.Interpreter.Tokenizer', function(){
   var
-    env,
     tokenizer;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     tokenizer = env.create(Consoloid.Interpreter.Tokenizer, {});
   });
 

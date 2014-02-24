@@ -1,11 +1,9 @@
-var should = require('should');
-var sinon = require('sinon');
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("../BaseValidator");
 require("../Email");
 
-describe('Consoloid.Form.Validator.Email', function() {
+describeUnitTest('Consoloid.Form.Validator.Email', function() {
   var
-    env,
     validator,
     field,
     form,
@@ -28,7 +26,6 @@ describe('Consoloid.Form.Validator.Email', function() {
       trans: function(msg) { return msg; }
     };
 
-    env = new Consoloid.Test.Environment();
     env.addServiceMock('form', form);
     env.addServiceMock('translator', translator);
 

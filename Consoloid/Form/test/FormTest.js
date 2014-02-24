@@ -1,5 +1,4 @@
-require('should');
-var sinon = require('sinon');
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
@@ -10,13 +9,11 @@ require("../Text");
 require("../Validator/Number");
 require("../Form");
 
-describe('Consoloid.Form.Form', function() {
+describeUnitTest('Consoloid.Form.Form', function() {
   var
-    form,
-    env;
+    form;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     form = env.create('Consoloid.Form.Form', {
       name: 'testForm',
       fieldDefinitions: {

@@ -1,19 +1,15 @@
-require('should');
-var sinon = require('sinon');
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("../Autocomplete");
 
-describe('Consoloid.Ui.Autocomplete', function(){
-    var env;
+describeUnitTest('Consoloid.Ui.Autocomplete', function(){
     var widget;
     var input;
     var gatherOptionsSpy;
 
     beforeEach(function() {
-        env = new Consoloid.Test.Environment();
         env.container.addSharedObject('dom', { baseNode: document.body });
         env.readTemplate(__dirname + '/../templates.jqote', 'utf8');
         input = $('<input id="autocomplete"/>')

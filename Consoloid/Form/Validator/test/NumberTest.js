@@ -1,11 +1,9 @@
-var should = require('should');
-var sinon = require('sinon');
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("../BaseValidator");
 require("../Number");
 
-describe('Consoloid.Form.Validator.Number', function() {
+describeUnitTest('Consoloid.Form.Validator.Number', function() {
   var
-    env,
     validator,
     field,
     form,
@@ -28,7 +26,6 @@ describe('Consoloid.Form.Validator.Number', function() {
       trans: function(msg) { return msg; }
     };
 
-    env = new Consoloid.Test.Environment();
     env.addServiceMock('form', form);
     env.addServiceMock('translator', translator);
 
@@ -43,9 +40,10 @@ describe('Consoloid.Form.Validator.Number', function() {
   describe("#__constructor()", function() {
     it('should set default values (null) for min/max/step', function() {
       validator = env.create(Consoloid.Form.Validator.Number, { });
-      should.not.exist(validator.min);
-      should.not.exist(validator.max);
-      should.not.exist(validator.step);
+      validator.should.not.have.ownProperty('min');
+      validator.should.not.have.ownProperty('min');
+      validator.should.not.have.ownProperty('max');
+      validator.should.not.have.ownProperty('step');
     });
 
     it('should not allow larger min than max', function() {

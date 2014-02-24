@@ -1,18 +1,15 @@
-require('should');
-var sinon = require('sinon');
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("../BaseField");
 
-describe('Consoloid.Form.BaseField', function() {
+describeUnitTest('Consoloid.Form.BaseField', function() {
   var
     field,
-    env,
     validateSpy;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     field = env.create(Consoloid.Form.BaseField, { name: 'foo', prefix: 'bar' });
     validateSpy = sinon.spy();
   });
@@ -94,23 +91,23 @@ describe('Consoloid.Form.BaseField', function() {
       field.clearError.calledOnce.should.be.ok;
     });
   });
-  
+
   describe("#renderErrorMessage()", function() {
     it('should render error message to the span within the div with the error class within the node', function() {
       field.node = $("<div><div class='error'></div></div>");
       field.setErrorMessage("This field is foobared.");
-      
+
       field.renderErrorMessage();
-      
+
       field.node.find('.error span').html().should.equal('This field is foobared.');
     });
-    
+
     it('should remove error message span if there is no error', function() {
       field.node = $("<div><div class='error'><span>This field is still foobared.</span></div></div>");
       field.setErrorMessage(null);
-      
+
       field.renderErrorMessage();
-      
+
       field.node.find('.error').html().should.equal('');
     });
   });

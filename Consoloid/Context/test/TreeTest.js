@@ -5,9 +5,6 @@ require('../Tree');
 require("../Object");
 require("../../Test/ConsoleUnitTest");
 
-var sinon = require('sinon');
-var should = require("should");
-
 defineClass('Consoloid.Context.DummyNotCastable');
 defineClass('Consoloid.Context.DummyClass', 'Consoloid.Context.Object');
 

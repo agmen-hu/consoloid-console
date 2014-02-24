@@ -1,18 +1,11 @@
-require('should');
-var sinon = require('sinon');
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("../BaseField");
 require("../Text");
 
-describe('Consoloid.Form.Text', function() {
-  var env;
-
-  beforeEach(function() {
-    env = new Consoloid.Test.Environment();
-  });
-
+describeUnitTest('Consoloid.Form.Text', function() {
   describe("#__constructor()", function() {
     it('should throw an error on unknown input type', function() {
       (function () {

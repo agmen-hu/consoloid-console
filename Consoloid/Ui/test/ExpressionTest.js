@@ -1,13 +1,10 @@
-require('should');
-var sinon = require('sinon');
-
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("../Expression");
-describe('Consoloid.Ui.Expression', function(){
-  var env = new Consoloid.Test.Environment();
 
+describeUnitTest('Consoloid.Ui.Expression', function(){
   describe('#render()', function() {
     it('should display the texts', function() {
       var model = { getTextWithArguments: function() { return 'test sentence' } };

@@ -1,15 +1,12 @@
-require('should');
-var sinon = require('sinon');
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("../BaseValidator");
 
-describe('Consoloid.Form.Validator.BaseValidator', function() {
+describeUnitTest('Consoloid.Form.Validator.BaseValidator', function() {
   var
-    env,
     field,
     form;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     field = { addValidator: sinon.stub() };
     form = {
       getField: sinon.stub()

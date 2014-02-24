@@ -1,19 +1,16 @@
-require('should');
-var sinon = require('sinon');
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("../BaseField");
 require("../AutoValidatingField");
 
-describe('Consoloid.Form.AutoValidatingField', function() {
+describeUnitTest('Consoloid.Form.AutoValidatingField', function() {
   var
-    env,
     clock,
     field;
 
   beforeEach(function() {
-    env = new Consoloid.Test.Environment();
     clock = sinon.useFakeTimers();
     field = env.create(Consoloid.Form.AutoValidatingField, {
       name: 'foo',

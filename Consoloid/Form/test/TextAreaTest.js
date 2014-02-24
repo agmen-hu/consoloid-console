@@ -1,5 +1,4 @@
-require('should');
-var sinon = require('sinon');
+require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
@@ -7,13 +6,7 @@ require("../BaseField");
 require("../AutoValidatingField");
 require("../TextArea");
 
-describe('Consoloid.Form.TextArea', function() {
-  var env;
-
-  beforeEach(function() {
-    env = new Consoloid.Test.Environment();
-  });
-
+describeUnitTest('Consoloid.Form.TextArea', function() {
   describe('#parseUserInput()', function() {
     it('should read value from input field', function() {
       $(document.body).append($('<textarea id="bar-foo">testValue</textarea>'));
