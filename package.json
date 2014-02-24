@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "js-yaml": "*",
+    "consoloid-os": "*",
     "consoloid-framework": "*"
   },
   "description": "Module of Consoloid, for creating a modern console like interface in a browser.",
