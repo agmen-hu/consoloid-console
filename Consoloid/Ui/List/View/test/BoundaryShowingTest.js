@@ -48,6 +48,9 @@ describeUnitTest('Consoloid.Ui.List.View.BoundaryShowing', function() {
 
     list.render();
     listNode = list.list;
+
+    sinon.stub($.fn, 'hide', function(){ return $.fn; });
+    sinon.stub($.fn, 'fadeIn', function(){});
   });
 
   describe("#__renderCompleteList(data, fromIndex)", function() {
@@ -199,4 +202,8 @@ describeUnitTest('Consoloid.Ui.List.View.BoundaryShowing', function() {
     });
   });
 
+  afterEach(function(){
+    $.fn.hide.restore();
+    $.fn.fadeIn.restore();
+  });
 });

@@ -39,6 +39,9 @@ describeUnitTest('Consoloid.Ui.Prompt', function(){
 
     prompt.node.appendTo($(document.body));
     prompt.render();
+
+    sinon.stub($.fn, 'show', function(){});
+    sinon.stub($.fn, 'hide', function(){});
   });
 
   describe('#render()', function() {
@@ -353,7 +356,7 @@ describeUnitTest('Consoloid.Ui.Prompt', function(){
   });
 
   afterEach(function() {
-    $(document.body).empty();
-    env.shutdown();
+    $.fn.show.restore();
+    $.fn.hide.restore();
   });
 });

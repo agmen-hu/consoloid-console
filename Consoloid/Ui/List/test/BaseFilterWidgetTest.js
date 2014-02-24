@@ -20,8 +20,8 @@ describeUnitTest('Consoloid.Ui.List.BaseFilterWidget', function() {
       trigger: sinon.stub()
     };
 
-    sinon.spy($.fn, 'slideDown');
-    sinon.spy($.fn, 'slideUp');
+    sinon.stub($.fn, 'slideDown', function(){});
+    sinon.stub($.fn, 'slideUp', function(){});
 
     widget = env.create('Consoloid.Ui.List.BaseFilterWidget', {
       eventDispatcher: eventDispatcher

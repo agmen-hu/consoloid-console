@@ -2,52 +2,48 @@ defineClass('Consoloid.Interpreter.LetterTree', 'Consoloid.Interpreter.Letter',
   {
     addEntity: function(entity)
     {
-      var $this = this;
-      $.each(entity.getTokens(), function(index, token) {
+      entity.getTokens().forEach(function(token) {
         if (token.getType() == Consoloid.Interpreter.Token.LITERAL) {
-          $this.__addToken.apply($this, [ token ]);
+          this.__addToken(token);
         }
-      });
+      }, this);
     },
 
     __addToken: function(token)
     {
       var node = this;
       var text = token.getText();
-      for (var i = 0 ; i < text.length ; i++) {
-        var letter = text[i];
-        node = node.getOrCreateChild(letter.toLowerCase());
+      text.toLowerCase().split('').forEach(function(letter){
+        node = node.getOrCreateChild(letter);
         node.addEntity(token);
-      }
+      });
     },
 
     removeEntity: function(entity)
     {
-      var $this = this;
-      $.each(entity.getTokens(), function(index, token) {
+      entity.getTokens().forEach(function(token) {
         if (token.getType() == Consoloid.Interpreter.Token.LITERAL) {
-          $this.__removeToken(token);
+          this.__removeToken(token);
         }
-      });
+      }, this);
     },
 
     __removeToken: function(token)
     {
       var node = this;
       var text = token.getText();
-      for (var i = 0 ; i < text.length ; i++) {
-        var letter = text[i];
+      text.toLowerCase().split('').forEach(function(letter){
         try {
-          var child = node.getChild(letter.toLowerCase());
+          var child = node.getChild(letter);
           child.removeEntity(token);
           if (child.getEntities().length == 0) {
-            delete node.children[letter.toLowerCase()];
+            delete node.children[letter];
           }
         } catch (err) {
         }
 
         node = child;
-      };
+      });
     },
 
     /**
@@ -58,8 +54,6 @@ defineClass('Consoloid.Interpreter.LetterTree', 'Consoloid.Interpreter.Letter',
      */
     autocomplete: function(text)
     {
-      var $this = this;
-
       var words = [];
       try {
         words = this.getWords(text);
@@ -70,9 +64,9 @@ defineClass('Consoloid.Interpreter.LetterTree', 'Consoloid.Interpreter.Letter',
       var word = words.shift();
       var result = this.__initializeAutocompleteResults(word);
 
-      $.each(words, function(index, word) {
-        result = $this.__filterAutocompleteResults.apply($this, [word, result]);
-      });
+      words.forEach(function(word) {
+        result = this.__filterAutocompleteResults(word, result);
+      }, this);
 
       result = this.__removeDuplicateEntites(result);
       return result;
@@ -92,7 +86,7 @@ defineClass('Consoloid.Interpreter.LetterTree', 'Consoloid.Interpreter.Letter',
     __initializeAutocompleteResults: function(word)
     {
       var result = [];
-      $.each(this._findTokens(word), function(index, token) {
+      this._findTokens(word).forEach(function(token) {
         result.push({
           entity: token.getEntity(),
           tokens: [ token ],
@@ -107,17 +101,16 @@ defineClass('Consoloid.Interpreter.LetterTree', 'Consoloid.Interpreter.Letter',
     {
       var result = [];
       var node = this;
-      var $this = this;
+
       try {
-        $.each(word, function(index, letter) {
+        word.split('').forEach(function(letter){
           node = node.getChild(letter.toLowerCase());
         });
-
-        $.each(node.getEntities(), function(index, token) {
-          if (!$this.__isEntityIsReferredInTokens.apply($this, [token, result])) {
+        node.getEntities().forEach(function(token){
+          if (!this.__isEntityIsReferredInTokens(token, result)) {
             result.push(token);
           }
-        });
+        }, this);
       } catch(err) {
       }
 
@@ -126,14 +119,11 @@ defineClass('Consoloid.Interpreter.LetterTree', 'Consoloid.Interpreter.Letter',
 
     __isEntityIsReferredInTokens: function(currentToken, tokens)
     {
-      var result = false;
-      $.each(tokens, function(index, token) {
+      return tokens.some(function(token) {
         if (token.getEntity() === currentToken.getEntity() && token.getIndex() === currentToken.getIndex()) {
-          result = true;
+          return true;
         }
       });
-
-      return result;
     },
 
     __filterAutocompleteResults: function(word, result)
@@ -168,7 +158,7 @@ defineClass('Consoloid.Interpreter.LetterTree', 'Consoloid.Interpreter.Letter',
       var lastTokenIndex = hit.tokens[hit.tokens.length - 1].getIndex();
       var nextLiteralToken = null;
 
-      $.each(tokens, function(index, token) {
+      tokens.forEach(function(token) {
         if (token.getEntity() == hit.entity &&
             token.getIndex() > lastTokenIndex &&
             token.getType() == Consoloid.Interpreter.Token.LITERAL &&
@@ -201,9 +191,9 @@ defineClass('Consoloid.Interpreter.LetterTree', 'Consoloid.Interpreter.Letter',
 
     __removeDuplicateEntites: function(elements) {
       var result = [], needsInsertion;
-      $.each(elements, function(index, element) {
+      elements.forEach(function(element) {
         needsInsertion = true;
-        $.each(result, function (resultIndex, resultElement) {
+        result.forEach(function (resultElement, resultIndex) {
           if (element.entity === resultElement.entity) {
             needsInsertion = false;
             if (element.tokens.length > resultElement.tokens.length) {

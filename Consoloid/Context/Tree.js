@@ -33,16 +33,15 @@ defineClass('Consoloid.Context.Tree', 'Consoloid.Interpreter.LetterTree',
     __initializeAutocompleteResults: function(word)
     {
       var result = [];
-      var $this = this;
       var hit;
       var exactHit;
-      $.each(this._findTokens(word), function(index, token) {
-        var entity = token.getEntity().cast($this.requestedClass);
+      this._findTokens(word).forEach(function(token) {
+        var entity = token.getEntity().cast(this.requestedClass);
 
-        if ($this.requestedArgument) {
-          $this.requestedArgument.value = entity.toString();
-          $this.requestedArgument.entity = entity;
-          if (!$this.requestedSentence.validateArguments($this.requestedArgumentValues)) {
+        if (this.requestedArgument) {
+          this.requestedArgument.value = entity.toString();
+          this.requestedArgument.entity = entity;
+          if (!this.requestedSentence.validateArguments(this.requestedArgumentValues)) {
             return;
           }
         }
@@ -60,7 +59,7 @@ defineClass('Consoloid.Context.Tree', 'Consoloid.Interpreter.LetterTree',
           result.unshift(hit);
         }
 
-      });
+      }, this);
       if (exactHit) {
         result.unshift(exactHit);
       }

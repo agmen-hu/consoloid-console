@@ -48,6 +48,8 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
       eventDispatcher: eventDispatcher
     });
 
+    sinon.stub($.fn, 'hide', function(){ return $.fn; });
+    sinon.stub($.fn, 'fadeIn', function(){});
   });
 
   describe("#__constructor(options)", function() {
@@ -162,13 +164,9 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
     }),
 
     it("should add a fade in effect when rendering", function() {
-      sinon.spy($.fn, 'fadeIn');
-
       list.__renderCompleteList([ 1 ]);
 
       $.fn.fadeIn.calledOnce.should.be.ok;
-
-      $.fn.fadeIn.restore();
     }),
 
     it("should adjust its height according to num per page and list element height", function() {
@@ -180,8 +178,8 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
     });
 
     it("should scroll to top and set default state", function() {
-      sinon.spy($.fn, 'scroll');
-      sinon.spy($.fn, 'scrollTop');
+      sinon.stub($.fn, 'scroll', function(){});
+      sinon.stub($.fn, 'scrollTop', function(){ return $.fn; });
 
       list.__renderCompleteList([ 1 ]);
 
@@ -429,7 +427,6 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
     beforeEach(function() {
       list.render();
       listNode = list.list;
-      listNode.fadeIn = sinon.stub();
 
       list.__renderCompleteListAfterSetFilterValues(undefined, {
         count: 100,
@@ -673,7 +670,8 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
       list.__adjustScrolledList.calledOnce.should.be.ok;
     });
 
-    it("should work well even if new pages were loaded into widget while scrolling to nearby page"/*, function() {
+    /*TODO: This unit test sometimes works sometimes does not. Fix it or remove it.*/
+    xit("should work well even if new pages were loaded into widget while scrolling to nearby page", function() {
       var clock = sinon.useFakeTimers();
       jQuery.fx.off = false;
       sinon.spy(listNode, 'animate');
@@ -700,7 +698,7 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
       }
 
       clock.restore();
-    }*/ /*TODO: This unit test sometimes works sometimes does not. Fix it or remove it.*/);
+    });
   });
 
   describe("#getPageCount()", function() {
@@ -722,6 +720,8 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
   });
 
   afterEach(function() {
+    $.fn.hide.restore();
+    $.fn.fadeIn.restore();
     jQuery.fx.off = false;
   });
 });

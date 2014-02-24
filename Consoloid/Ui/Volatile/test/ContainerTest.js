@@ -34,14 +34,18 @@ describeUnitTest('Consoloid.Ui.Volatile.Container', function(){
     var translatorMock = {
       trans:function(text, args) {
         if (args) {
-          $.each(args, function(key, value) {
-            text = text.replace(key, value);
-          });
+          for (var key in args) {
+            text = text.replace(key, args[key]);
+          };
         }
         return text;
       }
     }
     env.addServiceMock('translator', translatorMock);
+    sinon.stub($.fn, 'show', function(){});
+    sinon.stub($.fn, 'hide', function(){});
+    sinon.stub($.fn, 'fadeIn', function(){});
+    sinon.stub($.fn, 'fadeOut', function(){});
   });
 
   describe("#__constructor(options)", function() {
@@ -101,13 +105,13 @@ describeUnitTest('Consoloid.Ui.Volatile.Container', function(){
         node: new $('<div />'),
         render: sinon.stub()
       }
-      var spy = sinon.spy(volatileConvoMock.node, 'show');
+
       dialog.dialogs = [volatileConvoMock, volatileConvoMock, volatileConvoMock];
       dialog.activeState = "opened";
 
       dialog.render();
 
-      spy.calledThrice.should.be.ok;
+      volatileConvoMock.node.show.calledThrice.should.be.ok;
       volatileConvoMock.render.calledThrice.should.be.ok;
     });
   });
@@ -171,8 +175,6 @@ describeUnitTest('Consoloid.Ui.Volatile.Container', function(){
     it("should fadeIn the new convo, and add a timer when to fade out the bubble if in closed state", function() {
       var clock = sinon.useFakeTimers();
       var node = new $('<div />');
-      sinon.spy(node, "fadeIn");
-      sinon.spy(node, "fadeOut");
 
       dialog.addVolatileDialog({
         name: 'foo',
@@ -191,16 +193,12 @@ describeUnitTest('Consoloid.Ui.Volatile.Container', function(){
       (dialog.disappearTimer == undefined).should.be.ok;
       node.fadeOut.called.should.be.ok;
 
-      node.fadeIn.restore();
-      node.fadeOut.restore();
-
       clock.restore();
     });
 
     it("should not hide the convo if state is changed in the mean time", function() {
       var clock = sinon.useFakeTimers();
       var node = new $('<div />');
-      sinon.spy(node, "fadeOut");
 
       dialog.addVolatileDialog({
         node: node,
@@ -362,6 +360,10 @@ describeUnitTest('Consoloid.Ui.Volatile.Container', function(){
   });
 
   afterEach(function() {
+    $.fn.show.restore();
+    $.fn.hide.restore();
+    $.fn.fadeIn.restore();
+    $.fn.fadeOut.restore();
     addEventListenerSpy.restore();
     delete global.__;
   });

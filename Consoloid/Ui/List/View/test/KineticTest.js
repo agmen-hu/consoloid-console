@@ -42,6 +42,8 @@ describeUnitTest('Consoloid.Ui.List.View.Kinetic', function() {
       node: $('<div />')
     });
 
+    sinon.stub($.fn, 'hide', function(){ return $.fn; });
+    sinon.stub($.fn, 'fadeIn', function(){});
   });
 
   describe("#__constructor(options)", function() {
@@ -166,6 +168,8 @@ describeUnitTest('Consoloid.Ui.List.View.Kinetic', function() {
   });
 
   afterEach(function() {
+    $.fn.hide.restore();
+    $.fn.fadeIn.restore();
     jQuery.fx.off = false;
   });
 });

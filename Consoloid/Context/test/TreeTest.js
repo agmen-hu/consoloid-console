@@ -1,3 +1,4 @@
+require('../../Interpreter/Token');
 require('../../Interpreter/Letter');
 require('../../Interpreter/LetterTree');
 require('../../Interpreter/Tokenizable');

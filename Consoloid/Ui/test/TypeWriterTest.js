@@ -1,7 +1,7 @@
 require('consoloid-framework/Consoloid/Test/UnitTest');
 require('../TypeWriter');
 
-describe('Consoloid.Ui.TypeWriter', function() {
+describeUnitTest('Consoloid.Ui.TypeWriter', function() {
   var
     clock,
     writer;

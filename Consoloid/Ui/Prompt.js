@@ -39,7 +39,7 @@ defineClass('Consoloid.Ui.Prompt', 'Consoloid.Widget.Widget',
 
       var $this = this;
       var text = $this.inputField.val();
-      if ($.trim(text).length == 0) {
+      if (!text.trim()) {
         return;
       }
 
