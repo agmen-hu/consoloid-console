@@ -21,7 +21,6 @@ describeUnitTest('Consoloid.Ui.List.View.BoundaryShowing', function() {
   beforeEach(function() {
     cssLoader = { load: sinon.spy() };
     env.addServiceMock('css_loader', cssLoader);
-    jQuery.fx.off = true;
     jQuery.fn.kinetic = sinon.spy();
     jQuery.fn.mousewheel = sinon.spy();
 

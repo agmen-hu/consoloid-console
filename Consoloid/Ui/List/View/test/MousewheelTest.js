@@ -16,7 +16,6 @@ describeUnitTest('Consoloid.Ui.List.View.Mousewheel', function() {
   beforeEach(function() {
     cssLoader = { load: sinon.spy() };
     env.addServiceMock('css_loader', cssLoader);
-    jQuery.fx.off = true;
     jQuery.fn.mousewheel = sinon.spy();
 
     env.readTemplate(__dirname + '/../../templates.jqote', 'utf8');
@@ -195,6 +194,5 @@ describeUnitTest('Consoloid.Ui.List.View.Mousewheel', function() {
   afterEach(function() {
     $.fn.hide.restore();
     $.fn.fadeIn.restore();
-    jQuery.fx.off = false;
   });
 });

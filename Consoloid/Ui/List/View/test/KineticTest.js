@@ -17,7 +17,6 @@ describeUnitTest('Consoloid.Ui.List.View.Kinetic', function() {
   beforeEach(function() {
     cssLoader = { load: sinon.spy() };
     env.addServiceMock('css_loader', cssLoader);
-    jQuery.fx.off = true;
     jQuery.fn.kinetic = sinon.spy();
     jQuery.fn.mousewheel = sinon.spy();
 
@@ -170,6 +169,5 @@ describeUnitTest('Consoloid.Ui.List.View.Kinetic', function() {
   afterEach(function() {
     $.fn.hide.restore();
     $.fn.fadeIn.restore();
-    jQuery.fx.off = false;
   });
 });

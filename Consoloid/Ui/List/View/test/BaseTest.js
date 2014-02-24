@@ -19,7 +19,6 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
     env.addServiceMock('translator', translator);
     cssLoader = { load: sinon.spy() };
     env.addServiceMock('css_loader', cssLoader);
-    jQuery.fx.off = true;
 
     env.readTemplate(__dirname + '/../../templates.jqote', 'utf8');
 
@@ -673,7 +672,6 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
     /*TODO: This unit test sometimes works sometimes does not. Fix it or remove it.*/
     xit("should work well even if new pages were loaded into widget while scrolling to nearby page", function() {
       var clock = sinon.useFakeTimers();
-      jQuery.fx.off = false;
       sinon.spy(listNode, 'animate');
 
       list.setPage(4);
@@ -722,6 +720,5 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
   afterEach(function() {
     $.fn.hide.restore();
     $.fn.fadeIn.restore();
-    jQuery.fx.off = false;
   });
 });
