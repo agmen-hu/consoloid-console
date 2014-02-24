@@ -32,5 +32,8 @@
   "repository" : {
     "type" : "git",
     "url" : "git://github.com/agmen-hu/consoloid-console"
+  },
+  "scripts": {
+    "test": "./runtests"
   }
 }
