@@ -1,6 +1,6 @@
-require('consoloid-console/Consoloid/Interpreter/Token');
-require('consoloid-console/Consoloid/Interpreter/Tokenizable');
-require('consoloid-console/Consoloid/Context/Object');
+require('../../../../Interpreter/Token');
+require('../../../../Interpreter/Tokenizable');
+require('../../../../Context/Object');
 require('../ContextObject');
 
 require('consoloid-framework/Consoloid/Test/UnitTest');
