@@ -2,7 +2,8 @@
   "name": "consoloid-console",
   "version": "0.1.0",
   "dependencies": {
-    "js-yaml": "*"
+    "js-yaml": "*",
+    "consoloid-framework": "*"
   },
   "description": "Module of Consoloid, for creating a modern console like interface in a browser.",
   "homepage": "https://github.com/agmen-hu/consoloid-console",
