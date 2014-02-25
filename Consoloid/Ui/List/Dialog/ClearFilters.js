@@ -13,7 +13,7 @@ defineClass('Consoloid.Ui.List.Dialog.ClearFilters', 'Consoloid.Ui.Volatile.Dial
       var list = contextObject.entity.getList();
 
       list.getEventDispatcher().trigger("clear-filters");
-      this.message = this.get('translator').trans('Atempted filter clearing.');
+      this.message = this.get('translator').trans('Attempted filter clearing.');
 
       this.__base();
     }
