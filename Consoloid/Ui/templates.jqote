@@ -89,3 +89,11 @@
   </ol>
 ]]>
 </script>
+
+<script id="Consoloid-Ui-ExpressionReference" type="text/x-jqote-template">
+<![CDATA[
+  <a href="<%= this.href %>" data-text="<%= this.startText %>" data-exec="<%= this.autoExecute %>">
+    <%= this.linkText %>
+  </a>
+]]>
+</script>

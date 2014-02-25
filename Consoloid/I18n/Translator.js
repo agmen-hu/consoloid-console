@@ -30,9 +30,14 @@ defineClass('Consoloid.I18n.Translator', 'Consoloid.Base.Object',
         argumentText += ', ' + this.trans(argumentName, {'<value>': arguments[argumentName]});
       }
       var textWithArguments = this.trans(sentence).replace('<', '&lt;').replace('>', '&gt;') + argumentText;
-      var result =
-        '<a href="'+this.__getHref(textWithArguments)+'" class="expression-reference" data-text="' + textWithArguments +
-        '" data-exec="' + exec + '">' + this.trans(referenceText).replace('<', '&lt;').replace('>', '&gt;') + '</a>';
+      var referenceData = {
+        href: this.__getHref(textWithArguments),
+        startText: textWithArguments,
+        autoExecute: exec,
+        linkText: this.trans(referenceText).replace('<', '&lt;').replace('>', '&gt;')
+      }
+
+      var result = this.__createExpressionReferenceFromTemplate(referenceData);
 
       return result;
     },
@@ -42,6 +47,18 @@ defineClass('Consoloid.I18n.Translator', 'Consoloid.Base.Object',
       var parameters = { text: text, href: '#' };
       this.trigger('Consoloid.Href.Generate', parameters);
       return parameters.href;
+    },
+
+    __createExpressionReferenceFromTemplate: function(data)
+    {
+      console.log(data)
+
+      var template = this.create('Consoloid.Widget.JQoteTemplate', {
+        id: "Consoloid-Ui-ExpressionReference",
+        container: this.container
+      });
+
+      return template.get().jqote(data);
     },
 
     addMessage: function(message, translation, domain)
