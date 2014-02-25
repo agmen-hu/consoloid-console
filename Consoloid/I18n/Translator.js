@@ -51,8 +51,6 @@ defineClass('Consoloid.I18n.Translator', 'Consoloid.Base.Object',
 
     __createExpressionReferenceFromTemplate: function(data)
     {
-      console.log(data)
-
       var template = this.create('Consoloid.Widget.JQoteTemplate', {
         id: "Consoloid-Ui-ExpressionReference",
         container: this.container
