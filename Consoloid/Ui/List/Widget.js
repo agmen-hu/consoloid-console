@@ -121,14 +121,14 @@ defineClass('Consoloid.Ui.List.Widget', 'Consoloid.Widget.Widget',
     {
       this.__base();
 
-      if (this.filterWidget != undefined) {
-        this.filterWidget.render();
-        this.filterWidget.node.prependTo(this.node.find('.list-widget'));
-      }
-
       if (this.scrollbar != undefined) {
         this.scrollbar.render();
         this.scrollbar.node.prependTo(this.node.find('.list-widget'));
+      }
+
+      if (this.filterWidget != undefined) {
+        this.filterWidget.render();
+        this.filterWidget.node.prependTo(this.node.find('.list-widget'));
       }
 
       this.listView.setNode(this.node.find('.list-widget .list-view'));
