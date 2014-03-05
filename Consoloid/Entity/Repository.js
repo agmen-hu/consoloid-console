@@ -135,24 +135,12 @@ defineClass('Consoloid.Entity.Repository', 'Consoloid.Base.Object',
 
     update: function(dataList)
     {
-      var changed = [];
+      var result = [];
       dataList.forEach(function(data, index){
-        this.createOrUpdateEntity(data);
-        changed.push(data[this.idProperty]);
+        result.push(this.createOrUpdateEntity(data));
       }, this);
 
-      var
-        clearedData = this.data.slice(),
-        deletedCount = 0;
-
-      this.forEach(function(entity, index){
-        if (changed.indexOf(entity[this.idProperty]) == -1) {
-          clearedData.splice(index - deletedCount, 1);
-          deletedCount++;
-        }
-      });
-
-      this.data = clearedData;
+      this.data = result;
     }
   }
 );
