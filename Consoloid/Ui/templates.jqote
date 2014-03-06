@@ -92,7 +92,7 @@
 
 <script id="Consoloid-Ui-ExpressionReference" type="text/x-jqote-template">
 <![CDATA[
-  <a href="<%= this.href %>" data-text="<%= this.startText %>" data-exec="<%= this.autoExecute %>">
+  <a href="<%= this.href %>" class="expression-reference" data-text="<%= this.startText %>" data-exec="<%= this.autoExecute %>">
     <%= this.linkText %>
   </a>
 ]]>
