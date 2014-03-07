@@ -38,8 +38,15 @@ defineClass('Consoloid.Ui.Volatile.Container', 'Consoloid.Ui.MultiStateDialog',
       }
       this._bindEventListeners();
 
-      this.node.find('.dialog').addClass('volatile-container');
-      this.node.find('.dialog').addClass(this.activeState);
+      this.node.addClass('volatile-container');
+
+      if (this.activeState == "closed") {
+        this.node.removeClass("opened");
+      } else {
+        this.node.removeClass("closed");
+      }
+      this.node.addClass(this.activeState);
+
       this.__renderVolatileDialogs();
 
       return this;

@@ -21,7 +21,7 @@
   height: 3.5em;
 }
 
-.volatile-container.closed .volatile-convos .dialog .dialog {
+.volatile-container.closed .volatile-convos .dialog {
   height: 2em;
 }
 
@@ -32,7 +32,7 @@
   white-space:nowrap; 
 }
 
-.volatile-container.opened .volatile-convos .dialog .dialog {
+.volatile-container.opened .volatile-convos .dialog {
   margin-bottom: 0.3em;
 }
 
@@ -139,7 +139,7 @@
   position: relative;
 }
 
-.volatile-convos .dialog .dialog {
+.volatile-convos .dialog {
   border-radius: 1em;
   border: 1px solid grey;
   width: 95%;
@@ -147,11 +147,11 @@
   overflow-y: hidden;
 }
 
-.volatile-convos .dialog .dialog.error {
+.volatile-convos .dialog.error {
   border-color: red;
 }
 
-.volatile-convos .dialog .dialog.info {
+.volatile-convos .dialog.info {
   border-color: green;
 }
 .volatile-convos .prompt, .volatile-convos .expression {
