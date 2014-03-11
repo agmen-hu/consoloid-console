@@ -74,18 +74,18 @@ describeUnitTest('Consoloid.Ui.List.Dialog.Dialog', function() {
       }).should.throwError();
     });
 
-    it("should bind the show up animation to the size change of the list widget", function() {
+    it("should bind the resize animation to the size change of the list widget", function() {
       dialog = env.create(Consoloid.Ui.List.Dialog.Dialog, {
         name: "Foo List Dialog",
         list: list,
-        _animateDialogShowup: sinon.stub()
+        _animateDialogResize: sinon.stub()
       });
 
       eventDispatcher.bind.args[1][0].should.equal("size-changed");
 
-      dialog._animateDialogShowup.called.should.not.be.ok;
+      dialog._animateDialogResize.called.should.not.be.ok;
       eventDispatcher.bind.args[1][1]();
-      dialog._animateDialogShowup.called.should.be.ok;
+      dialog._animateDialogResize.called.should.be.ok;
     });
 
     it("should incrementally name itself using static variables", function() {

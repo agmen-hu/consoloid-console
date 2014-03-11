@@ -66,14 +66,18 @@ defineClass('Consoloid.Ui.Dialog', 'Consoloid.Widget.Widget',
     _animateDialogShowup: function()
     {
       var responseHeight = this.response.height();
-      var topOfDialog = $('body').height() - this.node.height();
-      var scrollTo = topOfDialog - (window.innerHeight - this.get('console').getVisibleDialogsHeight());
 
       this.response.height(0).animate({height: responseHeight+'px'}, 400, 'swing', function() {
         this.response.css({ height: '' });
       }.bind(this));
-      $('body,html').animate({ scrollTop: scrollTo }, 400);
+      $('body,html').animate({ scrollTop: this.__getBottomScrollTop() }, 400);
       this.get('console').animateMarginTopIfNecessary(responseHeight);
+    },
+
+    __getBottomScrollTop: function()
+    {
+      var topOfDialog = $('body').height() - this.node.height();
+      return topOfDialog - (window.innerHeight - this.get('console').getVisibleDialogsHeight());
     },
 
     bindToDom: function(node)
@@ -100,6 +104,16 @@ defineClass('Consoloid.Ui.Dialog', 'Consoloid.Widget.Widget',
       }
 
       return contextObjects[index || 0];
-    }
+    },
+
+    _animateDialogResize: function(baseHeight)
+    {
+      if (this.get("console").getLastDialog() == this) {
+        $('body,html').stop().animate({ scrollTop: this.__getBottomScrollTop() }, 400);
+      } else if (this.node.position().top + this.node.height() < $('body,html').scrollTop() + $(window).height()) {
+        var heightDifference = this.node.height() - baseHeight;
+        $('body,html').scrollTop($('body,html').scrollTop() + heightDifference);
+      }
+    },
   }
 );

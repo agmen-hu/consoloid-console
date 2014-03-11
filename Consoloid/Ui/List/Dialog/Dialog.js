@@ -11,7 +11,13 @@ defineClass('Consoloid.Ui.List.Dialog.Dialog', 'Consoloid.Ui.Dialog',
 
       this.__createUniqueName();
 
-      this.list.getEventDispatcher().bind("size-changed", this._animateDialogShowup.bind(this));
+      this.list.getEventDispatcher().bind("size-changed", this.__onSizeChanged.bind(this));
+    },
+
+    __onSizeChanged: function()
+    {
+      this._animateDialogResize(this.baseHeight);
+      this.baseHeight = this.node.height();
     },
 
     __createUniqueName: function()
@@ -27,6 +33,8 @@ defineClass('Consoloid.Ui.List.Dialog.Dialog', 'Consoloid.Ui.Dialog',
       this.__base();
 
       this.__addListWidgetToResponse();
+
+      this.baseHeight = this.node.height();
     },
 
     __createReferenceInContext: function()
