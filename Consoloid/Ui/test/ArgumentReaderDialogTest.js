@@ -30,6 +30,9 @@ describeUnitTest('Consoloid.Ui.ArgumentReaderDialog', function() {
     form = {
       setValue: sinon.spy(),
       getValue: sinon.stub(),
+      getField: sinon.stub().returns({
+        setErrorMessage: sinon.stub()
+      }),
       parseUserInput: sinon.spy(),
       validate: sinon.stub()
     };
@@ -48,8 +51,8 @@ describeUnitTest('Consoloid.Ui.ArgumentReaderDialog', function() {
         },
         sentence: sentence,
         arguments: {
-          required1: 'value',
-          optional1: 'other value'
+          required1: { value: 'value' },
+          optional1: { value: 'other value' }
         }
       }
     };
@@ -82,12 +85,14 @@ describeUnitTest('Consoloid.Ui.ArgumentReaderDialog', function() {
       dialog.create.args[0][1].validatorDefinitions.should.eql({
         nonEmpty: {
           cls: 'Consoloid.Form.Validator.NonEmpty',
-          options: [ 'required1', 'required2' ]
+          options: {
+            fieldNames: [ 'required1', 'required2' ]
+          }
         }
       });
     });
 
-    it('should not include optional arguments in form', function() {
+    it('should not include optional arguments in form normally', function() {
       dialog.setup();
       dialog.create.calledOnce.should.be.ok;
       dialog.create.args[0][1].should.have.property('fieldDefinitions');
@@ -99,6 +104,18 @@ describeUnitTest('Consoloid.Ui.ArgumentReaderDialog', function() {
 
       dialog.form.setValue.calledOnce.should.be.ok;
       dialog.form.setValue.args[0][0].should.eql({ required1: 'value' });
+    });
+
+    it('should include optional arguments in the form if they are filled and erroneous', function() {
+      dialog.arguments.options.arguments.optional1.erroneous = true;
+      dialog.arguments.options.arguments.optional1.message = "Something terrible has happened.";
+      dialog.setup();
+      dialog.create.calledOnce.should.be.ok;
+      dialog.create.args[0][1].should.have.property('fieldDefinitions');
+      dialog.create.args[0][1].fieldDefinitions.should.have.property('optional1');
+
+      dialog.form.setValue.args[0][0].should.eql({ required1: 'value', optional1: 'other value' });
+      form.getField().setErrorMessage.called.should.be.ok;
     });
   });
 

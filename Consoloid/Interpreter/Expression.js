@@ -122,6 +122,11 @@ defineClass('Consoloid.Interpreter.Expression', 'Consoloid.Interpreter.Tokenizab
         exp = Consoloid.Interpreter.Expression;
 
       Object.keys(args).forEach(function(arg){
+        if (args[arg].erroneous) {
+          score += exp.NO_ARGUMENT_MATCH;
+          return;
+        }
+
         score += args[arg].exactMatch ? exp.EXACT_ARGUMENT_MATCH : exp.PARTIAL_ARGUMENT_MATCH;
       });
 
@@ -143,7 +148,7 @@ defineClass('Consoloid.Interpreter.Expression', 'Consoloid.Interpreter.Tokenizab
       var result = true;
       args = $.extend(args || {}, this.fixedArguments);
       $.each(this.sentence.arguments, function(name, argument) {
-        if (argument.isRequired() && !(name in args)) {
+        if (argument.isRequired() && (!(name in args) || args[name].erroneous)) {
           result = false;
         }
       });
@@ -165,6 +170,7 @@ defineClass('Consoloid.Interpreter.Expression', 'Consoloid.Interpreter.Tokenizab
     NO_MATCH: 0,
 
     EXACT_ARGUMENT_MATCH: 0.02,
-    PARTIAL_ARGUMENT_MATCH: 0.01
+    PARTIAL_ARGUMENT_MATCH: 0.01,
+    NO_ARGUMENT_MATCH: 0
   }
 );

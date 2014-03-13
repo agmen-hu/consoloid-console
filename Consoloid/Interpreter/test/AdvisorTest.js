@@ -272,6 +272,48 @@ describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
         result[0].arguments.name.value.should.be.eql('gre');
         result[0].value.should.eql('do something, name gre');
       });
+
+      it('should add the sentence with the inputed argument to result, but should mark arguments as erroneous', function() {
+        var
+          hit = {
+            entity: {
+              getTextWithArguments: sinon.stub(),
+              hasInlineArgument: sinon.stub().returns(false),
+              getAutocompleteScore: function(){},
+              getSentence: function() {
+                return {
+                  arguments: {
+                    'name': {
+                      isComplexType: sinon.stub().returns(true),
+                      getType: sinon.stub().returns({
+                        fromString: sinon.stub().throws()
+                      })
+                    }
+                  },
+                  validateArguments: sinon.stub().returns(true),
+                  requiredContextIsAvailable: sinon.stub().returns(true),
+                  autocompleteArguments: sinon.stub().returns(
+                    [
+                      { name: 'gre'},
+                    ]
+                  )
+                }
+              }
+            },
+            tokens: [],
+            values: {}
+          };
+
+        tree.getWords.returns([ 'do', 'som' ]);
+        tree.autocomplete.returns([ hit ]);
+        context.autocomplete.returns([]);
+        hit.entity.getTextWithArguments.withArgs({name: {value: 'gre', erroneous: true }}).returns('do something, name gre');
+
+        var result = advisor.autocomplete('do som', ['na gre']);
+        result.should.have.lengthOf(1);
+        result[0].arguments.name.value.should.be.eql('gre');
+        result[0].arguments.name.erroneous.should.be.ok;
+      });
     });
   });
 

@@ -24,7 +24,7 @@ defineClass('Consoloid.Ui.ArgumentReaderDialog', 'Consoloid.Ui.MultiStateDialog'
       var args = {};
 
       $.each($.extend({}, this.arguments.options.arguments, this.form.getValue()), function(name, value) {
-        args[name] = { value: value };
+        args[name] = { value: value.value ? value.value : value };
       });
 
       this.argumentsRead = this.form.getValue();
@@ -49,7 +49,7 @@ defineClass('Consoloid.Ui.ArgumentReaderDialog', 'Consoloid.Ui.MultiStateDialog'
     {
       var result = {};
       $.each(this.arguments.options.sentence.arguments, function(name, argument) {
-        if (!argument.isRequired()) {
+        if (!argument.isRequired() && !((name in this.arguments.options.arguments) && this.arguments.options.arguments[name].erroneous)) {
           return;
         }
 
@@ -59,7 +59,7 @@ defineClass('Consoloid.Ui.ArgumentReaderDialog', 'Consoloid.Ui.MultiStateDialog'
             title: name
           }
         };
-      });
+      }.bind(this));
 
       return result;
     },
@@ -78,7 +78,9 @@ defineClass('Consoloid.Ui.ArgumentReaderDialog', 'Consoloid.Ui.MultiStateDialog'
       return {
         nonEmpty: {
           cls: 'Consoloid.Form.Validator.NonEmpty',
-          options: fields
+          options: {
+            fieldNames: fields
+          }
         }
       };
     },
@@ -89,16 +91,20 @@ defineClass('Consoloid.Ui.ArgumentReaderDialog', 'Consoloid.Ui.MultiStateDialog'
       var $this = this;
 
       $.each(this.arguments.options.sentence.arguments, function(name, argument) {
-        if (!argument.isRequired()) {
+        if (!argument.isRequired() && !((name in $this.arguments.options.arguments) && $this.arguments.options.arguments[name].erroneous)) {
           return;
         }
 
         if (name in $this.arguments.options.arguments) {
-          values[name] = $this.arguments.options.arguments[name];
+          values[name] = $this.arguments.options.arguments[name].value;
         }
       });
 
       this.form.setValue(values);
+
+      $.each(values, function(name) {
+        $this.form.getField(name).setErrorMessage($this.arguments.options.arguments[name].message);
+      });
     },
 
     render: function()

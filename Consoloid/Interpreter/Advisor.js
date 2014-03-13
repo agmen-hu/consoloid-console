@@ -75,7 +75,9 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
             try {
               convertedObj = this.__createContextObjectFromString(mergedArgumentValues[argumentName], arg.getType());
               autocompletedArgumentValues[argumentName].unshift({entity: convertedObj, value: convertedObj.toString(), exactMatch: true});
-            } catch (e) {}
+            } catch (e) {
+              autocompletedArgumentValues[argumentName].push({value: mergedArgumentValues[argumentName], erroneous: true, message: e.message});
+            }
           }
         } else {
           autocompletedArgumentValues[argumentName] = [{
@@ -89,15 +91,11 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
 
     __createContextObjectFromString: function(str, cls)
     {
-
       if (typeof cls == 'string') {
         cls = getClass(cls);
       }
-      try {
-        return cls.fromString(str, this.container);
-      } catch(e) {
-        throw new Error('Unable convert string '+str+' to context object');
-      }
+
+      return cls.fromString(str, this.container);
     },
 
     __buildAutocompletedArgumentValueOptions: function(autocompletedArgumentValues, sentence)

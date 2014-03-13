@@ -172,6 +172,9 @@ describeConsoleUnitTest('Consoloid.Interpreter.Expression', function() {
       expression.getAutocompleteScore(['he', 'world'], {something: { exactMatch: false}}).should.equal(
         Consoloid.Interpreter.Expression.PARTIAL_MATCH + Consoloid.Interpreter.Expression.PARTIAL_ARGUMENT_MATCH);
 
+      expression.getAutocompleteScore(['he', 'hel', 'wo'], {something: { erroneous: true}}).should.equal(
+          Consoloid.Interpreter.Expression.EXACT_MATCH + Consoloid.Interpreter.Expression.NO_ARGUMENT_MATCH);
+
       expression = env.create(Consoloid.Interpreter.Expression, { sentence: sentence, pattern: 'say <something> world <something2>' });
 
       expression.getAutocompleteScore(['hezz', 'he', 'world'], {something: { exactMatch: true}, something2: { exactMatch: false}})
@@ -231,6 +234,20 @@ describeConsoleUnitTest('Consoloid.Interpreter.Expression', function() {
 
       expression.requiredArgumentsPresent({
         required2: { value: 'bar', exactMatch: true }
+      })
+        .should.not.be.ok;
+    });
+
+    it('should return false if a required argument is present but erroneous', function() {
+      expression.requiredArgumentsPresent({
+        required1: { value: 'foo', erroneous: true },
+        required2: { value: 'bar', exactMatch: true }
+      })
+        .should.not.be.ok;
+
+      expression.requiredArgumentsPresent({
+        required1: { value: 'foo', exactMatch: true },
+        required2: { value: 'bar', erroneous: true }
       })
         .should.not.be.ok;
     });
