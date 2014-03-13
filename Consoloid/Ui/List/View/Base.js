@@ -187,9 +187,11 @@ defineClass('Consoloid.Ui.List.View.Base', 'Consoloid.Widget.Widget',
 
     __adjustElementHeight: function(node)
     {
-      this.elementHeight = node.outerHeight(true);
-      this.list.height(this.numPerPage * this.elementHeight);
-      this.eventDispatcher.trigger('size-changed');
+      setTimeout(function() {
+        this.elementHeight = node.outerHeight(true);
+        this.list.height(this.numPerPage * this.elementHeight);
+        this.eventDispatcher.trigger('size-changed');
+      }.bind(this), 0);
     },
 
     __getListElement: function(index)

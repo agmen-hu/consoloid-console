@@ -11,9 +11,11 @@ describeUnitTest('Consoloid.Ui.List.View.Mousewheel', function() {
     cssLoader,
     dataSource,
     factory,
-    list;
+    list,
+    clock;
 
   beforeEach(function() {
+    clock = sinon.useFakeTimers();
     cssLoader = { load: sinon.spy() };
     env.addServiceMock('css_loader', cssLoader);
     jQuery.fn.mousewheel = sinon.spy();
@@ -99,6 +101,7 @@ describeUnitTest('Consoloid.Ui.List.View.Mousewheel', function() {
 
       // Note: node module does not set scroll height after rendering items
       list.list[0].scrollHeight = 800;
+      clock.tick(1);
     });
 
     it("should set the scrolling state to mousewheel", function() {
@@ -192,6 +195,7 @@ describeUnitTest('Consoloid.Ui.List.View.Mousewheel', function() {
   });
 
   afterEach(function() {
+    clock.restore();
     $.fn.hide.restore();
     $.fn.fadeIn.restore();
   });

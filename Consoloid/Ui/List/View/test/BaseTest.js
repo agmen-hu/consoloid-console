@@ -12,9 +12,11 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
     dataSource,
     factory,
     eventDispatcher,
-    list;
+    list,
+    clock;
 
   beforeEach(function() {
+    clock = sinon.useFakeTimers();
     translator = { trans: function(msg) { return msg; } };
     env.addServiceMock('translator', translator);
     cssLoader = { load: sinon.spy() };
@@ -171,6 +173,7 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
     it("should adjust its height according to num per page and list element height", function() {
       list.render();
       list.__renderCompleteList([ 1 ]);
+      clock.tick(1);
 
       list.node.find('.list-wrapper').innerHeight().should.equal(400);
       eventDispatcher.trigger.calledWith('size-changed').should.be.ok;
@@ -233,7 +236,7 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
     it("should call scroll-state-changed event", function() {
       list.__setScrollState("foobar");
       eventDispatcher.trigger.calledWith("scroll-state-changed").should.be.ok;
-      eventDispatcher.trigger.args[1][1][0].should.equal("foobar");
+      eventDispatcher.trigger.args[0][1][0].should.equal("foobar");
     });
   });
 
@@ -258,6 +261,7 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
       // Note: node module does not set scroll height after rendering items
       list.list[0].scrollHeight = 800;
       sinon.spy($.fn, 'animate');
+      clock.tick(1);
     });
 
     it("should set and unset the scrolling state to adjusting", function() {
@@ -309,6 +313,7 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
           40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
         ]
       });
+      clock.tick(1);
     });
 
     it("should trigger page changed event", function() {
@@ -439,6 +444,7 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
       });
 
       sinon.spy(list, '__adjustScrolledList');
+      clock.tick(1);
     });
 
     it("should throw on invalid page", function() {
@@ -718,6 +724,7 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
   });
 
   afterEach(function() {
+    clock.restore();
     $.fn.hide.restore();
     $.fn.fadeIn.restore();
   });
