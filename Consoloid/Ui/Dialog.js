@@ -108,11 +108,15 @@ defineClass('Consoloid.Ui.Dialog', 'Consoloid.Widget.Widget',
 
     _animateDialogResize: function(baseHeight)
     {
-      if (this.get("console").getLastDialog() == this) {
+      if (this.get("console").getLastDialog() === this) {
         $('body,html').stop().animate({ scrollTop: this.__getScrollTopForDisplayingWholeDialog() }, 400);
-      } else if (this.node.position().top + this.node.height() < $('body,html').scrollTop() + $(window).height()) {
-        var heightDifference = this.node.height() - baseHeight;
-        $('body,html').scrollTop($('body,html').scrollTop() + heightDifference);
+      } else {
+        var bottomOfDialog = this.node.position().top + this.node.height();
+        var bottomOfPage = $('body,html').scrollTop() + window.innerHeight;
+        if (bottomOfDialog < bottomOfPage) {
+          var heightDifference = this.node.height() - baseHeight;
+          $('body,html').scrollTop($('body,html').scrollTop() + heightDifference);
+        }
       }
     },
   }
