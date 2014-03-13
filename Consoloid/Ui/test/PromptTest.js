@@ -107,12 +107,15 @@ describeUnitTest('Consoloid.Ui.Prompt', function(){
 
   describe('#keydown()', function() {
     it('should start dialog using current sentence on enter', function() {
+      var clock = sinon.useFakeTimers();
       sinon.spy(prompt, 'onEnter');
 
       prompt.inputField.val('hello wor');
       prompt.keydown({ keyCode: 13 });
+      clock.tick(0);
 
       prompt.onEnter.calledOnce.should.be.true;
+      clock.restore();
     });
 
     it('should show autocomplete widget with history on up arrow keyevent', function(){
@@ -162,7 +165,7 @@ describeUnitTest('Consoloid.Ui.Prompt', function(){
     });
   });
 
-  xdescribe('#enablePrompt() FIXME: magic jquery/jsdom bug', function() {
+  describe('#enablePrompt()', function() {
     it('should enable prompt', function() {
       prompt.node = $('<div><div class="prompt"><input class="human-text" disabled="disabled" /></div></div>');
       prompt.enablePrompt();
@@ -278,10 +281,13 @@ describeUnitTest('Consoloid.Ui.Prompt', function(){
     });
 
     it('should call onEnter when the sentence not has arguments', function(){
+      var clock = sinon.useFakeTimers();
       sinon.spy(prompt, 'val');
       prompt.select(event);
+      clock.tick(1);
       prompt.onEnter.calledOnce.should.be.true;
       prompt.val.calledWith(event.option.value).should.be.true;
+      clock.restore();
     });
 
     it('should do nothing when the sentence has argument but not has inline arguments', function(){
