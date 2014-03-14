@@ -143,12 +143,12 @@ defineClass('Consoloid.Interpreter.Expression', 'Consoloid.Interpreter.Tokenizab
       return result;
     },
 
-    requiredArgumentsPresent: function(args)
+    areArgumentsValid: function(args)
     {
       var result = true;
       args = $.extend(args || {}, this.fixedArguments);
       $.each(this.sentence.arguments, function(name, argument) {
-        if (argument.isRequired() && (!(name in args) || args[name].erroneous)) {
+        if ((argument.isRequired() && !(name in args)) || (name in args && args[name].erroneous)) {
           result = false;
         }
       });

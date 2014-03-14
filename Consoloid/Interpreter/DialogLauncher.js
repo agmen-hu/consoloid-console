@@ -92,7 +92,7 @@ defineClass('Consoloid.Interpreter.DialogLauncher', 'Consoloid.Base.Object',
     __startDialog: function(options)
     {
       options.arguments = options.arguments || {};
-      if (!options.expression.requiredArgumentsPresent(options.arguments)) {
+      if (!options.expression.areArgumentsValid(options.arguments)) {
         var expression = this.get(this.missingArgumentSentence).getExpressions()[0];
         return expression.doIt({ text: options.value, options: options });
       }

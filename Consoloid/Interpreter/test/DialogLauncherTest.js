@@ -218,7 +218,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
             doIt: function(){
               throw new Error('test')
             },
-            requiredArgumentsPresent: sinon.stub().returns(true)
+            areArgumentsValid: sinon.stub().returns(true)
           }
         });
       }).should.throw();
@@ -229,7 +229,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
     it('should start default_missing_argument_sentence when a required argument is missing', function() {
       dialogLauncher.__startDialog({
         expression: {
-          requiredArgumentsPresent: sinon.stub().returns(false)
+          areArgumentsValid: sinon.stub().returns(false)
         }
       });
 

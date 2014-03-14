@@ -189,7 +189,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.Expression', function() {
     });
   });
 
-  describe('#requiredArgumentsPresent(args)', function() {
+  describe('#areArgumentsValid(args)', function() {
     beforeEach(function() {
       sentence = env.create(Consoloid.Interpreter.Sentence, {
         patterns: [],
@@ -211,7 +211,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.Expression', function() {
     });
 
     it('should return true when all required arguments are present', function() {
-      expression.requiredArgumentsPresent({
+      expression.areArgumentsValid({
         required1: { value: 'foo', exactMatch: true },
         required2: { value: 'bar', exactMatch: true }
       })
@@ -220,32 +220,32 @@ describeConsoleUnitTest('Consoloid.Interpreter.Expression', function() {
 
     it("should return true even if a required argument is in the fixed arguments", function() {
       expression.fixedArguments = { required2: { value: 'bar' } };
-      expression.requiredArgumentsPresent({
+      expression.areArgumentsValid({
         required1: { value: 'foo', exactMatch: true }
       })
         .should.be.ok;
     });
 
     it('should return false when a required arguments is not present', function() {
-      expression.requiredArgumentsPresent({
+      expression.areArgumentsValid({
         required1: { value: 'foo', exactMatch: true },
       })
         .should.not.be.ok;
 
-      expression.requiredArgumentsPresent({
+      expression.areArgumentsValid({
         required2: { value: 'bar', exactMatch: true }
       })
         .should.not.be.ok;
     });
 
     it('should return false if a required argument is present but erroneous', function() {
-      expression.requiredArgumentsPresent({
+      expression.areArgumentsValid({
         required1: { value: 'foo', erroneous: true },
         required2: { value: 'bar', exactMatch: true }
       })
         .should.not.be.ok;
 
-      expression.requiredArgumentsPresent({
+      expression.areArgumentsValid({
         required1: { value: 'foo', exactMatch: true },
         required2: { value: 'bar', erroneous: true }
       })
