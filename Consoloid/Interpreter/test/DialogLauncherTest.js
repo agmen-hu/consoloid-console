@@ -24,7 +24,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
     var dummySentence = { getExpressions: function() { return [ dummyExpression ]; } };
     env.container.addSharedObject('default_fallback_sentence', dummySentence)
     env.container.addSharedObject('default_ambiguousity_avoider_sentence', dummySentence)
-    env.container.addSharedObject('default_missing_argument_sentence', dummySentence)
+    env.container.addSharedObject('default_argument_fixer_sentence', dummySentence)
     env.container.addSharedObject('letter_tree', env.create(Consoloid.Interpreter.LetterTree, {}));
     env.container.addSharedObject('context', env.create(Consoloid.Context.Queue, {}));
 
@@ -226,14 +226,14 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
       spy.calledOnce.should.be.true;
     });
 
-    it('should start default_missing_argument_sentence when a required argument is missing', function() {
+    it('should start default_argument_fixer_sentence when a required argument is missing', function() {
       dialogLauncher.__startDialog({
         expression: {
           areArgumentsValid: sinon.stub().returns(false)
         }
       });
 
-      dialogLauncher.get.calledWith('default_missing_argument_sentence').should.be.true;
+      dialogLauncher.get.calledWith('default_argument_fixer_sentence').should.be.true;
     });
   });
 });

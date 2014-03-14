@@ -134,10 +134,10 @@ definitions:
           required: false
   default_ambiguousity_avoider_dialog:
     cls: Consoloid.Topic.AmbiguousityAvoiderDialog
-  default_missing_argument_sentence:
+  default_argument_fixer_sentence:
     cls: Consoloid.Interpreter.Sentence
     options:
-      service: default_missing_argument_reader_dialog
+      service: default_argument_fixer_reader_dialog
       patterns: [ "Missing argument reader" ]
       arguments:
         text:
@@ -148,8 +148,8 @@ definitions:
           type: array
           pattern: none
           required: false
-  default_missing_argument_reader_dialog:
-    cls: Consoloid.Ui.ArgumentReaderDialog
+  default_argument_fixer_reader_dialog:
+    cls: Consoloid.Ui.ArgumentFixerDialog
   list_topics_dialog:
     cls: Consoloid.Topic.ListDialog
   list_topics_sentence:

@@ -68,7 +68,7 @@
 ]]>
 </script>
 
-<script id="Consoloid-Ui-ArgumentReaderDialogActive" type="text/x-jqote-template">
+<script id="Consoloid-Ui-ArgumentFixerDialogActive" type="text/x-jqote-template">
 <![CDATA[
   <p><%= __('The arguments below are required for interpreting this sentence.') %></p>
   <div class="form" />
@@ -76,7 +76,7 @@
 ]]>
 </script>
 
-<script id="Consoloid-Ui-ArgumentReaderDialogDone" type="text/x-jqote-template">
+<script id="Consoloid-Ui-ArgumentFixerDialogDone" type="text/x-jqote-template">
 <![CDATA[
   <p>
     <%= __('Consoloid requested for missing arguments.') %>

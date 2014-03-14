@@ -5,7 +5,7 @@ defineClass('Consoloid.Interpreter.DialogLauncher', 'Consoloid.Base.Object',
       this.__base($.extend({
         fallbackSentence: 'default_fallback_sentence',
         ambiguousityAvoiderSentence: 'default_ambiguousity_avoider_sentence',
-        missingArgumentSentence: 'default_missing_argument_sentence'
+        argumentFixerSentence: 'default_argument_fixer_sentence'
       }, options));
 
       if (!('advisor' in this)) {
@@ -93,7 +93,7 @@ defineClass('Consoloid.Interpreter.DialogLauncher', 'Consoloid.Base.Object',
     {
       options.arguments = options.arguments || {};
       if (!options.expression.areArgumentsValid(options.arguments)) {
-        var expression = this.get(this.missingArgumentSentence).getExpressions()[0];
+        var expression = this.get(this.argumentFixerSentence).getExpressions()[0];
         return expression.doIt({ text: options.value, options: options });
       }
 

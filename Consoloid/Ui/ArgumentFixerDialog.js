@@ -1,11 +1,11 @@
-defineClass('Consoloid.Ui.ArgumentReaderDialog', 'Consoloid.Ui.MultiStateDialog',
+defineClass('Consoloid.Ui.ArgumentFixerDialog', 'Consoloid.Ui.MultiStateDialog',
   {
     __constructor: function(options)
     {
       this.__base($.extend({
         states: {
-          'active': 'Consoloid-Ui-ArgumentReaderDialogActive',
-          'done': 'Consoloid-Ui-ArgumentReaderDialogDone'
+          'active': 'Consoloid-Ui-ArgumentFixerDialogActive',
+          'done': 'Consoloid-Ui-ArgumentFixerDialogDone'
         },
         activeState: 'active'
       }, options));
@@ -23,14 +23,26 @@ defineClass('Consoloid.Ui.ArgumentReaderDialog', 'Consoloid.Ui.MultiStateDialog'
 
       var args = {};
 
-      $.each($.extend({}, this.arguments.options.arguments, this.form.getValue()), function(name, value) {
-        args[name] = { value: value.value ? value.value : value };
+      $.each($.extend({}, this.arguments.options.arguments, this.__getMappedFormValues()), function(name, value) {
+        args[name] = value;
       });
 
       this.argumentsRead = this.form.getValue();
       this.switchState('done');
 
       this.get('console').prompt.launchDialog(this.arguments.options.expression.getTextWithArguments(args));
+    },
+
+    __getMappedFormValues: function()
+    {
+      var result = {};
+      $.each(this.form.getValue(), function(name, value) {
+        result[name] = {
+          value: value
+        };
+      });
+
+      return result;
     },
 
     setup: function()

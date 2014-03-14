@@ -2,10 +2,10 @@ require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("../Dialog");
 require("../MultiStateDialog");
-require("../ArgumentReaderDialog");
+require("../ArgumentFixerDialog");
 require('consoloid-framework/Consoloid/Test/UnitTest');
 
-describeUnitTest('Consoloid.Ui.ArgumentReaderDialog', function() {
+describeUnitTest('Consoloid.Ui.ArgumentFixerDialog', function() {
   var
     dialog,
     dialogLauncher,
@@ -37,7 +37,7 @@ describeUnitTest('Consoloid.Ui.ArgumentReaderDialog', function() {
       validate: sinon.stub()
     };
 
-    dialog = env.create(Consoloid.Ui.ArgumentReaderDialog, {});
+    dialog = env.create(Consoloid.Ui.ArgumentFixerDialog, {});
     dialog.expression = {};
     dialog._renderExpressionAndResponse = sinon.spy();
     dialog._animateDialogShowup = sinon.spy();
