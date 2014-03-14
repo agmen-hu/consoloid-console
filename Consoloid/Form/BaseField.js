@@ -112,5 +112,10 @@ defineClass('Consoloid.Form.BaseField', 'Consoloid.Widget.Widget',
       } else {
         this.node.find('.error').empty();
       }
+    },
+
+    getName: function()
+    {
+      return this.name;
     }
 });

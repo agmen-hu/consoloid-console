@@ -30,9 +30,7 @@ describeUnitTest('Consoloid.Ui.ArgumentFixerDialog', function() {
     form = {
       setValue: sinon.spy(),
       getValue: sinon.stub(),
-      getField: sinon.stub().returns({
-        setErrorMessage: sinon.stub()
-      }),
+      getField: sinon.stub(),
       parseUserInput: sinon.spy(),
       validate: sinon.stub()
     };
@@ -59,7 +57,7 @@ describeUnitTest('Consoloid.Ui.ArgumentFixerDialog', function() {
   });
 
   describe('#setup()', function() {
-    it('should create a form including a field for each required argument', function() {
+    it('should create a form including a field for each required argument any other argument set', function() {
       dialog.setup();
 
       dialog.should.have.property('form');
@@ -79,6 +77,12 @@ describeUnitTest('Consoloid.Ui.ArgumentFixerDialog', function() {
           options: {
             title: 'required2'
           }
+        },
+        optional1: {
+          cls: 'Consoloid.Form.Text',
+          options: {
+            title: 'optional1'
+          }
         }
       });
 
@@ -88,11 +92,21 @@ describeUnitTest('Consoloid.Ui.ArgumentFixerDialog', function() {
           options: {
             fieldNames: [ 'required1', 'required2' ]
           }
+        },
+        sentenceAutocompleteValidator: {
+          cls: 'Consoloid.Ui.SentenceAutocompleteValidator',
+          options: {
+            fieldNames: [ 'required1', 'required2', 'optional1' ],
+            expression: dialog.arguments.options.expression
+          }
         }
       });
+
+      dialog.create.args[0][1].name.should.equal('readArguments0');
     });
 
     it('should not include optional arguments in form normally', function() {
+      delete dialog.arguments.options.arguments.optional1;
       dialog.setup();
       dialog.create.calledOnce.should.be.ok;
       dialog.create.args[0][1].should.have.property('fieldDefinitions');
@@ -103,19 +117,7 @@ describeUnitTest('Consoloid.Ui.ArgumentFixerDialog', function() {
       dialog.setup();
 
       dialog.form.setValue.calledOnce.should.be.ok;
-      dialog.form.setValue.args[0][0].should.eql({ required1: 'value' });
-    });
-
-    it('should include optional arguments in the form if they are filled and erroneous', function() {
-      dialog.arguments.options.arguments.optional1.erroneous = true;
-      dialog.arguments.options.arguments.optional1.message = "Something terrible has happened.";
-      dialog.setup();
-      dialog.create.calledOnce.should.be.ok;
-      dialog.create.args[0][1].should.have.property('fieldDefinitions');
-      dialog.create.args[0][1].fieldDefinitions.should.have.property('optional1');
-
       dialog.form.setValue.args[0][0].should.eql({ required1: 'value', optional1: 'other value' });
-      form.getField().setErrorMessage.called.should.be.ok;
     });
   });
 

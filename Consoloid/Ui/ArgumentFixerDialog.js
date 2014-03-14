@@ -49,7 +49,7 @@ defineClass('Consoloid.Ui.ArgumentFixerDialog', 'Consoloid.Ui.MultiStateDialog',
     {
       this.expression.text = this.arguments.text;
       this.form = this.create('Consoloid.Form.Form', {
-        name: 'readArguments',
+        name: 'readArguments' + this.__self.index++,
         fieldDefinitions: this.__getFieldDefinitions(),
         validatorDefinitions: this.__getValidatorDefinitions(),
         container: this.container
@@ -60,17 +60,25 @@ defineClass('Consoloid.Ui.ArgumentFixerDialog', 'Consoloid.Ui.MultiStateDialog',
     __getFieldDefinitions: function()
     {
       var result = {};
-      $.each(this.arguments.options.sentence.arguments, function(name, argument) {
-        if (!argument.isRequired() && !((name in this.arguments.options.arguments) && this.arguments.options.arguments[name].erroneous)) {
-          return;
-        }
-
+      this.__relevantArgumentNames().forEach(function(name) {
         result[name] = {
           cls: 'Consoloid.Form.Text',
           options: {
             title: name
           }
         };
+      });
+
+      return result;
+    },
+
+    __relevantArgumentNames: function()
+    {
+      var result = [];
+      $.each(this.arguments.options.sentence.arguments, function(name, argument) {
+        if (argument.isRequired() || name in this.arguments.options.arguments) {
+          result.push(name);
+        }
       }.bind(this));
 
       return result;
@@ -78,20 +86,31 @@ defineClass('Consoloid.Ui.ArgumentFixerDialog', 'Consoloid.Ui.MultiStateDialog',
 
     __getValidatorDefinitions: function()
     {
-      var fields = [];
+      var
+        requiredFields = [],
+        fields = [];
       $.each(this.arguments.options.sentence.arguments, function(name, argument) {
-        if (!argument.isRequired()) {
-          return;
+        if (argument.isRequired()) {
+          requiredFields.push(name);
         }
 
-        fields.push(name);
-      });
+        if (argument.isRequired() || name in this.arguments.options.arguments) {
+          fields.push(name);
+        }
+      }.bind(this));
 
       return {
         nonEmpty: {
           cls: 'Consoloid.Form.Validator.NonEmpty',
           options: {
-            fieldNames: fields
+            fieldNames: requiredFields
+          }
+        },
+        sentenceAutocompleteValidator: {
+          cls: 'Consoloid.Ui.SentenceAutocompleteValidator',
+          options: {
+            fieldNames: fields,
+            expression: this.arguments.options.expression
           }
         }
       };
@@ -102,21 +121,13 @@ defineClass('Consoloid.Ui.ArgumentFixerDialog', 'Consoloid.Ui.MultiStateDialog',
       var values = {};
       var $this = this;
 
-      $.each(this.arguments.options.sentence.arguments, function(name, argument) {
-        if (!argument.isRequired() && !((name in $this.arguments.options.arguments) && $this.arguments.options.arguments[name].erroneous)) {
-          return;
-        }
-
+      this.__relevantArgumentNames().forEach(function(name) {
         if (name in $this.arguments.options.arguments) {
           values[name] = $this.arguments.options.arguments[name].value;
         }
       });
 
       this.form.setValue(values);
-
-      $.each(values, function(name) {
-        $this.form.getField(name).setErrorMessage($this.arguments.options.arguments[name].message);
-      });
     },
 
     render: function()
@@ -139,6 +150,13 @@ defineClass('Consoloid.Ui.ArgumentFixerDialog', 'Consoloid.Ui.MultiStateDialog',
         .setNode(this.node.find('div.form'))
         .render()
         .focus();
+
+      this.__relevantArgumentNames().forEach(function(name) {
+        this.form.getField(name).autoValidate();
+      }.bind(this));
     }
+  },
+  {
+    index: 0
   }
 );

@@ -112,6 +112,12 @@ describeUnitTest('Consoloid.Form.BaseField', function() {
     });
   });
 
+  describe("#getName()", function() {
+    it("should return with the name of the field", function() {
+      field.getName().should.equal("foo");
+    });
+  });
+
   afterEach(function() {
     env.shutdown();
   });
