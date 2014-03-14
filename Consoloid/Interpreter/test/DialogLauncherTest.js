@@ -46,7 +46,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
     });
 
     dialogLauncher = env.create(Consoloid.Interpreter.DialogLauncher, {});
-    sinon.spy(dialogLauncher, 'autocompleteExpression');
+    sinon.spy(dialogLauncher, 'getAllAutocompleteOptions');
     sinon.spy(dialogLauncher, 'get');
   });
 
@@ -125,6 +125,26 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
           disallow: {value: true, exactMatch: true}
         });
     });
+
+    it('should not return the with erroneous arguments', function() {
+      dialogLauncher.advisor = {
+        autocomplete: sinon.stub().returns([{
+          arguments: {
+            something: {
+              erroneous: true
+            }
+          }
+        }, {
+          arguments: {
+            something: {
+            }
+          }
+        }])
+      };
+
+      var options = dialogLauncher.autocompleteExpression('foo bar');
+      options.length.should.equal(1);
+    });
   });
 
   describe('#startFromText(text)', function() {
@@ -134,10 +154,10 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
 
     it('should do nothing when not has text', function() {
       dialogLauncher.startFromText();
-      dialogLauncher.autocompleteExpression.called.should.be.false;
+      dialogLauncher.getAllAutocompleteOptions.called.should.be.false;
 
       dialogLauncher.startFromText('');
-      dialogLauncher.autocompleteExpression.called.should.be.false;
+      dialogLauncher.getAllAutocompleteOptions.called.should.be.false;
     });
 
     it('should return false on tokenizer syntax error', function() {
@@ -147,7 +167,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
     it('should start dialog using current sentence on enter', function() {
       dialogLauncher.startFromText('hel wor');
 
-      dialogLauncher.autocompleteExpression.calledWith('hel wor').should.be.true;
+      dialogLauncher.getAllAutocompleteOptions.calledWith('hel wor').should.be.true;
       dialogLauncher.get.called.should.be.false;
       var startDialogArgument = dialogLauncher.__startDialog.args[0][0];
       startDialogArgument.value.should.be.eql('hello world');
@@ -156,7 +176,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
     it('enter should start fallback dialog when sentence was not found', function() {
       dialogLauncher.startFromText('no such sentence');
 
-      dialogLauncher.autocompleteExpression.calledWith('no such sentence').should.be.true;
+      dialogLauncher.getAllAutocompleteOptions.calledWith('no such sentence').should.be.true;
       dialogLauncher.get.calledWith('default_fallback_sentence').should.be.true;
       var startDialogArgument = dialogLauncher.__startDialog.args[0][0];
       startDialogArgument.value.should.be.eql('no such sentence');
@@ -165,7 +185,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
     it('should start fallback dialog on invalid arguments', function() {
       dialogLauncher.startFromText('hello wor, invalid arg');
 
-      dialogLauncher.autocompleteExpression.calledWith('hello wor, invalid arg').should.be.true;
+      dialogLauncher.getAllAutocompleteOptions.calledWith('hello wor, invalid arg').should.be.true;
       dialogLauncher.get.calledWith('default_fallback_sentence').should.be.true;
       var startDialogArgument = dialogLauncher.__startDialog.args[0][0];
       startDialogArgument.value.should.be.eql('hello wor, invalid arg');
@@ -177,7 +197,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
 
       dialogLauncher.startFromText('hel wor');
 
-      dialogLauncher.autocompleteExpression.calledWith('hel wor').should.be.true;
+      dialogLauncher.getAllAutocompleteOptions.calledWith('hel wor').should.be.true;
       dialogLauncher.get.called.should.be.false;
       var startDialogArgument = dialogLauncher.__startDialog.args[0][0];
       startDialogArgument.value.should.be.eql('hello world');
@@ -188,7 +208,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
 
       dialogLauncher.startFromText('hel wor');
 
-      dialogLauncher.autocompleteExpression.calledWith('hel wor').should.be.true;
+      dialogLauncher.getAllAutocompleteOptions.calledWith('hel wor').should.be.true;
       dialogLauncher.get.calledWith('default_ambiguousity_avoider_sentence').should.be.true;
       var startDialogArgument = dialogLauncher.__startDialog.args[0][0];
       startDialogArgument.value.should.be.eql('hel wor');
@@ -200,7 +220,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.DialogLauncher', function() {
 
       dialogLauncher.startFromText('te se ma');
 
-      dialogLauncher.autocompleteExpression.calledWith('te se ma').should.be.true;
+      dialogLauncher.getAllAutocompleteOptions.calledWith('te se ma').should.be.true;
       dialogLauncher.get.called.should.be.false;
       var startDialogArgument = dialogLauncher.__startDialog.args[0][0];
       startDialogArgument.value.should.be.eql('test sentence matching');

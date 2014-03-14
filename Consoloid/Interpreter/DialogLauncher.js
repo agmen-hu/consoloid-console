@@ -33,7 +33,7 @@ defineClass('Consoloid.Interpreter.DialogLauncher', 'Consoloid.Base.Object',
       var options = [];
 
       try {
-        options = this.autocompleteExpression(text);
+        options = this.getAllAutocompleteOptions(text);
       } catch (error) {
         window.alert(error);
         return false;
@@ -59,10 +59,21 @@ defineClass('Consoloid.Interpreter.DialogLauncher', 'Consoloid.Base.Object',
       }
     },
 
-    autocompleteExpression: function(text)
+    getAllAutocompleteOptions: function(text)
     {
       var input = this.__parseInput(text);
       return this.advisor.autocomplete(input.text, input.arguments);
+    },
+
+    autocompleteExpression: function(text)
+    {
+      var options = this.getAllAutocompleteOptions(text);
+
+      return options.filter(function(option) {
+        return !Object.keys(option.arguments).some(function(key) {
+          return option.arguments[key].erroneous;
+        });
+      });
     },
 
     __parseInput: function(text)
