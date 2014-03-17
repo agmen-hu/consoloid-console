@@ -11,7 +11,8 @@ require("../../Speech/PromptInputButton");
 
 describeUnitTest('Consoloid.Ui.Prompt', function(){
   var
-    prompt;
+    prompt,
+    context;
 
   beforeEach(function() {
     env.addServiceMock('speech_recognizer', { createButtonFrom: function() {} });
@@ -25,13 +26,14 @@ describeUnitTest('Consoloid.Ui.Prompt', function(){
     });
 
     var dialogLauncher = {
-      startFromText: function(){},
-      autocompleteExpression: function(){},
-      autocompleteContext: function(){}
+      startFromText: sinon.stub(),
+      autocompleteExpression: sinon.stub(),
     }
-    sinon.stub(dialogLauncher, 'startFromText');
-    sinon.stub(dialogLauncher, 'autocompleteExpression');
-    sinon.stub(dialogLauncher, 'autocompleteContext');
+
+    context = {
+      autocompleteWithSentence: sinon.stub()
+    }
+    env.addServiceMock("context", context);
 
     prompt = env.create(Consoloid.Ui.Prompt, {
       dialogLauncher: dialogLauncher,
@@ -211,7 +213,7 @@ describeUnitTest('Consoloid.Ui.Prompt', function(){
       setOptionsSpy.calledOnce.should.be.true;
       prompt.autocompleteWidget.setLeftPositionToCursor.alwaysCalledWith(false).should.be.eql.true;
       prompt.dialogLauncher.autocompleteExpression.calledOnce.should.be.true;
-      prompt.dialogLauncher.autocompleteContext.called.should.be.false;
+      context.autocompleteWithSentence.called.should.be.false;
       prompt.getCursorPosition.called.should.be.false;
     });
 
@@ -224,7 +226,7 @@ describeUnitTest('Consoloid.Ui.Prompt', function(){
       currentSentence.getArgument.calledOnce.should.be.true;
       setOptionsSpy.called.should.be.false;
       prompt.dialogLauncher.autocompleteExpression.called.should.be.false;
-      prompt.dialogLauncher.autocompleteContext.called.should.be.false;
+      context.autocompleteWithSentence.called.should.be.false;
     });
 
     it('should do nothing when has currentSentence and the cursor in an simple type argument', function(){
@@ -239,7 +241,7 @@ describeUnitTest('Consoloid.Ui.Prompt', function(){
       currentSentence.getArgument.calledOnce.should.be.true;
       setOptionsSpy.called.should.be.false;
       prompt.dialogLauncher.autocompleteExpression.called.should.be.false;
-      prompt.dialogLauncher.autocompleteContext.called.should.be.false;
+      context.autocompleteWithSentence.called.should.be.false;
     });
 
     it('should autocomplete from context when has currentSentence and the cursor in a complex type argument', function(){
@@ -255,7 +257,7 @@ describeUnitTest('Consoloid.Ui.Prompt', function(){
       argument.isComplexType.calledOnce.should.be.true;
       currentSentence.getArgument.calledOnce.should.be.true;
       prompt.autocompleteWidget.setLeftPositionToCursor.alwaysCalledWith(true).should.be.eql.true;
-      prompt.dialogLauncher.autocompleteContext.alwaysCalledWith('korte', 'alma', 'sentence', 'namedArguments').should.be.true;
+      context.autocompleteWithSentence.alwaysCalledWith('korte', 'alma', 'sentence', 'namedArguments').should.be.true;
       setOptionsSpy.called.should.be.true;
       prompt.dialogLauncher.autocompleteExpression.called.should.be.false;
     });

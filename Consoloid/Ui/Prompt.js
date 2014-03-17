@@ -228,7 +228,7 @@ defineClass('Consoloid.Ui.Prompt', 'Consoloid.Widget.Widget',
       if (this.currentSentence.isMatching()) {
         var argument = this.currentSentence.getArgument(this.getCursorPosition());
         if (argument && argument.entity.isComplexType()) {
-            setOptions(this.dialogLauncher.autocompleteContext(
+            setOptions(this.__autocompleteContext(
               argument.value, argument.name,
               this.currentSentence.getSentence(), this.currentSentence.getNamedArguments()
               ));
@@ -245,6 +245,11 @@ defineClass('Consoloid.Ui.Prompt', 'Consoloid.Widget.Widget',
         setOptions(options);
         this.autocompleteWidget.setLeftPositionToCursor(false);
       }
+    },
+
+    __autocompleteContext: function(text, argumentName, sentence, argumentValues)
+    {
+      return this.get("context").autocompleteWithSentence(text, argumentName, sentence, argumentValues);
     },
 
     select: function(event)
