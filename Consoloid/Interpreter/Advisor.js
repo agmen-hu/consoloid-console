@@ -4,8 +4,10 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
     {
       this.__base(options);
 
-      this.requireProperty('tree');
-      this.requireProperty('context');
+      this.context = this.get('context');
+      this.tree = this.get('letter_tree');
+      builder = this.create('Consoloid.Interpreter.TreeBuilder', { tree: this.tree, container: this.container });
+      builder.build();
     },
 
     autocomplete: function(text, args)
@@ -132,11 +134,6 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
       newValues[argumentName] = argumentValue;
 
       return {availableOptions: newOptions, values: newValues};
-    },
-
-    autocompleteFromContext: function(text, argumentName, sentence, argumentValues)
-    {
-      return this.context.autocompleteWithSentence(text, argumentName, sentence, argumentValues);
     }
   }
 );

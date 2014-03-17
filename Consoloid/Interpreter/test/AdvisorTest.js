@@ -1,5 +1,5 @@
+require('../TreeBuilder');
 require("../Advisor");
-
 require("../../Test/ConsoleUnitTest");
 describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
   var
@@ -13,12 +13,20 @@ describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
       getWords: sinon.stub(),
       autocomplete: sinon.stub()
     };
-    //tree = env.create(Consoloid.Interpreter.LetterTree, {});
+    env.addServiceMock('letter_tree', tree);
     context = {
       autocomplete: sinon.stub(),
       autocompleteWithSentence: sinon.stub()
     };
-    advisor = env.create(Consoloid.Interpreter.Advisor, { tree: tree, context: context });
+    env.addServiceMock('context', context);
+    advisor = env.create(Consoloid.Interpreter.Advisor, {});
+  });
+
+  describe("#__constructor(options)", function() {
+    it("should get tree and context", function() {
+      advisor.tree.should.equal(tree);
+      advisor.context.should.equal(context);
+    });
   });
 
   describe('#autocomplete(text)', function() {
@@ -79,7 +87,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
           entity: {
             getTextWithArguments: sinon.stub(),
             hasInlineArgument: sinon.stub().returns(false),
-            getAutocompleteScore: function(){},
+            getAutocompleteScore: sinon.stub().returns(3),
             getSentence: function() {
               return {
                 arguments: {
@@ -388,17 +396,6 @@ describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
 
       var versions = advisor.__buildAutocompletedArgumentValueOptions(source2, sentence);
       compare(dest2, versions);
-    });
-
-  });
-
-  describe('#autocompleteFromContext(text, argumentName, sentence, argumentValues)', function() {
-    it('should call context.autocompleteWithSentence with correct arguments and return the function result', function() {
-      context.autocompleteWithSentence.returns('autocompleted');
-
-      var result = advisor.autocompleteFromContext('text', 'argumentName', 'sentence', 'argumentValues');
-      result.should.be.eql('autocompleted');
-      context.autocompleteWithSentence.alwaysCalledWith('text', 'argumentName', 'sentence', 'argumentValues');
     });
   });
 });

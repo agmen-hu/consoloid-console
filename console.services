@@ -9,6 +9,9 @@ definitions:
     cls: "%console.launcher.cls%"
     options: "%console.launcher%"
     shared: true
+  autocomplete_advisor:
+    cls: Consoloid.Interpreter.Advisor
+    shared: true
   tokenizer:
     cls: Consoloid.Interpreter.Tokenizer
     shared: true

@@ -9,18 +9,8 @@ defineClass('Consoloid.Interpreter.DialogLauncher', 'Consoloid.Base.Object',
       }, options));
 
       if (!('advisor' in this)) {
-        this.__createAdvisor();
+        this.advisor = this.get('autocomplete_advisor');
       }
-    },
-
-    __createAdvisor: function()
-    {
-      var context = this.get('context');
-      var tree = this.get('letter_tree');
-      var builder = this.create('Consoloid.Interpreter.TreeBuilder', { tree: tree, container: this.container });
-      builder.build();
-
-      this.advisor = this.create('Consoloid.Interpreter.Advisor', { tree: tree, context: context, container: this.container });
     },
 
     startFromText: function(text)
@@ -33,7 +23,7 @@ defineClass('Consoloid.Interpreter.DialogLauncher', 'Consoloid.Base.Object',
       var options = [];
 
       try {
-        options = this.getAllAutocompleteOptions(text);
+        options = this.__getAllAutocompleteOptions(text);
       } catch (error) {
         window.alert(error);
         return false;
@@ -59,7 +49,7 @@ defineClass('Consoloid.Interpreter.DialogLauncher', 'Consoloid.Base.Object',
       }
     },
 
-    getAllAutocompleteOptions: function(text)
+    __getAllAutocompleteOptions: function(text)
     {
       var input = this.__parseInput(text);
       return this.advisor.autocomplete(input.text, input.arguments);
@@ -67,7 +57,7 @@ defineClass('Consoloid.Interpreter.DialogLauncher', 'Consoloid.Base.Object',
 
     autocompleteExpression: function(text)
     {
-      var options = this.getAllAutocompleteOptions(text);
+      var options = this.__getAllAutocompleteOptions(text);
 
       return options.filter(function(option) {
         return !Object.keys(option.arguments).some(function(key) {
@@ -150,10 +140,5 @@ defineClass('Consoloid.Interpreter.DialogLauncher', 'Consoloid.Base.Object',
         expression: sentence.getExpressions()[0]
       });
     },
-
-    autocompleteContext: function(text, argumentName, sentence, argumentValues)
-    {
-      return this.advisor.autocompleteFromContext(text, argumentName, sentence, argumentValues);
-    }
   }
 );
