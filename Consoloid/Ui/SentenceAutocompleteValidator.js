@@ -61,8 +61,7 @@ defineClass('Consoloid.Ui.SentenceAutocompleteValidator', 'Consoloid.Form.Valida
           value: this.get('form').getField(key).getValue()
         };
       }.bind(this));
-
-      this.autocompleteResult = this.get("autocomplete_advisor").autocompleteExpression(this.expression.getTextWithArguments(args), this.expression, this.get('form').getValue())[0];
+      this.autocompleteResult = this.get("autocomplete_advisor").matchArgumentsToExpression(this.expression.getTextWithArguments(args), this.expression, this.get('form').getValue())[0];
     }
   }
 );

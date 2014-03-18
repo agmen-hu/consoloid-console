@@ -1,5 +1,6 @@
 require('../TreeBuilder');
 require("../Advisor");
+require("../InvalidArgumentsError");
 require("../../Test/ConsoleUnitTest");
 describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
   var
@@ -16,7 +17,8 @@ describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
     env.addServiceMock('letter_tree', tree);
     context = {
       autocomplete: sinon.stub(),
-      autocompleteWithSentence: sinon.stub()
+      autocompleteWithSentence: sinon.stub(),
+      findByStringAndClass: sinon.stub()
     };
     env.addServiceMock('context', context);
     advisor = env.create(Consoloid.Interpreter.Advisor, {});
@@ -322,10 +324,43 @@ describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
         result[0].arguments.name.value.should.be.eql('gre');
         result[0].arguments.name.erroneous.should.be.ok;
       });
+
+      it("should create erroneous options for invalid argument combinations", function() {
+        var
+          error = env.create(Consoloid.Interpreter.InvalidArgumentsError, { message: "Strangely invalid argument", arguments: ["name"] }),
+          hit = {
+            entity: {
+              getTextWithArguments: sinon.stub(),
+              hasInlineArgument: sinon.stub().returns(false),
+              getAutocompleteScore: function(){},
+              getSentence: function() {
+                return {
+                  arguments: {
+                    'name': {
+                      isComplexType: sinon.stub().returns(false),
+                    }
+                  },
+                  validateArguments: sinon.stub().throws(error),
+                  requiredContextIsAvailable: sinon.stub().returns(true),
+                  autocompleteArguments: sinon.stub().returns(
+                    [
+                      { name: 'gre'},
+                    ]
+                  )
+                }
+              }
+            },
+            tokens: [],
+            values: {}
+          };
+        tree.getWords.returns([ 'do', 'som' ]);
+        tree.autocomplete.returns([ hit ]);
+        var result = advisor.autocomplete('do som', ['na gre']);
+      });
     });
   });
 
-  describe("#autocompleteExpression(text, expression, values, args)", function() {
+  describe("#matchArgumentsToExpression(text, expression, values, args)", function() {
     it("should return results for only that expression", function() {
       tree.autocomplete.returns([ {
         entity: {
@@ -339,12 +374,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
               }
             },
             validateArguments: sinon.stub().returns(true),
-            requiredContextIsAvailable: sinon.stub().returns(true),
-            autocompleteArguments: sinon.stub().returns(
-              [
-                { name: "FooBear" },
-              ]
-            )
+            requiredContextIsAvailable: sinon.stub().returns(true)
           })
         },
         tokens: [],
@@ -361,17 +391,12 @@ describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
             }
           },
           validateArguments: sinon.stub().returns(true),
-          requiredContextIsAvailable: sinon.stub().returns(true),
-          autocompleteArguments: sinon.stub().returns(
-            [
-              { name: "FooBar" },
-            ]
-          )
+          requiredContextIsAvailable: sinon.stub().returns(true)
         })
       }
-      var result = advisor.autocompleteExpression('do som', theValidExpression, { name: "Foo" });
+      var result = advisor.matchArgumentsToExpression('do som', theValidExpression, { name: "Foo" });
       result[0].expression.should.equal(theValidExpression);
-      result[0].arguments.name.value.should.equal("FooBar");
+      result[0].arguments.name.value.should.equal("Foo");
       result[0].value.should.equal("Do something");
     });
   });

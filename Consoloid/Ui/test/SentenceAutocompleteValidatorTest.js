@@ -46,7 +46,7 @@ describeUnitTest('Consoloid.Ui.SentenceAutocompleteValidator', function() {
     form.getField.withArgs("okayArgumentName").returns(barField);
 
     advisor = {
-      autocompleteExpression: sinon.stub().returns([{
+      matchArgumentsToExpression: sinon.stub().returns([{
         arguments: {
           fancyArgumentName: {
             erroneous: true,
@@ -85,12 +85,12 @@ describeUnitTest('Consoloid.Ui.SentenceAutocompleteValidator', function() {
       expression.getTextWithArguments.calledOnce.should.be.ok;
       expression.getTextWithArguments.calledWith({ fancyArgumentName: { value: "fooValue" }, okayArgumentName: { value: "barValue" } }).should.be.ok;
 
-      advisor.autocompleteExpression.calledOnce.should.be.ok;
-      advisor.autocompleteExpression.calledWith("foo bar sentence text").should.be.ok;
+      advisor.matchArgumentsToExpression.calledOnce.should.be.ok;
+      advisor.matchArgumentsToExpression.calledWith("foo bar sentence text").should.be.ok;
     });
 
     it('should return true if the argument in the first result from dialog launcher is not erroneous', function() {
-      advisor.autocompleteExpression()[0].arguments.fancyArgumentName = {};
+      advisor.matchArgumentsToExpression()[0].arguments.fancyArgumentName = {};
       validator.validate().should.be.ok;
     });
 
@@ -104,7 +104,7 @@ describeUnitTest('Consoloid.Ui.SentenceAutocompleteValidator', function() {
     });
 
     it("should set an error message on every field if advisor did not return with any options", function() {
-      advisor.autocompleteExpression.returns([]);
+      advisor.matchArgumentsToExpression.returns([]);
       validator.validate().should.not.be.ok;
       fooField.setErrorMessage.calledOnce.should.be.ok;
       barField.setErrorMessage.calledOnce.should.be.ok;
@@ -113,7 +113,7 @@ describeUnitTest('Consoloid.Ui.SentenceAutocompleteValidator', function() {
 
   describe("#validateField()", function() {
     it("should put error message on every field if advisor did not return with any options", function() {
-      advisor.autocompleteExpression.returns([]);
+      advisor.matchArgumentsToExpression.returns([]);
       validator.validateField(fooField).should.not.be.ok;
 
       fooField.setErrorMessage.calledOnce.should.be.ok;

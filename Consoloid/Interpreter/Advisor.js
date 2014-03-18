@@ -21,7 +21,7 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
           return;
         }
 
-        result = result.concat($this.autocompleteExpression(text, hit.entity, hit.values, args));
+        result = result.concat($this.__autocompleteExpression(text, hit.entity, hit.values, args));
       });
 
       result.sort(function(a, b) {
@@ -31,7 +31,7 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
       return result;
     },
 
-    autocompleteExpression: function(text, expression, values, args)
+    __autocompleteExpression: function(text, expression, values, args)
     {
       var
         sentence = expression.getSentence(),
@@ -43,18 +43,10 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
           return;
         }
 
-        var autocompletedArgumentValues = this.__autocompleteArgumentValues(sentence, $.extend(null, values, argumentValues));
+        var autocompletedArgumentValues = this.__autocompleteArgumentValues(sentence, $.extend({}, values, argumentValues), this.context.autocomplete.bind(this.context));
         var argumentValueVersionList = this.__buildAutocompletedArgumentValueOptions(autocompletedArgumentValues, sentence);
 
-        for (var i = 0, len = argumentValueVersionList.length; i < len; i++) {
-          result.push({
-            sentence: sentence,
-            expression: expression,
-            value: expression.getTextWithArguments(argumentValueVersionList[i]),
-            arguments: argumentValueVersionList[i],
-            score: expression.getAutocompleteScore(words, argumentValueVersionList[i])
-          });
-        }
+        result = result.concat(this.__addExpressionResults(argumentValueVersionList, sentence, expression, words));
       }.bind(this));
 
       return result;
@@ -72,7 +64,7 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
       return result;
     },
 
-    __autocompleteArgumentValues: function(sentence, mergedArgumentValues)
+    __autocompleteArgumentValues: function(sentence, mergedArgumentValues, contextFunction)
     {
       var autocompletedArgumentValues = {};
       var arg;
@@ -80,7 +72,7 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
       for (var argumentName in mergedArgumentValues) {
         arg = sentence.arguments[argumentName];
         if (arg.isComplexType()) {
-          autocompletedArgumentValues[argumentName] = this.context.autocomplete(mergedArgumentValues[argumentName], arg.getType());
+          autocompletedArgumentValues[argumentName] = contextFunction(mergedArgumentValues[argumentName], arg.getType());
 
           if (autocompletedArgumentValues[argumentName][0] == undefined || !autocompletedArgumentValues[argumentName][0].exactMatch) {
             try {
@@ -117,9 +109,23 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
         var node = nodes.shift();
         var argumentName = this.__getFirstObjectProperty(node.availableOptions);
         if (argumentName === undefined) {
-          if (sentence.validateArguments(node.values)) {
+          try {
+            if (sentence.validateArguments(node.values)) {
+              result.push(node.values);
+            }
+          } catch(error) {
+            if (!(error instanceof Consoloid.Interpreter.InvalidArgumentsError)) {
+              throw(error);
+            }
+
+            error.getArguments().forEach(function(argument) {
+              node.values[argument].exactMatch = false;
+              node.values[argument].erroneous = true;
+              node.values[argument].message = error.toString();
+            });
             result.push(node.values);
           }
+
           continue;
         }
         for (var i = 0,len = node.availableOptions[argumentName].length; i < len; i++) {
@@ -143,6 +149,47 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
       newValues[argumentName] = argumentValue;
 
       return {availableOptions: newOptions, values: newValues};
+    },
+
+    __addExpressionResults: function(argumentValueVersionList, sentence, expression, words)
+    {
+      var result = [];
+      for (var i = 0, len = argumentValueVersionList.length; i < len; i++) {
+        result.push({
+          sentence: sentence,
+          expression: expression,
+          value: expression.getTextWithArguments(argumentValueVersionList[i]),
+          arguments: argumentValueVersionList[i],
+          score: expression.getAutocompleteScore(words, argumentValueVersionList[i])
+        });
+      }
+
+      return result;
+    },
+
+    matchArgumentsToExpression: function(text, expression, argumentValues)
+    {
+      var
+        sentence = expression.getSentence(),
+        words = this.tree.getWords(text),
+        result = [];
+
+      var matchedArgumentValues = this.__autocompleteArgumentValues(sentence, argumentValues, this.__searchContextForEntity.bind(this));
+      var argumentValueVersionList = this.__buildAutocompletedArgumentValueOptions(matchedArgumentValues, sentence);
+
+      result = result.concat(this.__addExpressionResults(argumentValueVersionList, sentence, expression, words));
+
+      return result;
+    },
+
+    __searchContextForEntity: function(text, cls)
+    {
+      return this.context.findByStringAndClass(text, cls).map(function(entity) {
+        return {
+          entity: entity,
+          value: entity.name
+        }
+      });
     }
   }
 );
