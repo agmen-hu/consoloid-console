@@ -8,16 +8,20 @@ describeUnitTest('Consoloid.Ui.SentenceAutocompleteValidator', function() {
     fooField,
     barField,
     form,
-    dialogLauncher,
+    advisor,
     expression;
 
   beforeEach(function() {
+    global.__ = function(string) { return string; }
+
     fooField = {
       getValue: sinon.stub().returns("fooValue"),
       setErrorMessage: sinon.stub(),
       addValidator: sinon.stub(),
       getName: sinon.stub().returns("fancyArgumentName"),
-      parseUserInput: sinon.stub()
+      parseUserInput: sinon.stub(),
+      clearError: sinon.stub(),
+      renderErrorMessage: sinon.stub()
     };
 
     barField = {
@@ -25,7 +29,9 @@ describeUnitTest('Consoloid.Ui.SentenceAutocompleteValidator', function() {
       setErrorMessage: sinon.stub(),
       addValidator: sinon.stub(),
       getName: sinon.stub().returns("okayArgumentName"),
-      parseUserInput: sinon.stub()
+      parseUserInput: sinon.stub(),
+      clearError: sinon.stub(),
+      renderErrorMessage: sinon.stub()
     }
 
     form = {
@@ -39,8 +45,8 @@ describeUnitTest('Consoloid.Ui.SentenceAutocompleteValidator', function() {
     form.getField.withArgs("fancyArgumentName").returns(fooField);
     form.getField.withArgs("okayArgumentName").returns(barField);
 
-    dialogLauncher = {
-      getAllAutocompleteOptions: sinon.stub().returns([{
+    advisor = {
+      autocompleteExpression: sinon.stub().returns([{
         arguments: {
           fancyArgumentName: {
             erroneous: true,
@@ -56,7 +62,7 @@ describeUnitTest('Consoloid.Ui.SentenceAutocompleteValidator', function() {
     };
 
     env.addServiceMock('form', form);
-    env.addServiceMock('dialogLauncher', dialogLauncher);
+    env.addServiceMock('autocomplete_advisor', advisor);
 
     validator = env.create(Consoloid.Ui.SentenceAutocompleteValidator, {
       fieldNames: [ 'fancyArgumentName', 'okayArgumentName' ],
@@ -73,18 +79,18 @@ describeUnitTest('Consoloid.Ui.SentenceAutocompleteValidator', function() {
   });
 
   describe("#validate()", function() {
-    it("should call the the dialog launcher with the expression", function() {
+    it("should call the the advisor with the expression", function() {
       validator.validate();
 
-      expression.getTextWithArguments.calledTwice.should.be.ok;
+      expression.getTextWithArguments.calledOnce.should.be.ok;
       expression.getTextWithArguments.calledWith({ fancyArgumentName: { value: "fooValue" }, okayArgumentName: { value: "barValue" } }).should.be.ok;
 
-      dialogLauncher.getAllAutocompleteOptions.calledTwice.should.be.ok;
-      dialogLauncher.getAllAutocompleteOptions.calledWith("foo bar sentence text").should.be.ok;
+      advisor.autocompleteExpression.calledOnce.should.be.ok;
+      advisor.autocompleteExpression.calledWith("foo bar sentence text").should.be.ok;
     });
 
     it('should return true if the argument in the first result from dialog launcher is not erroneous', function() {
-      dialogLauncher.getAllAutocompleteOptions()[0].arguments.fancyArgumentName = {};
+      advisor.autocompleteExpression()[0].arguments.fancyArgumentName = {};
       validator.validate().should.be.ok;
     });
 
@@ -92,9 +98,42 @@ describeUnitTest('Consoloid.Ui.SentenceAutocompleteValidator', function() {
       validator.validate().should.not.be.ok;
     });
 
-    it("should set an error message on field if the argument in the first result from dialog launcher is erroneou", function() {
+    it("should set an error message on field if the argument in the first result from dialog launcher is erroneous", function() {
       validator.validate();
       fooField.setErrorMessage.calledWith('This object you seek could not be summoned from the mighty context.').should.be.ok;
     });
+
+    it("should set an error message on every field if advisor did not return with any options", function() {
+      advisor.autocompleteExpression.returns([]);
+      validator.validate().should.not.be.ok;
+      fooField.setErrorMessage.calledOnce.should.be.ok;
+      barField.setErrorMessage.calledOnce.should.be.ok;
+    });
+  });
+
+  describe("#validateField()", function() {
+    it("should put error message on every field if advisor did not return with any options", function() {
+      advisor.autocompleteExpression.returns([]);
+      validator.validateField(fooField).should.not.be.ok;
+
+      fooField.setErrorMessage.calledOnce.should.be.ok;
+      barField.setErrorMessage.calledOnce.should.be.ok;
+      fooField.renderErrorMessage.calledOnce.should.be.ok;
+      barField.renderErrorMessage.calledOnce.should.be.ok;
+    });
+
+    it("should clear error message on every non erroneous field if advisor did return with an option", function() {
+      validator.validateField(fooField).should.not.be.ok;
+
+      fooField.setErrorMessage.calledOnce.should.be.ok;
+      barField.clearError.calledOnce.should.be.ok;
+      barField.setErrorMessage.called.should.not.be.ok;
+      barField.renderErrorMessage.calledOnce.should.be.ok;
+    });
+
+  });
+
+  afterEach(function() {
+    delete global.__;
   });
 });
