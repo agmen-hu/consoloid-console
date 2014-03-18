@@ -15,38 +15,47 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
       args = args || [];
       var result = [];
       var $this = this;
-      var words = this.tree.getWords(text);
-      $.each(this.tree.autocomplete(text), function(index, hit) {
-        var expression = hit.entity;
-        var sentence = expression.getSentence();
 
-        if (!sentence.requiredContextIsAvailable()) {
+      $.each(this.tree.autocomplete(text), function(index, hit) {
+        if (!hit.entity.getSentence().requiredContextIsAvailable()) {
           return;
         }
 
-        $.each(sentence.autocompleteArguments(args), function(index, argumentValues) {
-          if ($this.__hasInlineArgumentForAnArgumentValue(expression, argumentValues)) {
-            return;
-          }
-
-          var autocompletedArgumentValues = $this.__autocompleteArgumentValues(sentence, $.extend(null, hit.values, argumentValues));
-          var argumentValueVersionList = $this.__buildAutocompletedArgumentValueOptions(autocompletedArgumentValues, sentence);
-
-          for (var i = 0, len = argumentValueVersionList.length; i < len; i++) {
-            result.push({
-              sentence: sentence,
-              expression: expression,
-              value: expression.getTextWithArguments(argumentValueVersionList[i]),
-              arguments: argumentValueVersionList[i],
-              score: expression.getAutocompleteScore(words, argumentValueVersionList[i])
-            });
-          }
-        });
+        result = result.concat($this.autocompleteExpression(text, hit.entity, hit.values, args));
       });
 
       result.sort(function(a, b) {
         return b.score - a.score;
       });
+
+      return result;
+    },
+
+    autocompleteExpression: function(text, expression, values, args)
+    {
+      var
+        sentence = expression.getSentence(),
+        words = this.tree.getWords(text),
+        args = args || [],
+        result = [];
+      $.each(sentence.autocompleteArguments(args), function(index, argumentValues) {
+        if (this.__hasInlineArgumentForAnArgumentValue(expression, argumentValues)) {
+          return;
+        }
+
+        var autocompletedArgumentValues = this.__autocompleteArgumentValues(sentence, $.extend(null, values, argumentValues));
+        var argumentValueVersionList = this.__buildAutocompletedArgumentValueOptions(autocompletedArgumentValues, sentence);
+
+        for (var i = 0, len = argumentValueVersionList.length; i < len; i++) {
+          result.push({
+            sentence: sentence,
+            expression: expression,
+            value: expression.getTextWithArguments(argumentValueVersionList[i]),
+            arguments: argumentValueVersionList[i],
+            score: expression.getAutocompleteScore(words, argumentValueVersionList[i])
+          });
+        }
+      }.bind(this));
 
       return result;
     },

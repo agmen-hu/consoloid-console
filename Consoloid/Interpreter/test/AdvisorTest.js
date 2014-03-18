@@ -325,6 +325,57 @@ describeConsoleUnitTest('Consoloid.Interpreter.Advisor', function() {
     });
   });
 
+  describe("#autocompleteExpression(text, expression, values, args)", function() {
+    it("should return results for only that expression", function() {
+      tree.autocomplete.returns([ {
+        entity: {
+          getTextWithArguments: sinon.stub().returns("Do some work"),
+          hasInlineArgument: sinon.stub().returns(false),
+          getAutocompleteScore: sinon.stub(),
+          getSentence: sinon.stub().returns({
+            arguments: {
+              'name': {
+                isComplexType: sinon.stub().returns(false)
+              }
+            },
+            validateArguments: sinon.stub().returns(true),
+            requiredContextIsAvailable: sinon.stub().returns(true),
+            autocompleteArguments: sinon.stub().returns(
+              [
+                { name: "FooBear" },
+              ]
+            )
+          })
+        },
+        tokens: [],
+        values: {}
+      }]);
+      var theValidExpression = {
+        getTextWithArguments: sinon.stub().returns("Do something"),
+        hasInlineArgument: sinon.stub().returns(false),
+        getAutocompleteScore: sinon.stub(),
+        getSentence: sinon.stub().returns({
+          arguments: {
+            'name': {
+              isComplexType: sinon.stub().returns(false)
+            }
+          },
+          validateArguments: sinon.stub().returns(true),
+          requiredContextIsAvailable: sinon.stub().returns(true),
+          autocompleteArguments: sinon.stub().returns(
+            [
+              { name: "FooBar" },
+            ]
+          )
+        })
+      }
+      var result = advisor.autocompleteExpression('do som', theValidExpression, { name: "Foo" });
+      result[0].expression.should.equal(theValidExpression);
+      result[0].arguments.name.value.should.equal("FooBar");
+      result[0].value.should.equal("Do something");
+    });
+  });
+
   describe('#__buildAutocompletedArgumentValueOptions(autcompletedArgumentValues, sentence)', function(){
     var source1 = {
       param1: [0,1],
