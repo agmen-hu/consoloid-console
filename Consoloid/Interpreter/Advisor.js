@@ -114,7 +114,7 @@ defineClass('Consoloid.Interpreter.Advisor', 'Consoloid.Base.Object',
               result.push(node.values);
             }
           } catch(error) {
-            if (!(error instanceof Consoloid.Interpreter.InvalidArgumentsError)) {
+            if (!(error instanceof getClass('Consoloid.Interpreter.InvalidArgumentsError'))) {
               throw(error);
             }
 
