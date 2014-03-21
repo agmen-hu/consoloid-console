@@ -11,9 +11,9 @@ defineClass('Consoloid.I18n.ServerSideTranslator', 'Consoloid.I18n.Translator',
       var domain = this._getFirstDomainHaving(message);
       if (domain === null) {
         this.resolveMissing(message);
-        throw new Error('Message "' + message + '" was not found in any domain');
+        this.container.get('logger').log("debug", 'Message "' + message + '" was not found in any domain');
+        return { messageNotInDomain: true };
       }
-
       return domain;
     },
 

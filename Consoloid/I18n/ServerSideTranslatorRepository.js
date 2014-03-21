@@ -41,7 +41,7 @@ defineClass('Consoloid.I18n.ServerSideTranslatorRepository', 'Consoloid.Base.Obj
     getOrCreateTranslator: function(language)
     {
       if (!(language in this.translators)) {
-        this.translators[language] = this.create('Consoloid.I18n.ServerSideTranslator', {});
+        this.translators[language] = this.create('Consoloid.I18n.ServerSideTranslator', { container: this.container });
       }
 
       return this.translators[language];

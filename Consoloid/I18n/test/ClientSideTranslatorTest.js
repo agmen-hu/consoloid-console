@@ -38,7 +38,7 @@ describeUnitTest('Consoloid.I18n.ClientSideTranslator', function(){
 
     it('should return original message when string is missing from remote vocabulary', function() {
       var spy = mockRepositoryRetrieveDomainHavingMessage(function(lang, message) {
-        throw new Error('Unable to translate message "' + message + '"');
+        return { messageNotInDomain: true };
       });
 
       translator.trans('Apply')
@@ -61,6 +61,9 @@ describeUnitTest('Consoloid.I18n.ClientSideTranslator', function(){
 
   describe('#setLanguage(lang)', function() {
     it('should clear vocabulary', function() {
+      var spy = mockRepositoryRetrieveDomainHavingMessage(function(lang, message) {
+        return { messageNotInDomain: true };
+      });
       translator.addMessages({ 'test': 'teszt' });
       translator.trans('test').should.be.equal('teszt');
       translator.setLanguage('en');

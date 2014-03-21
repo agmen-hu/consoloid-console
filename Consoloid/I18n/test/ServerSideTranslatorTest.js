@@ -18,9 +18,14 @@ describeUnitTest('Consoloid.I18n.ServerSideTranslator', function() {
     });
 
     it('should throw an error if no domains contain the message, and store it in the _default domain', function() {
-      (function() {
-        translator.retrieveDomainHavingMessage('something');
-      }).should.throwError();
+      var logger = { log: sinon.stub() };
+      env.addServiceMock("logger", logger);
+
+      translator.retrieveDomainHavingMessage('something')
+        .should.be.eql({ messageNotInDomain: true });
+
+      logger.log.calledOnce.should.be.ok;
+      logger.log.calledWith("debug").should.be.ok;
 
       translator.retrieveDomainHavingMessage('something')
         .should.be.eql({ name: '_default' , messages: { something: 'something' }});

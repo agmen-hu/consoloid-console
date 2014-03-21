@@ -17,14 +17,14 @@ defineClass('Consoloid.I18n.ClientSideTranslator', 'Consoloid.I18n.Translator',
 
     resolveMissing: function(message)
     {
-      try {
-        var domain = this.translatorRepository.retrieveDomainHavingMessage(this.language, message);
-        this.addMessages(domain.messages, domain.name);
-        return domain.messages;
-      } catch(e) {
+      var domain = this.translatorRepository.retrieveDomainHavingMessage(this.language, message);
+      if (domain.messageNotInDomain) {
         this.domains._default[message] = message;
         return this.domains._default;
       }
+
+      this.addMessages(domain.messages, domain.name);
+      return domain.messages;
     }
   },
   {

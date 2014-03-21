@@ -53,8 +53,7 @@ describe('Consoloid.I18n.ServerSideTranslatorRepository', function(){
 
     it('should throw error when message was not found given language', function() {
       repository.addYamlCatalogsFromDirectory(__dirname + '/test-messages');
-      (function() { repository.retrieveDomainHavingMessage('pl', 'Apply'); })
-        .should.throwError(/Message "Apply" was not found in any domain/);
+      repository.retrieveDomainHavingMessage('pl', 'Apply').messageNotInDomain.should.be.ok;
     });
   })
 
