@@ -326,7 +326,7 @@ defineClass('Consoloid.Ui.List.View.Base', 'Consoloid.Widget.Widget',
     {
       var currentScrollTop = this.list.scrollTop();
       var pageInRenderedList = currentScrollTop / (this.numPerPage * this.elementHeight);
-      var lastPossiblePage = (this.count / this.numPerPage) - 1;
+      var lastPossiblePage = Math.max((this.count / this.numPerPage) - 1, 0);
       this.currentPage = Math.min(this.pageOffset + pageInRenderedList, lastPossiblePage);
     },
 
