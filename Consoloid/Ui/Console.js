@@ -17,10 +17,9 @@ defineClass('Consoloid.Ui.Console', 'Consoloid.Widget.Widget',
 
     startWithDialog: function(serviceName)
     {
-      var dialog = this.container.get(serviceName);
+      this.dialogItWasStartedWith = this.container.get(serviceName);
 
       this.start();
-      dialog.startWithoutExpression();
     },
 
     start: function(renderNew)
@@ -40,6 +39,18 @@ defineClass('Consoloid.Ui.Console', 'Consoloid.Widget.Widget',
       $(document).trigger('Consoloid.Ui.Console.started');
 
       this.__sendStartedToServer();
+
+      this.__startDialogOrTutorial()
+    },
+
+    __startDialogOrTutorial: function()
+    {
+      this.dialogItWasStartedWith.startWithoutExpression();
+    },
+
+    getDialogItWasStartedWith: function()
+    {
+      return this.dialogItWasStartedWith;
     },
 
     render: function()

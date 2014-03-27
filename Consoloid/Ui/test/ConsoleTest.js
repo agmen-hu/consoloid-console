@@ -7,24 +7,103 @@ require("../Console");
 describeUnitTest('Consoloid.Ui.Console', function(){
   var prompt = { focus: function() {}, render: function() {}, node:$('<div />') };
   var css_loader = { load: function() { return css_loader; } };
+  var tutorial = { start: sinon.stub() };
 
   beforeEach(function() {
     env.addServiceMock('dom', { baseNode: $('<div />').appendTo($(document.body)) });
     env.addServiceMock('prompt', prompt);
     env.addServiceMock('css_loader', css_loader);
+    env.addServiceMock('tutorial', tutorial);
     env.readTemplate(__dirname + '/../templates.jqote', 'utf8');
   });
 
   describe('#start()', function() {
-    it('should load resources and render the console', function() {
-      var console = env.create('Consoloid.Ui.Console', {});
-      var loader_spy = sinon.spy(css_loader, "load");
-      var prompt_spy = sinon.spy(prompt, "focus");
+    var
+      console,
+      leader_spy,
+      prompt_spy;
 
+    beforeEach(function() {
+      console = env.create('Consoloid.Ui.Console', {});
+      console.loadTopic = sinon.stub();
+      loader_spy = sinon.spy(css_loader, "load");
+      prompt_spy = sinon.spy(prompt, "focus");
+    });
+
+    it('should load resources and render the console', function() {
       console.start();
 
       loader_spy.called.should.be.equal(true);
       prompt_spy.calledOnce.should.be.equal(true);
+    });
+
+    it('should load the tutorial topic and start it', function() {
+      console.start();
+
+      console.loadTopic.calledWith("tutorial").should.be.ok;
+      tutorial.start.calledOnce.should.be.ok;
+    });
+
+    it('should not load tutorial if it was already once dismissed', function() {
+      document.cookie = "consoloid_tutorial_was_dismissed=true";
+      console.start();
+
+      console.loadTopic.calledWith("tutorial").should.not.be.ok;
+      tutorial.start.called.should.not.be.ok;
+    });
+
+    afterEach(function() {
+      loader_spy.restore();
+      prompt_spy.restore();
+    });
+  });
+
+  describe("#startWithDialog(serviceName)", function() {
+    var
+      dialog,
+      console;
+
+    beforeEach(function() {
+      dialog = { startWithoutExpression: sinon.stub() };
+      console = env.create('Consoloid.Ui.Console', {});
+      console.loadTopic = sinon.stub();
+      env.addServiceMock('some_dialog', dialog);
+      sinon.spy(console, "start");
+    });
+
+    it("should start dialog after starting console, if tutorial was once dismissed", function() {
+      document.cookie = "consoloid_tutorial_was_dismissed=true";
+      console.startWithDialog("some_dialog");
+
+      console.start.calledOnce.should.be.ok;
+      dialog.startWithoutExpression.calledOnce.should.be.ok;
+    });
+
+    it("should not start it if it's time for a tutorial", function() {
+      console.startWithDialog("some_dialog");
+
+      console.start.calledOnce.should.be.ok;
+      dialog.startWithoutExpression.called.should.not.be.ok;
+    });
+  });
+
+  describe("#getDialogItWasStartedWith()", function() {
+    var
+      dialog,
+      console;
+
+    beforeEach(function() {
+      dialog = { startWithoutExpression: sinon.stub() };
+      console = env.create('Consoloid.Ui.Console', {});
+      console.loadTopic = sinon.stub();
+      env.addServiceMock('some_dialog', dialog);
+      sinon.spy(console, "start");
+    });
+
+    it("should return the dialog created in startWithDialog", function() {
+      console.startWithDialog("some_dialog");
+
+      console.getDialogItWasStartedWith().should.equal(dialog);
     });
   });
 
