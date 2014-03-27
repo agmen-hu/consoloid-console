@@ -4,7 +4,8 @@ defineClass('Consoloid.Ui.Dialog', 'Consoloid.Widget.Widget',
     {
       this.__base($.extend({
         node: $('<div />'),
-        templateId: 'Consoloid-Ui-Dialog'
+        templateId: 'Consoloid-Ui-Dialog',
+        arguments: {}
       }, options));
 
       this.requireProperty('responseTemplateId');
@@ -23,6 +24,12 @@ defineClass('Consoloid.Ui.Dialog', 'Consoloid.Widget.Widget',
     start: function(args, expression)
     {
       this.handleArguments(args, expression);
+      this.startWithoutExpression();
+    },
+
+    startWithoutExpression: function()
+    {
+      this.node = this.get('console').createNewDialog(this);
       this.setup();
       this.render();
     },
@@ -36,8 +43,6 @@ defineClass('Consoloid.Ui.Dialog', 'Consoloid.Widget.Widget',
         arguments: args,
         container: this.container
       });
-
-      this.node = this.get('console').createNewDialog(this);
     },
 
     setup: function()
@@ -56,8 +61,10 @@ defineClass('Consoloid.Ui.Dialog', 'Consoloid.Widget.Widget',
     {
       this.node.empty().jqoteapp(this.template.get(), this);
 
-      this.expression.node = this.node.find('div.request');
-      this.expression.render();
+      if (this.expression) {
+        this.expression.node = this.node.find('div.request');
+        this.expression.render();
+      }
 
       this.response = this.node.find('div.response');
       this.response.empty().jqoteapp(this.responseTemplate.get(), this);

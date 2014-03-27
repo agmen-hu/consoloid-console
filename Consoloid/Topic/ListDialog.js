@@ -15,8 +15,7 @@ defineClass('Consoloid.Topic.ListDialog', 'Consoloid.Ui.Dialog',
         this.arguments.available = true;
       }
 
-      this.setup();
-      this.render();
+      this.startWithoutExpression();
     },
 
     startWithLoadedOnly: function(args, sentence)
@@ -25,8 +24,7 @@ defineClass('Consoloid.Topic.ListDialog', 'Consoloid.Ui.Dialog',
       this.arguments.loaded = true;
       this.arguments.available = false;
 
-      this.setup();
-      this.render();
+      this.startWithoutExpression();
     },
 
     startWithAvailableOnly: function(args, sentence)
@@ -35,8 +33,7 @@ defineClass('Consoloid.Topic.ListDialog', 'Consoloid.Ui.Dialog',
       this.arguments.loaded = false;
       this.arguments.available = true;
 
-      this.setup();
-      this.render();
+      this.startWithoutExpression();
     },
 
     setup: function()

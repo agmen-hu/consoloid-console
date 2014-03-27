@@ -43,16 +43,6 @@ defineClass('Consoloid.Ui.Volatile.Dialog', 'Consoloid.Ui.MultiStateDialog',
       return false;
     },
 
-    handleArguments: function(args, expression)
-    {
-      this.arguments = args;
-      this.expression = this.create('Consoloid.Ui.Expression', {
-        templateId: this.get('resource_loader').getParameter('dialog.expressionTemplate'),
-        model: expression,
-        arguments: args
-      });
-    },
-
     remove: function()
     {
       var $this = this;

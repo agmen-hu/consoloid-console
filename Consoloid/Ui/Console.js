@@ -20,7 +20,7 @@ defineClass('Consoloid.Ui.Console', 'Consoloid.Widget.Widget',
       var dialog = this.container.get(serviceName);
 
       this.start();
-      dialog.start();
+      dialog.startWithoutExpression();
     },
 
     start: function(renderNew)

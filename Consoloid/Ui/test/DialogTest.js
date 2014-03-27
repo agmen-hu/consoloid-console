@@ -52,6 +52,13 @@ describeUnitTest('Consoloid.Ui.Dialog', function(){
       (dialog.node.find('.request')[0] == dialog.expression.node[0]).should.be.true;
       (dialog.node.find('.response')[0] == dialog.response[0]).should.be.true;
     });
+
+    it('should not render expression, if no expression model was given', function() {
+      dialog.startWithoutExpression();
+
+      (dialog.expression == undefined).should.be.true;
+      (dialog.node.find('.response')[0] == dialog.response[0]).should.be.true;
+    });
   });
 
   describe('#__lookupContextObject(cls, index, errorMessage)', function() {
