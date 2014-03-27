@@ -7,14 +7,16 @@ require("../Console");
 describeUnitTest('Consoloid.Ui.Console', function(){
   var prompt = { focus: function() {}, render: function() {}, node:$('<div />') };
   var css_loader = { load: function() { return css_loader; } };
-  var tutorial = { start: sinon.stub() };
+  var tutorial;
 
   beforeEach(function() {
     env.addServiceMock('dom', { baseNode: $('<div />').appendTo($(document.body)) });
     env.addServiceMock('prompt', prompt);
     env.addServiceMock('css_loader', css_loader);
-    env.addServiceMock('tutorial', tutorial);
     env.readTemplate(__dirname + '/../templates.jqote', 'utf8');
+
+    tutorial = { start: sinon.stub() };
+    env.addServiceMock('tutorial', tutorial);
   });
 
   describe('#start()', function() {
@@ -50,6 +52,7 @@ describeUnitTest('Consoloid.Ui.Console', function(){
 
       console.loadTopic.calledWith("tutorial").should.not.be.ok;
       tutorial.start.called.should.not.be.ok;
+      document.cookie = "consoloid_tutorial_was_dismissed=false";;
     });
 
     afterEach(function() {
@@ -76,13 +79,16 @@ describeUnitTest('Consoloid.Ui.Console', function(){
       console.startWithDialog("some_dialog");
 
       console.start.calledOnce.should.be.ok;
+      tutorial.start.called.should.not.be.ok;
       dialog.startWithoutExpression.calledOnce.should.be.ok;
+      document.cookie = "consoloid_tutorial_was_dismissed=false";;
     });
 
     it("should not start it if it's time for a tutorial", function() {
       console.startWithDialog("some_dialog");
 
       console.start.calledOnce.should.be.ok;
+      tutorial.start.calledOnce.should.be.ok;
       dialog.startWithoutExpression.called.should.not.be.ok;
     });
   });

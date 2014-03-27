@@ -40,12 +40,25 @@ defineClass('Consoloid.Ui.Console', 'Consoloid.Widget.Widget',
 
       this.__sendStartedToServer();
 
-      this.__startDialogOrTutorial()
+      this.__startDialogOrTutorial();
     },
 
     __startDialogOrTutorial: function()
     {
-      this.dialogItWasStartedWith.startWithoutExpression();
+      if (!this.__tutorialWasDismissed()) {
+        this.loadTopic("tutorial");
+        this.container.get("tutorial").start();
+        return;
+      }
+      if (this.dialogItWasStartedWith) {
+        this.dialogItWasStartedWith.startWithoutExpression();
+      }
+    },
+
+    __tutorialWasDismissed: function()
+    {
+      var match = decodeURIComponent(document.cookie).match('consoloid_tutorial_was_dismissed=([^\;]+)');
+      return match && (match[1] == "true");
     },
 
     getDialogItWasStartedWith: function()
