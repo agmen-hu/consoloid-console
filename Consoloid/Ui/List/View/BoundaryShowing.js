@@ -51,14 +51,6 @@ defineClass('Consoloid.Ui.List.View.BoundaryShowing', 'Consoloid.Ui.List.View.Ki
       }
     },
 
-    __getIndexOfFirstAndLastElementShown: function()
-    {
-      var firstShownIndex = Math.round(this.currentPage * this.numPerPage);
-      var lastShownIndex = Math.min(firstShownIndex + this.numPerPage - 1, this.count - 1);
-
-      return { firstShownIndex: firstShownIndex, lastShownIndex: lastShownIndex };
-    },
-
     __addStretchAnimationToElement: function(element, scrollDelta)
     {
       var neededClass = (scrollDelta > 0) ? "element-stretch-top" : "element-stretch-bottom";

@@ -86,6 +86,63 @@ describeUnitTest('Consoloid.Ui.List.View.Mousewheel', function() {
 
       $.fn.bind.restore();
     });
+
+    describe("should add event handles event probagation:", function() {
+      var
+        handler,
+        firstElement,
+        lastElement,
+        event,
+        elementHeight = 40;
+      beforeEach(function() {
+        sinon.spy($.fn, 'bind');
+        list.__renderCompleteListAfterSetFilterValues(undefined, {
+          count: 14,
+          data: [
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+            10, 11, 12, 13
+          ]
+        });
+
+        handler = $.fn.bind.args[0][1];
+
+        firstElement = list.list.find('.list-element')[0];
+        lastElement = list.list.find('.list-element')[13];
+
+        event = {
+          stopPropagation: sinon.stub()
+        };
+      });
+
+      it("should not allow event propagation if list is not at the or bottom of the list", function() {
+        list.list.scrollTop(5 * elementHeight);
+        list.__listScrolled();
+
+        var result = handler(event, 1);
+
+        result.should.not.be.ok;
+        event.stopPropagation.called.should.be.ok;
+      });
+
+      it("should allow event propagation if list is at the top of the list or bottom of the list", function() {
+        var result = handler(event, 1);
+
+        result.should.be.ok;
+        event.stopPropagation.called.should.not.be.ok;
+
+        list.list.scrollTop(13 * elementHeight);
+        list.__listScrolled();
+
+        result = handler(event, -1);
+
+        result.should.be.ok;
+        event.stopPropagation.called.should.not.be.ok;
+      });
+
+      afterEach(function() {
+        $.fn.bind.restore();
+      });
+    });
   });
 
   describe("#__mouseWheelHandler", function() {

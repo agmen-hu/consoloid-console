@@ -25,8 +25,7 @@ defineClass('Consoloid.Ui.List.View.Mousewheel', 'Consoloid.Ui.List.View.Base',
           'mousewheel',
           function(event, delta) {
             this.__mouseWheelHandler(delta);
-            event.stopPropagation();
-            return false;
+            return this.__allowNormalScrollIfNecessary(event, delta);
           }.bind(this)
         );
     },
@@ -81,13 +80,33 @@ defineClass('Consoloid.Ui.List.View.Mousewheel', 'Consoloid.Ui.List.View.Base',
         this.__adjustScrolledList();
     },
 
+    __allowNormalScrollIfNecessary: function(event, delta)
+    {
+      var indexOfFirstAndLastElementShown = this.__getIndexOfFirstAndLastElementShown();
+      if ((delta > 0) && (indexOfFirstAndLastElementShown.firstShownIndex == 0)) {
+        return true;
+      } else if ((delta < 0) && (indexOfFirstAndLastElementShown.lastShownIndex == this.count - 1)) {
+        return true;
+      }
+
+      event.stopPropagation();
+      return false;
+    },
+
+    __getIndexOfFirstAndLastElementShown: function()
+    {
+      var firstShownIndex = Math.round(this.currentPage * this.numPerPage);
+      var lastShownIndex = Math.min(firstShownIndex + this.numPerPage - 1, this.count - 1);
+
+      return { firstShownIndex: firstShownIndex, lastShownIndex: lastShownIndex };
+    },
+
     __cancelScrolling: function()
     {
       this.__base();
 
       this.targetScrollTop = undefined;
     },
-
 
     __detachEventListenersDrawThrobber: function()
     {
