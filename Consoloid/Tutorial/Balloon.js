@@ -163,8 +163,6 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
           throw new Error("Unknown balloon move direction");
       }
 
-      console.log($(window).height(), this.__outerHeight(), targetOffset.top)
-
       var maximalLeftOffset = $(window).width() - this.__outerWidth();
 
       this.node.animate({
