@@ -1,0 +1,4 @@
+definitions:
+  tutorial:
+    cls: Consoloid.Tutorial.Controller
+    shared: true

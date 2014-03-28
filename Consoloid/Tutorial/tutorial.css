@@ -1,0 +1,106 @@
+.tutorial.balloon {
+  position: fixed;
+  z-index: 1000;
+  border-radius: 0.4em;
+  background-color: #fdf6e3;
+  padding: 0.5em 1.5em;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  margin: 1em;
+}
+
+.tutorial.balloon > .content {
+	height: 100%;
+}
+
+.tutorial.balloon h1,
+.tutorial.balloon h2,
+.tutorial.balloon h3,
+.tutorial.balloon h3,
+.tutorial.balloon h5 {
+  color: black !important;
+}
+
+.tutorial.balloon .sub.header,
+.tutorial.balloon p {
+	color: #555;
+}
+
+.tutorial.balloon.top.tail:before,
+.tutorial.balloon.bottom.tail:after {
+  background-color: #fdf6e3;
+  background-image: none;
+  content: "";
+  height: 0.6em;
+  position: absolute;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transition: background 0.1s linear 0s;
+  width: 0.6em;
+  z-index: -2;
+}
+
+.tutorial.balloon.bottom.tail:after {
+  margin-top: 0.2em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.tutorial.balloon.bottom.left.tail:after {
+  left: 0.4em;
+}
+
+.tutorial.balloon.bottom.right.tail:after {
+  right: 0.4em;
+}
+
+.tutorial.balloon.with.shadow {
+	animation: add-shadow 2s forwards;
+	-webkit-animation: add-shadow 2s forwards;
+}
+
+@keyframes add-shadow
+{
+  from {
+   box-shadow: none;
+  }
+  to {
+   box-shadow: 0.1em 0.2em 0.2em rgba(0, 0, 0, 0.5);
+  }
+}
+
+@-webkit-keyframes add-shadow
+{
+  from {
+   box-shadow: none;
+  }
+  to {
+   box-shadow: 0.1em 0.2em 0.2em rgba(0, 0, 0, 0.5);
+  }
+}
+
+.tutorial.balloon.without.shadow {
+  animation: remove-shadow 2s forwards;
+  -webkit-animation: remove-shadow 2s forwards;
+}
+
+@keyframes remove-shadow
+{
+  from {
+   box-shadow: 0.1em 0.2em 0.2em rgba(0, 0, 0, 0.5);
+  }
+  to {
+   box-shadow: none;
+  }
+}
+
+@-webkit-keyframes remove-shadow
+{
+  from {
+   box-shadow: 0.1em 0.2em 0.2em rgba(0, 0, 0, 0.5);
+  }
+  to {
+   box-shadow: none;
+  }
+}
+

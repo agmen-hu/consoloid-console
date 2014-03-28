@@ -1,0 +1,32 @@
+<script id="Consoloid-Tutorial-Balloon" type="text/x-jqote-template">
+<![CDATA[
+  <div class="content">
+  </div>
+]]>
+</script>
+
+<script id="Consoloid-Tutorial-Balloon-RandomContent" type="text/x-jqote-template">
+<![CDATA[
+  <h2 class="ui header">
+    <i class="lightbulb icon"></i>
+    <div class="content">
+      Wow
+      <div class="sub header">This is such an amazing sub header.</div>
+    </div>
+  </h2>
+  <p>Not quite unlike this paragraph.</p>
+]]>
+</script>
+
+<script id="Consoloid-Tutorial-Balloon-OtherRandomContent" type="text/x-jqote-template">
+<![CDATA[
+  <h2 class="ui header">
+    <i class="warning icon"></i>
+    <div class="content">
+      Oh no!
+      <div class="sub header">What have I done?!</div>
+    </div>
+  </h2>
+  <p>BOOOO!</p>
+]]>
+</script>
