@@ -64,6 +64,8 @@ defineClass('Consoloid.Ui.Dialog', 'Consoloid.Widget.Widget',
       if (this.expression) {
         this.expression.node = this.node.find('div.request');
         this.expression.render();
+      } else {
+        this.node.find('div.request').hide();
       }
 
       this.response = this.node.find('div.response');
@@ -74,11 +76,13 @@ defineClass('Consoloid.Ui.Dialog', 'Consoloid.Widget.Widget',
     {
       var responseHeight = this.response.height();
 
-      this.response.height(0).animate({height: responseHeight+'px'}, 400, 'swing', function() {
-        this.response.css({ height: '' });
-      }.bind(this));
+      this.response.height(0).animate({height: responseHeight+'px'}, 400, 'swing', this._afterAnimateDialogShowup.bind(this));
       $('body,html').animate({ scrollTop: this.__getScrollTopForDisplayingWholeDialog() }, 400);
       this.get('console').animateMarginTopIfNecessary(responseHeight);
+    },
+
+    _afterAnimateDialogShowup: function() {
+      this.response.css({ height: '' });
     },
 
     __getScrollTopForDisplayingWholeDialog: function()

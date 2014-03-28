@@ -9,24 +9,29 @@ defineClass('Consoloid.Tutorial.Controller', 'Consoloid.Base.Object',
 
       global.balloon = this.balloon;
 
-      setTimeout(function() {
+     /* setTimeout(function() {
         this.balloon.setWidth(100).addContent("Consoloid-Tutorial-Balloon-OtherRandomContent").moveAboveLeftOf(".prompt .human-text").addBottomLeftTail();
       }.bind(this), 3000);
 
       setTimeout(function() {
         this.balloon.setHeight(500).moveAboveRightOf("#prompt-mic").addBottomRightTail();
       }.bind(this), 10000);
-
+*/
       setTimeout(function() {
         this.balloon.turnIntoADialog();
-      }.bind(this), 15000);
+      }.bind(this), 3000);
 
-      setTimeout(function() {
+      /*setTimeout(function() {
         this.balloon.fadeOut();
 
         var dialog = this.container.get("console").getDialogItWasStartedWith();
         dialog.startWithoutExpression();
-      }.bind(this), 20000);
+      }.bind(this), 4000);*/
+    },
+
+    getBalloon: function()
+    {
+      return this.balloon;
     }
   }
 );

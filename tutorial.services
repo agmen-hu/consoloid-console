@@ -2,3 +2,15 @@ definitions:
   tutorial:
     cls: Consoloid.Tutorial.Controller
     shared: true
+    
+  what_is_a_dialog_sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: what_is_a_dialog
+      patterns:
+        - What is a dialog?
+
+  baloon_absorbing_dialog:
+    cls: Consoloid.Tutorial.BalloonAbsorbingDialog
+    shared: true

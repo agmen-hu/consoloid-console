@@ -5,6 +5,13 @@
 ]]>
 </script>
 
+<script id="Consoloid-Tutorial-BalloonAbsorbingDialog" type="text/x-jqote-template">
+<![CDATA[
+  <div class="balloon anchor"/>
+  <div class="reserved space for balloon"/>
+]]>
+</script>
+
 <script id="Consoloid-Tutorial-Balloon-RandomContent" type="text/x-jqote-template">
 <![CDATA[
   <h2 class="ui header">

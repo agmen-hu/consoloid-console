@@ -1,11 +1,14 @@
 .tutorial.balloon {
   position: fixed;
   z-index: 1000;
-  border-radius: 0.4em;
+  border-radius: 0.4rem;
   background-color: #fdf6e3;
-  padding: 0.5em 1.5em;
+  padding: 0.5rem 1.5rem;
   border: 1px solid rgba(0, 0, 0, 0.5);
-  margin: 1em;
+  margin: 1rem;
+  
+  font-size: 1rem !important;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
 }
 
 .tutorial.balloon > .content {
@@ -23,6 +26,7 @@
 .tutorial.balloon .sub.header,
 .tutorial.balloon p {
 	color: #555;
+	font-size: 16px;
 }
 
 .tutorial.balloon.top.tail:before,
@@ -30,24 +34,24 @@
   background-color: #fdf6e3;
   background-image: none;
   content: "";
-  height: 0.6em;
+  height: 0.6rem;
   position: absolute;
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transition: background 0.1s linear 0s;
-  width: 0.6em;
+  width: 0.6rem;
   z-index: -2;
 }
 
 .tutorial.balloon.bottom.tail:after {
-  margin-top: 0.2em;
+  margin-top: 0.2rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   border-right: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .tutorial.balloon.bottom.left.tail:after {
-  left: 0.4em;
+  left: 0.4rem;
 }
 
 .tutorial.balloon.bottom.right.tail:after {
@@ -65,7 +69,7 @@
    box-shadow: none;
   }
   to {
-   box-shadow: 0.1em 0.2em 0.2em rgba(0, 0, 0, 0.5);
+   box-shadow: 0.1rem 0.2rem 0.2rem rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -75,7 +79,7 @@
    box-shadow: none;
   }
   to {
-   box-shadow: 0.1em 0.2em 0.2em rgba(0, 0, 0, 0.5);
+   box-shadow: 0.1rem 0.2rem 0.2rem rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -87,7 +91,7 @@
 @keyframes remove-shadow
 {
   from {
-   box-shadow: 0.1em 0.2em 0.2em rgba(0, 0, 0, 0.5);
+   box-shadow: 0.1rem 0.2rem 0.2rem rgba(0, 0, 0, 0.5);
   }
   to {
    box-shadow: none;
@@ -97,7 +101,7 @@
 @-webkit-keyframes remove-shadow
 {
   from {
-   box-shadow: 0.1em 0.2em 0.2em rgba(0, 0, 0, 0.5);
+   box-shadow: 0.1rem 0.2rem 0.2rem rgba(0, 0, 0, 0.5);
   }
   to {
    box-shadow: none;
