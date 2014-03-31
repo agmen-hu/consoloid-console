@@ -7,10 +7,13 @@ definitions:
     tags: [ sentence ]
     cls: Consoloid.Interpreter.Sentence
     options:
-      service: what_is_a_dialog
+      service: what_is_a_dialog_dialog
       patterns:
         - What is a dialog?
+  what_is_a_dialog_dialog:
+    cls: Consoloid.Ui.Dialog
+    options:
+      responseTemplateId: Consoloid-Tutorial-WhatIsADialog
 
   balloon_absorbing_dialog:
     cls: Consoloid.Tutorial.BalloonAbsorbingDialog
-    shared: true

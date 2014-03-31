@@ -1,5 +1,4 @@
 .tutorial.balloon {
-  position: fixed;
   z-index: 1000;
   border-radius: 0.4rem;
   background-color: #fdf6e3;

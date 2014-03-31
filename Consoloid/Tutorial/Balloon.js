@@ -14,6 +14,7 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
     {
       this.__base();
       this.node.addClass("tutorial balloon");
+      this.node.css("position", "fixed");
       this.addContent();
       this.node.hide();
       this.node.prependTo($("body"));

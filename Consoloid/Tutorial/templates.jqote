@@ -5,6 +5,17 @@
 ]]>
 </script>
 
+<script id="Consoloid-Tutorial-WhatIsADialog" type="text/x-jqote-template">
+<![CDATA[
+  <div class="tutorial balloon">
+    <div class="content">
+      <%= $('#Consoloid-Tutorial-Balloon-OtherRandomContent').jqote(this) %>
+    </div>
+  </div>
+]]>
+</script>
+
+
 <script id="Consoloid-Tutorial-BalloonAbsorbingDialog" type="text/x-jqote-template">
 <![CDATA[
   <div class="balloon anchor"/>
