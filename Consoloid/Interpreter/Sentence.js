@@ -179,6 +179,16 @@ defineClass('Consoloid.Interpreter.Sentence', 'Consoloid.Base.Object',
       });
 
       return result;
+    },
+
+    setTopic: function(topic)
+    {
+      this.topic = topic;
+    },
+
+    getTopic: function()
+    {
+      return this.topic;
     }
   },
   {

@@ -97,7 +97,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.Sentence', function() {
     });
   });
 
-  describe('#getExpressions()', function()  {
+  describe('#getExpressions()', function() {
     it('should return each configured expression in an array', function() {
       var sentence = env.create(Consoloid.Interpreter.Sentence, {
         patterns: [
@@ -118,6 +118,28 @@ describeConsoleUnitTest('Consoloid.Interpreter.Sentence', function() {
 
       sentence.getExpressions().should.have.lengthOf(3);
       sentence.getExpressions()[0].getText().should.be.equal('show events for date <date>');
+    });
+  });
+
+  describe("#setTopic(topic) and #getTopic()", function() {
+    var sentence;
+    beforeEach(function() {
+      sentence = env.create(Consoloid.Interpreter.Sentence, {
+        patterns: [
+          'show events',
+        ],
+        service: 'srv'
+      });
+    });
+
+    it('should be able to set the topic', function() {
+      sentence.setTopic("foo_topic");
+      sentence.topic.should.equal("foo_topic");
+    });
+
+    it('should be able to return with the topic', function() {
+      sentence.setTopic("bar_topic");
+      sentence.getTopic().should.equal("bar_topic");
     });
   });
 });
