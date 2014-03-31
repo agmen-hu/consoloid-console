@@ -12,6 +12,7 @@
 
 .tutorial.balloon > .content {
 	height: 100%;
+	display: block;
 }
 
 .tutorial.balloon h1,

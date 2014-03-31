@@ -10,7 +10,7 @@ defineClass('Consoloid.Tutorial.Controller', 'Consoloid.Base.Object',
       global.balloon = this.balloon;
 
       setTimeout(function() {
-        this.balloon.setWidth(100).addContent("Consoloid-Tutorial-Balloon-OtherRandomContent").moveAboveLeftOf(".prompt .human-text").addBottomLeftTail();
+        this.balloon.setWidth(100).addContent("Consoloid-Tutorial-Balloon-OtherRandomContent").moveAboveLeftOf("#prompt .human-text").addBottomLeftTail();
       }.bind(this), 3000);
 
       setTimeout(function() {
@@ -23,14 +23,16 @@ defineClass('Consoloid.Tutorial.Controller', 'Consoloid.Base.Object',
 
       setTimeout(function() {
         var dialog = this.container.get("console").getDialogItWasStartedWith();
-        dialog.start({}, this.create(
-          'Consoloid.Interpreter.Expression',
-          {
-            sentence: this.container.get("what_is_a_dialog_sentence"),
-            pattern: __("Welcome to Consoloid"),
-            container: this.container,
-          }
-        ));
+        if (dialog) {
+          dialog.start({}, this.create(
+            'Consoloid.Interpreter.Expression',
+            {
+              sentence: this.container.get("what_is_a_dialog_sentence"),
+              pattern: __("Welcome to Consoloid"),
+              container: this.container,
+            }
+          ));
+        }
       }.bind(this), 13000);
     },
 
