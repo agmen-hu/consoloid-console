@@ -11,6 +11,6 @@ definitions:
       patterns:
         - What is a dialog?
 
-  baloon_absorbing_dialog:
+  balloon_absorbing_dialog:
     cls: Consoloid.Tutorial.BalloonAbsorbingDialog
     shared: true

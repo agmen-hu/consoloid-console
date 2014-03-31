@@ -48,7 +48,7 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
       this.node.height(this.height);
     },
 
-    __outerWidth: function()
+    outerWidth: function()
     {
       return this.width + this.__horizontalPaddingAndMargin();
     },
@@ -58,7 +58,7 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
       return parseInt(this.node.css("margin-left")) + parseInt(this.node.css("margin-right")) + parseInt(this.node.css("padding-left")) + parseInt(this.node.css("padding-right"));
     },
 
-    __outerHeight: function()
+    outerHeight: function()
     {
       return this.height + this.__verticalPaddingAndMargin();
     },
@@ -71,18 +71,22 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
     addShadow: function()
     {
       this.node.removeClass("without shadow").addClass("with shadow").animate({
+        marginTop: "1rem",
+        margLeft: "1rem",
         marginBottom: "1.2rem",
         marginRight: "1.1rem"
-      }, 2000);
+      }, 1000);
       return this;
     },
 
-    removeShadow: function(complete)
+    removeShadow: function()
     {
       this.node.removeClass("with shadow").addClass("without shadow").animate({
+        marginTop: "1.2rem",
+        marginLeft:"1.1rem",
         marginBottom: "1rem",
         marginRight: "1rem"
-      }, 2000, 'swing', complete);
+      }, 1000);
       return this;
     },
 
@@ -126,8 +130,8 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
     {
       this.removeTail();
       this.node.animate({
-        bottom: ($(window).height() - this.__outerHeight()) / 2 + "px",
-        left: ($(window).width() - this.__outerWidth()) / 2 + "px",
+        bottom: ($(window).height() - this.outerHeight()) / 2 + "px",
+        left: ($(window).width() - this.outerWidth()) / 2 + "px",
       });
       return this;
     },
@@ -138,23 +142,22 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
       return this;
     },
 
-    moveAboveLeftOf: function(selector)
+    moveAboveLeftOf: function(selector, complete)
     {
-      return this.moveTo(selector, this.__self.DIRECTION_ABOVE_LEFT);
+      return this.moveTo(selector, this.__self.DIRECTION_ABOVE_LEFT, complete);
     },
 
-    moveAboveRightOf: function(selector)
+    moveAboveRightOf: function(selector, complete)
     {
-      return this.moveTo(selector, this.__self.DIRECTION_ABOVE_RIGHT);
+      return this.moveTo(selector, this.__self.DIRECTION_ABOVE_RIGHT, complete);
     },
 
-    moveBellowLeftOf: function(selector)
+    moveBellowLeftOf: function(selector, complete)
     {
-      return this.moveTo(selector, this.__self.DIRECTION_BELLOW_LEFT);
+      return this.moveTo(selector, this.__self.DIRECTION_BELLOW_LEFT, complete);
     },
 
-
-    moveTo: function(selector, direction)
+    moveTo: function(selector, direction, complete)
     {
       var targetOffset = $(selector).offset();
       var
@@ -166,22 +169,24 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
           bottom = $(window).height() - targetOffset.top;
           break;
         case this.__self.DIRECTION_ABOVE_RIGHT:
-          left = targetOffset.left - this.__outerWidth() + $(selector).outerWidth();
+          left = targetOffset.left - this.outerWidth() + $(selector).outerWidth();
           bottom = $(window).height() - targetOffset.top;
           break;
         case this.__self.DIRECTION_BELLOW_LEFT:
-          left = targetOffset.left - this.__outerWidth() + $(selector).outerWidth();
-          bottom = $(window).height() - targetOffset.top - $(selector).outerHeight() - this.__outerHeight();
+          left = targetOffset.left - this.outerWidth() + $(selector).outerWidth();
+          bottom = $(window).height() - targetOffset.top - $(selector).outerHeight(true) - this.outerHeight();
           break;
         default:
           throw new Error("Unknown balloon move direction");
       }
 
-      var maximalLeftOffset = $(window).width() - this.__outerWidth();
+      var maximalLeftOffset = $(window).width() - this.outerWidth();
 
       this.node.animate({
         bottom: bottom,
         left: Math.min(Math.max(left, 0), maximalLeftOffset),
+      },{
+        complete: complete
       });
       return this;
     },
@@ -214,33 +219,33 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
 
     turnIntoADialog: function()
     {
-      this.dialog = this.container.get("baloon_absorbing_dialog");
-      var
-        expression = this.create(
-          'Consoloid.Interpreter.Expression',
-          {
-            sentence: this.container.get("what_is_a_dialog_sentence"),
-            pattern: __("What is a dialog?"),
-            container: this.container,
-          }
-        );
-      this.dialog.start({}, expression);
+      this.dialog = this.container.get("balloon_absorbing_dialog");
+      this
+        .setSize("100%", "100px")
+        .removeTail();
 
-      this.setSize("100%", "100px").removeTail();
-      this.container.get("baloon_absorbing_dialog").setAfterShownUpCallback(function() {
-        this.moveBellowLeftOf(".balloon.anchor").removeShadow(this.__appendNodeToDialog.bind(this));
-      }.bind(this))
+      this.dialog.start({}, this.__createWhatIsADialogExpression());
       return this;
     },
 
-    __appendNodeToDialog: function()
+    __createWhatIsADialogExpression: function() {
+      return this.create(
+          'Consoloid.Interpreter.Expression',
+        {
+          sentence: this.container.get("what_is_a_dialog_sentence"),
+          pattern: __("What is a dialog?"),
+          container: this.container,
+        }
+      );
+    },
+
+    setToRelativePosition: function()
     {
       this.node.css({
         position: "relative",
         left: 0,
         bottom: 0
       });
-      this.dialog.absorbBalloon(this);
     }
 
   }, {

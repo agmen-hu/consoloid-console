@@ -59,8 +59,8 @@
 }
 
 .tutorial.balloon.with.shadow {
-	animation: add-shadow 2s forwards;
-	-webkit-animation: add-shadow 2s forwards;
+	animation: add-shadow 1s forwards;
+	-webkit-animation: add-shadow 1s forwards;
 }
 
 @keyframes add-shadow
@@ -84,8 +84,8 @@
 }
 
 .tutorial.balloon.without.shadow {
-  animation: remove-shadow 2s forwards;
-  -webkit-animation: remove-shadow 2s forwards;
+  animation: remove-shadow 1s forwards;
+  -webkit-animation: remove-shadow 1s forwards;
 }
 
 @keyframes remove-shadow
