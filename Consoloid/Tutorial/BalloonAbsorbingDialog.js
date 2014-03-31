@@ -12,8 +12,7 @@ defineClass('Consoloid.Tutorial.BalloonAbsorbingDialog', 'Consoloid.Ui.Dialog',
       this.__base();
       this.balloon = this.container.get("tutorial").getBalloon();
 
-      this.reservedHeight = this.balloon.node.outerHeight(true);
-      this.node.find(".reserved.space.for.balloon").height(this.reservedHeight);
+      this.node.find(".reserved.space.for.balloon").height(this.balloon.outerHeight());
       this.node.find("div.response").css("padding", 0);
     },
 
@@ -25,13 +24,17 @@ defineClass('Consoloid.Tutorial.BalloonAbsorbingDialog', 'Consoloid.Ui.Dialog',
     _afterAnimateDialogShowup: function()
     {
       this.__base();
-      this.afterShownUpCallback();
+      this.balloon.moveBellowLeftOf(this.node.find(".balloon.anchor"), this.absorbBalloon.bind(this));
     },
 
-    absorbBalloon: function(balloon)
+    absorbBalloon: function()
     {
-      this.node.find(".reserved.space.for.balloon").height(0);
-      balloon.node.insertBefore(this.node.find(".balloon.anchor"));
+      this.balloon
+        .removeShadow()
+        .setToRelativePosition();
+
+      this.node.find(".reserved.space.for.balloon").hide();
+      this.balloon.node.insertAfter(this.node.find(".balloon.anchor"));
     }
   }
 );
