@@ -27,5 +27,18 @@ definitions:
     options:
       responseTemplateId: Consoloid-Tutorial-WhatIsADialog
 
+  unload_tutorial_sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: unload_tutorial_dialog
+      patterns:
+        - Unload tutorial
+        - Skip tutorial
+        - Finish tutorial
+        - Close tutorial
+  unload_tutorial_dialog:
+    cls: Consoloid.Tutorial.UnloadDialog
+
   balloon_absorbing_dialog:
     cls: Consoloid.Tutorial.BalloonAbsorbingDialog
