@@ -16,7 +16,7 @@ definitions:
     cls: Consoloid.Interpreter.Tokenizer
     shared: true
   letter_tree:
-    cls: Consoloid.Interpreter.LetterTree
+    cls: Consoloid.Interpreter.ExpressionTree
     shared: true
   context:
     cls: Consoloid.Context.Queue
