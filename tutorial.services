@@ -1,4 +1,16 @@
 definitions:
+  start_tutorial_sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: tutorial
+      patterns:
+        - Start tutorial
+        - Restart tutorial
+        - Begin tutorial
+        - What is Consoloid?
+        - How to use Consoloid?
+
   tutorial:
     cls: Consoloid.Tutorial.Controller
     shared: true
