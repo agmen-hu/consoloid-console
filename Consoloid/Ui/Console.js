@@ -229,7 +229,12 @@ defineClass('Consoloid.Ui.Console', 'Consoloid.Widget.Widget',
         tree: this.get('letter_tree'),
         container: this.container
       });
-      builder.append(this.container.getAllTagged([ 'sentence', 'topic.' + topic ]));
+
+      sentences = this.container.getAllTagged([ 'sentence', 'topic.' + topic ]);
+      sentences.forEach(function(sentence) {
+        sentence.setTopic(topic);
+      });
+      builder.append(sentences);
 
       return this;
     },
@@ -242,6 +247,21 @@ defineClass('Consoloid.Ui.Console', 'Consoloid.Widget.Widget',
     isTopicLoaded: function(topic)
     {
       return ($.inArray(topic, ['framework', 'console']) != -1 || $.inArray(topic, this.loadedTopics) != -1);
+    },
+
+    unloadTopic: function(topic)
+    {
+      if (!this.isTopicLoaded(topic)) {
+        throw new Error("Topic was not loaded.");
+      }
+
+      this.loadedTopics.splice(this.loadedTopics.indexOf(topic), 1);
+
+      this.container.getAllServiceIdsTagged("topic." + topic).forEach(function(serviceId) {
+        this.container.removeDefinition(serviceId);
+      }.bind(this));
+
+      this.container.get("letter_tree").removeExpressionsOfTopic(topic);
     },
 
     getLastDialog: function()

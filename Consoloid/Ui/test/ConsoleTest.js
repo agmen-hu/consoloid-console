@@ -180,7 +180,45 @@ describeUnitTest('Consoloid.Ui.Console', function(){
 
       (console.dialogs[1] == undefined).should.be.ok;
     });
-  })
+  });
+
+
+  describe("#unloadTopic(topic)", function() {
+    var console;
+    beforeEach(function() {
+      console = env.create('Consoloid.Ui.Console', {});
+    });
+
+    it("should throw if topic was not loaded", function() {
+      (function() {
+        console.unloadTopic("foobar");
+      }).should.throwError();
+    });
+
+    it("should unload topic", function() {
+      console.loadedTopics.push("foobar");
+      console.container = {
+        removeDefinition: sinon.stub(),
+        get: function(id) { return env.container.get(id); },
+        getAllServiceIdsTagged: sinon.stub().returns(["foo", "bar"])
+      };
+
+      var tree = {
+        removeExpressionsOfTopic: sinon.stub()
+      };
+      env.addServiceMock('letter_tree', tree);
+
+      console.unloadTopic("foobar");
+
+      console.container.getAllServiceIdsTagged.calledOnce.should.be.ok;
+      console.container.getAllServiceIdsTagged.calledWith("topic.foobar").should.be.ok;
+      console.container.removeDefinition.calledWith("foo").should.be.ok;
+      console.container.removeDefinition.calledWith("bar").should.be.ok;
+      tree.removeExpressionsOfTopic.calledWith("foobar").should.be.ok;
+
+      console.isTopicLoaded("foobar").should.not.be.ok;
+    });
+  });
 
   afterEach(function() {
     $(document.body).empty();
