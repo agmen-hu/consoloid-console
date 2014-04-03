@@ -26,4 +26,8 @@ describeUnitTest('Consoloid.Tutorial.UnloadDialog', function() {
       document.cookie.indexOf("consoloid_tutorial_was_dismissed=true").should.not.equal(-1);
     });
   });
+
+  afterEach(function() {
+    document.cookie = "consoloid_tutorial_was_dismissed=;expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  });
 });
