@@ -3,13 +3,15 @@ definitions:
     tags: [ sentence ]
     cls: Consoloid.Interpreter.Sentence
     options:
-      service: tutorial
+      service: start_tutorial_dialog
       patterns:
         - Start tutorial
         - Restart tutorial
         - Begin tutorial
         - What is Consoloid?
         - How to use Consoloid?
+  start_tutorial_dialog:
+    cls: Consoloid.Tutorial.Dialog.Start
 
   tutorial:
     cls: Consoloid.Tutorial.Controller
