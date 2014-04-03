@@ -1,9 +1,9 @@
-defineClass('Consoloid.Tutorial.UnloadDialog', 'Consoloid.Ui.Dialog',
+defineClass('Consoloid.Tutorial.Dialog.Unload', 'Consoloid.Ui.Dialog',
   {
     __constructor: function(options)
     {
       this.__base($.extend({
-        responseTemplateId: 'Consoloid-Tutorial-UnloadDialog',
+        responseTemplateId: 'Consoloid-Tutorial-Dialog-Unload',
       }, options));
     },
 

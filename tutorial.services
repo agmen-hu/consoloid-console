@@ -25,7 +25,7 @@ definitions:
   what_is_a_dialog_dialog:
     cls: Consoloid.Ui.Dialog
     options:
-      responseTemplateId: Consoloid-Tutorial-WhatIsADialog
+      responseTemplateId: Consoloid-Tutorial-Dialog-WhatIsADialog
 
   unload_tutorial_sentence:
     tags: [ sentence ]
@@ -38,7 +38,7 @@ definitions:
         - Finish tutorial
         - Close tutorial
   unload_tutorial_dialog:
-    cls: Consoloid.Tutorial.UnloadDialog
+    cls: Consoloid.Tutorial.Dialog.Unload
 
   balloon_absorbing_dialog:
-    cls: Consoloid.Tutorial.BalloonAbsorbingDialog
+    cls: Consoloid.Tutorial.Dialog.BalloonAbsorbing

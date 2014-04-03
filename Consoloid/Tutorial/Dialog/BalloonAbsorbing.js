@@ -1,9 +1,9 @@
-defineClass('Consoloid.Tutorial.BalloonAbsorbingDialog', 'Consoloid.Ui.Dialog',
+defineClass('Consoloid.Tutorial.Dialog.BalloonAbsorbing', 'Consoloid.Ui.Dialog',
   {
     __constructor: function(options)
     {
       this.__base($.extend({
-        responseTemplateId: 'Consoloid-Tutorial-BalloonAbsorbingDialog',
+        responseTemplateId: 'Consoloid-Tutorial-Dialog-BalloonAbsorbing',
       }, options));
     },
 

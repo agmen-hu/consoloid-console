@@ -1,9 +1,9 @@
 require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
-require("../../Ui/Dialog");
-require("../UnloadDialog");
-describeUnitTest('Consoloid.Tutorial.UnloadDialog', function() {
+require("../../../Ui/Dialog");
+require("../Unload");
+describeUnitTest('Consoloid.Tutorial.Dialog.Unload', function() {
   var
     consoleService,
     dialog;
@@ -14,7 +14,7 @@ describeUnitTest('Consoloid.Tutorial.UnloadDialog', function() {
     };
 
     env.addServiceMock('console', consoleService);
-    dialog = env.create(Consoloid.Tutorial.UnloadDialog, {});
+    dialog = env.create(Consoloid.Tutorial.Dialog.Unload, {});
   });
 
   describe("#setup()", function() {

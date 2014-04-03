@@ -5,38 +5,6 @@
 ]]>
 </script>
 
-<script id="Consoloid-Tutorial-WhatIsADialog" type="text/x-jqote-template">
-<![CDATA[
-  <div class="tutorial balloon">
-    <div class="content">
-      <%= $('#Consoloid-Tutorial-Balloon-OtherRandomContent').jqote(this) %>
-    </div>
-  </div>
-]]>
-</script>
-
-<script id="Consoloid-Tutorial-UnloadDialog" type="text/x-jqote-template">
-<![CDATA[
-  <div class="ui vertical segment">
-    <h1 class="ui header"><%= __("Tutorial was unloaded.") %></h1>
-   <p>
-     <%= __("To restart tutorial you first need to <firstlink> then <secondlink>.", {
-      "<firstlink>": __s("Load topic", { "name <value>": "tutorial" }, "load it", true),
-      "<secondlink>": __s("Start tutorial", {}, "start it", true)
-     }) %>
-   </p>
-  </div>
-]]>
-</script>
-
-
-<script id="Consoloid-Tutorial-BalloonAbsorbingDialog" type="text/x-jqote-template">
-<![CDATA[
-  <div class="balloon anchor"/>
-  <div class="reserved space for balloon"/>
-]]>
-</script>
-
 <script id="Consoloid-Tutorial-Balloon-RandomContent" type="text/x-jqote-template">
 <![CDATA[
   <h2 class="ui header">

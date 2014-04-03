@@ -2,10 +2,10 @@ require('consoloid-framework/Consoloid/Test/UnitTest');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
-require("../../Ui/Dialog");
-require("../BalloonAbsorbingDialog");
+require("../../../Ui/Dialog");
+require("../BalloonAbsorbing");
 
-describeUnitTest('Consoloid.Tutorial.BalloonAbsorbingDialog', function() {
+describeUnitTest('Consoloid.Tutorial.Dialog.BalloonAbsorbing', function() {
   var
     consoleService,
     balloon,
@@ -38,10 +38,10 @@ describeUnitTest('Consoloid.Tutorial.BalloonAbsorbingDialog', function() {
 
     env.addServiceMock('tutorial', tutorial);
 
-    env.readTemplate(__dirname + '/../../Ui/templates.jqote', 'utf8');
+    env.readTemplate(__dirname + '/../../../Ui/templates.jqote', 'utf8');
     env.readTemplate(__dirname + '/../templates.jqote', 'utf8');
 
-    dialog = env.create(Consoloid.Tutorial.BalloonAbsorbingDialog, { responseTemplateId: 'Consoloid-Tutorial-BalloonAbsorbingDialog' });
+    dialog = env.create(Consoloid.Tutorial.Dialog.BalloonAbsorbing, { });
   });
 
   describe("render()", function() {
