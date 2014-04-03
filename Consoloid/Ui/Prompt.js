@@ -102,6 +102,7 @@ defineClass('Consoloid.Ui.Prompt', 'Consoloid.Widget.Widget',
       this.autocompleteWidget = this.create('Consoloid.Ui.Autocomplete', {
                                   height: 205,
                                   inputfield: this.inputField,
+                                  idleTimeout: 200,
                                   gatherOptions: function(setOptions) { $this.autocomplete(setOptions) },
                                   container: this.container
                                 });
