@@ -160,7 +160,7 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
 
     moveTo: function(selector, direction, complete)
     {
-      var targetOffset = $(selector).offset();
+      var targetOffset = this.__getTargetOffset(selector);
       var
         left = 0
         bottom = 0;
@@ -190,6 +190,14 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
         complete: complete
       });
       return this;
+    },
+
+    __getTargetOffset: function(selector)
+    {
+      var targetOffset = $(selector).offset();
+      targetOffset.top -= ($(document).height() - $(window).height());
+      targetOffset.left -= ($(document).width() - $(window).width());
+      return targetOffset;
     },
 
     addBottomLeftTail: function()
