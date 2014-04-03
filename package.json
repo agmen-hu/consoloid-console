@@ -1,8 +1,8 @@
 {
   "name": "consoloid-console",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "dependencies": {
-    "js-yaml": "2.x.x",
+    "js-yaml": "2.1.3",
     "consoloid-os": "*",
     "consoloid-framework": "*"
   },
