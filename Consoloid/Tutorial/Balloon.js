@@ -96,11 +96,6 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
       return this.setSize(width, "auto");
     },
 
-    setHeight: function(height)
-    {
-      return this.setSize("auto", height);
-    },
-
     setSize: function(width, height)
     {
       var
@@ -127,6 +122,11 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
       return this;
     },
 
+    setHeight: function(height)
+    {
+      return this.setSize("auto", height);
+    },
+
     center: function()
     {
       this.removeTail();
@@ -145,20 +145,20 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
 
     moveAboveLeftOf: function(selector, complete)
     {
-      return this.moveTo(selector, this.__self.DIRECTION_ABOVE_LEFT, complete);
+      return this.__moveTo(selector, this.__self.DIRECTION_ABOVE_LEFT, complete);
     },
 
     moveAboveRightOf: function(selector, complete)
     {
-      return this.moveTo(selector, this.__self.DIRECTION_ABOVE_RIGHT, complete);
+      return this.__moveTo(selector, this.__self.DIRECTION_ABOVE_RIGHT, complete);
     },
 
-    moveBellowLeftOf: function(selector, complete)
+    moveBelowLeftOf: function(selector, complete)
     {
-      return this.moveTo(selector, this.__self.DIRECTION_BELLOW_LEFT, complete);
+      return this.__moveTo(selector, this.__self.DIRECTION_BELOW_LEFT, complete);
     },
 
-    moveTo: function(selector, direction, complete)
+    __moveTo: function(selector, direction, complete)
     {
       var targetOffset = this.__getTargetOffset(selector);
       var
@@ -173,7 +173,7 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
           left = targetOffset.left - this.outerWidth() + $(selector).outerWidth();
           bottom = $(window).height() - targetOffset.top;
           break;
-        case this.__self.DIRECTION_BELLOW_LEFT:
+        case this.__self.DIRECTION_BELOW_LEFT:
           left = targetOffset.left - this.outerWidth() + $(selector).outerWidth();
           bottom = $(window).height() - targetOffset.top - $(selector).outerHeight(true) - this.outerHeight();
           break;
@@ -260,6 +260,6 @@ defineClass('Consoloid.Tutorial.Balloon', 'Consoloid.Widget.Widget',
   }, {
     DIRECTION_ABOVE_LEFT: 0,
     DIRECTION_ABOVE_RIGHT: 1,
-    DIRECTION_BELLOW_LEFT: 2,
+    DIRECTION_BELOW_LEFT: 2,
   }
 );

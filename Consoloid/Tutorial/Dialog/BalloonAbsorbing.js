@@ -24,7 +24,7 @@ defineClass('Consoloid.Tutorial.Dialog.BalloonAbsorbing', 'Consoloid.Ui.Dialog',
     _afterAnimateDialogShowup: function()
     {
       this.__base();
-      this.balloon.moveBellowLeftOf(this.node.find(".balloon.anchor"), this.absorbBalloon.bind(this));
+      this.balloon.moveBelowLeftOf(this.node.find(".balloon.anchor"), this.absorbBalloon.bind(this));
     },
 
     absorbBalloon: function()
