@@ -26,15 +26,9 @@ defineClass('Consoloid.Interpreter.ExpressionTree', 'Consoloid.Interpreter.Lette
     __mergeExpressionsWithoutDuplicates: function(oldExpressions, newExpressions)
     {
       newExpressions.forEach(function(newExpression) {
-        var found = false;
-        oldExpressions.forEach(function(oldExpression) {
-          if (newExpression === oldExpression) {
-            found = true;
-          }
-        });
-        if (!found) {
+        if (oldExpressions.indexOf(newExpression) == -1) {
           oldExpressions.push(newExpression);
-        }
+        };
       });
       return oldExpressions;
     }
