@@ -7,7 +7,7 @@ require("../../../Ui/Volatile/Dialog");
 require("../Start");
 describeUnitTest('Consoloid.Tutorial.Dialog.Start', function() {
   var
-  tutorial,
+    tutorial,
     dialog;
 
   beforeEach(function() {
@@ -17,6 +17,7 @@ describeUnitTest('Consoloid.Tutorial.Dialog.Start', function() {
 
     env.addServiceMock('tutorial', tutorial);
     dialog = env.create(Consoloid.Tutorial.Dialog.Start, {});
+    dialog.__addToVolatileContainer = sinon.stub();
   });
 
   describe("#setup()", function() {
@@ -24,6 +25,7 @@ describeUnitTest('Consoloid.Tutorial.Dialog.Start', function() {
       dialog.setup();
 
       tutorial.start.calledOnce.should.be.ok;
+      dialog.__addToVolatileContainer.calledOnce.should.be.ok;
     });
   });
 });
