@@ -184,6 +184,7 @@ defineClass('Consoloid.Interpreter.Sentence', 'Consoloid.Base.Object',
     setTopic: function(topic)
     {
       this.topic = topic;
+      return this;
     },
 
     getTopic: function()

@@ -132,12 +132,7 @@ describeConsoleUnitTest('Consoloid.Interpreter.Sentence', function() {
       });
     });
 
-    it('should be able to set the topic', function() {
-      sentence.setTopic("foo_topic");
-      sentence.topic.should.equal("foo_topic");
-    });
-
-    it('should be able to return with the topic', function() {
+    it('should be able to set and return with the topic', function() {
       sentence.setTopic("bar_topic");
       sentence.getTopic().should.equal("bar_topic");
     });
