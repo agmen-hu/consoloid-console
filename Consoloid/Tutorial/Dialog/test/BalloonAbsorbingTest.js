@@ -25,7 +25,7 @@ describeUnitTest('Consoloid.Tutorial.Dialog.BalloonAbsorbing', function() {
         insertAfter: sinon.stub()
       },
       outerHeight: sinon.stub().returns(300),
-      moveBellowLeftOf: sinon.stub().yields(),
+      moveBelowLeftOf: sinon.stub().yields(),
       removeShadow: sinon.spy(function() {
         return balloon;
       }),
@@ -52,7 +52,7 @@ describeUnitTest('Consoloid.Tutorial.Dialog.BalloonAbsorbing', function() {
       balloon.outerHeight.calledOnce.should.be.ok;
 
       $.fn.height.calledWith(300).should.be.ok;
-      balloon.moveBellowLeftOf.calledWith(dialog.node.find(".balloon.anchor")).should.be.ok;
+      balloon.moveBelowLeftOf.calledWith(dialog.node.find(".balloon.anchor")).should.be.ok;
 
       balloon.removeShadow.called.should.be.ok;
       balloon.setToRelativePosition.called.should.be.ok;
