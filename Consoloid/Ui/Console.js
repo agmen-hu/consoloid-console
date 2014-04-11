@@ -195,7 +195,7 @@ defineClass('Consoloid.Ui.Console', 'Consoloid.Widget.Widget',
     loadTopic: function(topic)
     {
       if (this.isTopicLoaded(topic)) {
-        return;
+        return this;
       }
 
       this.loadedTopics.push(topic);
