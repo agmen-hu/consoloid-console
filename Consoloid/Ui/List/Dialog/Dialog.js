@@ -4,6 +4,7 @@ defineClass('Consoloid.Ui.List.Dialog.Dialog', 'Consoloid.Ui.Dialog',
     {
       this.__base($.extend({
         responseTemplateId: 'Consoloid-Ui-List-Dialog',
+        contextObjectClass: 'Consoloid.Ui.List.Dialog.ContextObject'
       }, options));
 
       this.requireProperty('name');
@@ -39,7 +40,7 @@ defineClass('Consoloid.Ui.List.Dialog.Dialog', 'Consoloid.Ui.Dialog',
 
     __createReferenceInContext: function()
     {
-      this.contextObject = this.create('Consoloid.Ui.List.Dialog.ContextObject', {
+      this.contextObject = this.create(this.contextObjectClass, {
         name: this.name,
         list: this.list,
         container: this.container
