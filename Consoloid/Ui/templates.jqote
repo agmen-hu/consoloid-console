@@ -16,12 +16,14 @@
 <![CDATA[
   <div class="dialog">
     <div class="request">
-      <div class="prompt">$</div>
+      <div class="prompt ui input">
+      <i class="small comment icon"></i>
       <input type="text" class="human-text" name="requested-words" value="" />
+      </div>
       <div class="actions">
         <ul>
-          <li><a id="prompt-mic" href="#"><img src="/Consoloid/Ui/images/mic.png" alt="speech recognization" /></a></li>
-          <li><a class="search" href="#"><img src="/Consoloid/Ui/images/search.png" alt="search" /></a></li>
+          <li><a id="prompt-mic" href="#"><i class="small unmute icon" alt="speech recognization"></i></a></li>
+          <li><a class="search" href="#"><i class="small vertically flipped reply mail icon" alt="send"></i></a></li>
         </ul>
       </div>
       <div class="clear-both"></div>
@@ -32,11 +34,10 @@
 
 <script id="Consoloid-Ui-Expression" type="text/x-jqote-template">
 <![CDATA[
-  <div class="prompt">$</div>
-  <div class="expression"><%= this._encodeTagBoundaries(this.text) %></div>
+  <div class="expression"><i class="small comment icon"></i><%= this._encodeTagBoundaries(this.text) %></div>
   <div class="actions">
     <ul>
-      <li><a class="remove" href="#"><img src="/Consoloid/Ui/images/trash.png" alt="remove" /></a></li>
+      <li><a class="remove" href="#"><i class="small trash icon"></i></a></li>
       <% if (this.referenceText !== undefined) { %>
         <li class="reference-text"><%= this._encodeTagBoundaries(this.referenceText) %></li>
       <% } %>
@@ -71,8 +72,10 @@
 <script id="Consoloid-Ui-ArgumentFixerDialogActive" type="text/x-jqote-template">
 <![CDATA[
   <p><%= __('The arguments below are required for interpreting this sentence.') %></p>
-  <div class="form" />
-  <a href="#" class="submit-button arguments-read"><%= __('Interpret sentence using arguments above') %></a>
+  <div class="ui raised argument fixer segment">
+    <div class="ui form" />
+    <a href="#" class="submit-button arguments-read ui basic mini down button"><%= __('Interpret sentence using arguments above') %></a>
+  </div>
 ]]>
 </script>
 
@@ -82,16 +85,19 @@
     <%= __('Consoloid requested for missing arguments.') %>
     <%= __('The following values were provided:') %>
   </p>
-  <ol>
+  <div class="ui argument fixer raised segment">
   <% $.each(this.argumentsRead, function(name, value) { %>
-    <li><%= name %>: <%= value.replace(/</g, '&lt;').replace(/>/g, '&gt;') %></li>
+    <div><%= name %>: <%= value.replace(/</g, '&lt;').replace(/>/g, '&gt;') %></div>
   <% }); %>
-  </ol>
+  </div>
 ]]>
 </script>
 
 <script id="Consoloid-Ui-ExpressionReference" type="text/x-jqote-template">
 <![CDATA[
-  <a href="<%= this.href %>" class="expression-reference" data-text="<%= this.startText %>" data-exec="<%= this.autoExecute %>"><%= this.linkText %></a>
+  <a href="<%= this.href %>" class="expression-reference ui basic mini down button <%= this.otherClasses ? this.otherClasses : "" %>" data-text="<%= this.startText %>" data-exec="<%= this.autoExecute %>">
+    <i class="comment icon"></i>
+    <%= this.linkText %>
+  </a>
 ]]>
 </script>
