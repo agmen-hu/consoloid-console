@@ -22,6 +22,7 @@ defineClass('Consoloid.Ui.Volatile.Dialog', 'Consoloid.Ui.MultiStateDialog',
 
     __addToVolatileContainer: function()
     {
+      this.get('console').removeDialog(this);
       if (!this.__lastDialogIsContainer()) {
         this.volatileContainer = this.create('Consoloid.Ui.Volatile.Container', { container: this.container });
         this.get('console').createNewDialog(this.volatileContainer);
