@@ -65,6 +65,7 @@ defineClass('Consoloid.Ui.List.View.Base', 'Consoloid.Widget.Widget',
 
     __drawThrobber: function()
     {
+      this.list.empty();
       this.list.jqoteapp(this.throbberTemplate.get(), this);
     },
 
@@ -77,11 +78,17 @@ defineClass('Consoloid.Ui.List.View.Base', 'Consoloid.Widget.Widget',
     __renderCompleteListAfterSetFilterValues: function(err, result)
     {
       if (err != undefined) {
-        throw new Error(err);
+        return this.__handleError(err);
       }
       this.count = result.count;
 
       this.__renderCompleteList(result.data);
+    },
+
+    __handleError: function(err)
+    {
+      this.__renderMessage(err);
+      this.eventDispatcher.trigger("error");
     },
 
     __renderCompleteList: function(data, fromIndex) {
@@ -125,7 +132,13 @@ defineClass('Consoloid.Ui.List.View.Base', 'Consoloid.Widget.Widget',
 
     __renderEmptyMessage: function()
     {
-      var message = this.get('translator').trans(this.emptyMessage);
+      this.__renderMessage(this.emptyMessage);
+    },
+
+    __renderMessage: function(messageText)
+    {
+      this.list.empty();
+      var message = this.get('translator').trans(messageText);
       this.list.jqoteapp(this.emptyTemplate.get(), message);
     },
 
@@ -337,7 +350,7 @@ defineClass('Consoloid.Ui.List.View.Base', 'Consoloid.Widget.Widget',
       }
 
       if (err != undefined) {
-        throw new Error(err);
+        return this.__handleError(err);
       }
 
       this.__renderElements(startIndex, data);
@@ -401,7 +414,7 @@ defineClass('Consoloid.Ui.List.View.Base', 'Consoloid.Widget.Widget',
       }
 
       if (err != undefined) {
-        throw new Error(err);
+        return this.__handleError(err);
       }
 
       this.renderingAfterFarawayJump = true;
