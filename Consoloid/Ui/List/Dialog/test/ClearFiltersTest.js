@@ -27,7 +27,8 @@ describeUnitTest('Consoloid.Ui.List.Dialog.ClearFilters', function() {
     };
 
     console = {
-      getLastDialog: sinon.stub().returns(containerDialog)
+      getLastDialog: sinon.stub().returns(containerDialog),
+      removeDialog: sinon.stub()
     };
 
     env.addServiceMock('console', console);

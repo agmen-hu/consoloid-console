@@ -28,7 +28,8 @@ describeUnitTest('Consoloid.Ui.Form.SubmitDialog', function() {
     };
 
     consoleMock = {
-      getLastDialog: sinon.stub().returns(containerDialogMock)
+      getLastDialog: sinon.stub().returns(containerDialogMock),
+      removeDialog: sinon.stub()
     };
 
     env.addServiceMock('console', consoleMock);

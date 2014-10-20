@@ -96,6 +96,7 @@ describeUnitTest('Consoloid.Ui.Volatile.Dialog', function(){
   describe("#remove()", function() {
     beforeEach(function() {
       dialog.setup();
+      consoleMock.removeDialog.called.should.be.ok;
     });
 
     it("should call the remove function of the volatile container with itself", function() {
@@ -106,7 +107,7 @@ describeUnitTest('Consoloid.Ui.Volatile.Dialog', function(){
       spy.args[0][0].complete();
 
       containerDialogMock.removeVolatileDialog.called.should.be.ok;
-      consoleMock.removeDialog.called.should.not.be.ok;
+      consoleMock.removeDialog.calledOnce.should.be.ok;
 
     });
 
