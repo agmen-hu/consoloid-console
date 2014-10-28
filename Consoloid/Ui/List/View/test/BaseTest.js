@@ -236,7 +236,7 @@ describeUnitTest('Consoloid.Ui.List.View.Base', function() {
     it("should call scroll-state-changed event", function() {
       list.__setScrollState("foobar");
       eventDispatcher.trigger.calledWith("scroll-state-changed").should.be.ok;
-      eventDispatcher.trigger.args[0][1][0].should.equal("foobar");
+      eventDispatcher.trigger.args[1][1][0].should.equal("foobar");
     });
   });
 
