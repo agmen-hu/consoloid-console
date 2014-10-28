@@ -77,6 +77,8 @@ defineClass('Consoloid.Ui.List.Widget', 'Consoloid.Widget.Widget',
       this.eventDispatcher.bind("last-page", this.__switchToLastPageEvent.bind(this));
 
       this.eventDispatcher.bind("clear-filters", this.__clearFiltersEvent.bind(this));
+
+      this.eventDispatcher.bind("elements-rendered", this.__elementsRenderedEvent.bind(this));
     },
 
     __pageChangeEvent: function()
@@ -115,6 +117,10 @@ defineClass('Consoloid.Ui.List.Widget', 'Consoloid.Widget.Widget',
       this.listView.setFilterValues(this.filterValues);
       this.filterStrings = [];
       this.eventDispatcher.trigger("filters-cleared");
+    },
+
+    __elementsRenderedEvent: function()
+    {
     },
 
     render: function()

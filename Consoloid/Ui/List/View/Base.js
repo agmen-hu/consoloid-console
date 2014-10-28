@@ -128,6 +128,7 @@ defineClass('Consoloid.Ui.List.View.Base', 'Consoloid.Widget.Widget',
       }
 
       this.__updatePageOffsetAndRemoveOverflowingElements(firstRelavantIndex, numberOfRelevantElements);
+      this.eventDispatcher.trigger("elements-rendered");
     },
 
     __renderEmptyMessage: function()
