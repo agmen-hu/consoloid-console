@@ -4,7 +4,7 @@
 .form select,
 .form div.error {
   display: block;
-  width: 25%;
+  width: 100%;
   float: left;
   height: 1.5em;
 }
@@ -48,7 +48,6 @@
 .form label {
   clear: left;
   margin-bottom: 1em;
-  margin-right: 2em;
 }
 
 .form label {
@@ -147,10 +146,6 @@
   padding-right: 0.4em;
 }
 
-.file_select {
-  margin-left: 28%;
-}
-
 .file_select .file-list-item {
 	margin-right: 1em;
 	margin-bottom: 1em;
@@ -176,4 +171,12 @@
   background: none;
   padding: 0.5em;
   border-radius: 0 0.5em 0.5em 0;
+}
+
+.form .ui.grid > * {
+  font-size: 1rem;
+}
+
+.form fieldset {
+  border: none;
 }

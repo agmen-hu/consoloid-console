@@ -5,10 +5,11 @@
 
 <script id="Consoloid-Form-Text" type="text/x-jqote-template">
 <![CDATA[
+  <% if (this.title !== undefined) { %>
+    <label class="column" for="<%= this.id %>"><%= __(this.title) %></label>
+  <% } %>
+
   <div class="column">
-    <% if (this.title !== undefined) { %>
-      <label for="<%= this.id %>"><%= __(this.title) %></label>
-    <% } %>
     <input type="<%= this.type %>" id="<%= this.id %>" name="<%= this.id %>" value="<%= this.value ? this.value : '' %>" <%= (this.enabled)?'':'disabled="disabled"' %>/>
   </div>
   <div class="column">
@@ -29,7 +30,7 @@
   <fieldset id="<%= this.id %>" name="<%=this.id %>">
     <% if (this.title !== undefined) { %><legend><%= __(this.title) %></legend><% } %>
     <% $.each(this.fields, function(name, field) { %>
-      <div class="fieldset-item ui two column doubling grid"" data-child="<%= name %>" />
+      <div class="fieldset-item ui three column doubling grid"" data-child="<%= name %>" />
     <% }); %>
   </fieldset>
 ]]>
@@ -76,9 +77,9 @@
 <script id="Consoloid-Form-File" type="text/x-jqote-template">
   <![CDATA[
     <% if (this.title !== undefined) { %>
-      <label for="<%= this.id %>"><%= __(this.title) %></label>
+      <label class="column" for="<%= this.id %>"><%= __(this.title) %></label>
     <% } %>
-    <div class="file_select" id="file_select-<%= this.id %>">
+    <div class="file_select ten wide column" id="file_select-<%= this.id %>">
       <% if (this.enabled) { %>
         <div class="file-input-wrapper">
           <button class="btn-file-input">+</button>
@@ -90,7 +91,7 @@
       <% if (this.fileList !== undefined) {
         this.fileList.forEach(function(file, id) {%>
           <% if ($this.enabled) { %>
-            <div class="file-list-item"><span><%= file.name %></span><button class="remove-file-id" data-id="<%= id %>">×</button></div>
+            <div class="file-list-item"><span><i class="file icon"></i><%= file.name %></span><button class="remove-file-id" data-id="<%= id %>">×</button></div>
           <% } else { %>
             <div class="disabled file-list-item"><%= file.name %></div>
           <% } %>
