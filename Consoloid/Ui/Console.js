@@ -217,7 +217,7 @@ defineClass('Consoloid.Ui.Console', 'Consoloid.Widget.Widget',
 
     isTopicLoaded: function(topic)
     {
-      return ($.inArray(topic, ['framework', 'console', 'filelist']) != -1 || $.inArray(topic, this.loadedTopics) != -1);
+      return ($.inArray(topic, ['framework', 'console']) != -1 || $.inArray(topic, this.loadedTopics) != -1);
     },
 
     getLastDialog: function()
