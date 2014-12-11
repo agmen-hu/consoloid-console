@@ -141,6 +141,7 @@ defineClass('Consoloid.Ui.Form.FormDialog', 'Consoloid.Ui.MultiStateDialog',
           }
 
           this.form.setErrorMessage(response.errors);
+          this.form.renderErrorMessage();
           break;
 
         default:

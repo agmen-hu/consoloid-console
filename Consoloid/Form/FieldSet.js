@@ -129,6 +129,14 @@ defineClass('Consoloid.Form.FieldSet', 'Consoloid.Form.BaseField',
     {
       var firstChild = Object.keys(this.fields)[0];
       this.fields[firstChild].focus();
+    },
+
+    renderErrorMessage: function()
+    {
+      this.__base();
+      $.each(this.fields, function(name, field) {
+        field.renderErrorMessage();
+      });
     }
   }
 );
