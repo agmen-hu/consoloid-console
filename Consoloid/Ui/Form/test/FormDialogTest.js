@@ -38,6 +38,7 @@ describeUnitTest('Consoloid.Ui.Form.FormDialog', function() {
       validate: sinon.stub(),
       getValue: sinon.stub(),
       setErrorMessage: sinon.spy(),
+      renderErrorMessage: sinon.spy(),
       render: sinon.spy(),
       focus: sinon.spy(),
       enable: sinon.spy(),
@@ -278,6 +279,7 @@ describeUnitTest('Consoloid.Ui.Form.FormDialog', function() {
           dialog.submit();
 
           dialog.form.setErrorMessage.calledOnce.should.be.ok;
+          dialog.form.renderErrorMessage.calledOnce.should.be.ok;
         });
 
         it('and call the callback with success as false if error is returned', function() {
