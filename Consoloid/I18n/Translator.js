@@ -30,7 +30,7 @@ defineClass('Consoloid.I18n.Translator', 'Consoloid.Base.Object',
         argumentText += ', ' + this.trans(argumentName, {'<value>': "'" + arguments[argumentName] + "'"});
       }
       var textWithArguments = this.trans(sentence).replace('<', '&lt;').replace('>', '&gt;') + argumentText;
-      console.log(textWithArguments)
+
       var referenceData = {
         href: this.__getHref(textWithArguments),
         startText: textWithArguments,
