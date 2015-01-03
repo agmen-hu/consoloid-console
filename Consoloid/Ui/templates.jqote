@@ -22,7 +22,7 @@
       </div>
       <div class="actions">
         <ul>
-          <li><a id="prompt-mic" href="#"><i class="small unmute icon" alt="speech recognization"></i></a></li>
+          <li><a id="prompt-mic"><i class="small unmute icon" alt="speech recognization"></i></a></li>
           <li><a class="search" href="#"><i class="small vertically flipped reply mail icon" alt="send"></i></a></li>
         </ul>
       </div>
